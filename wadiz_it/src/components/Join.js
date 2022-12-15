@@ -23,6 +23,15 @@ const Join = () => {
         alert("아이디를 입력하세요.");
         return;
       }
+      axios
+      .get(`/checkId?id=${id}`)
+      .then((result) => {
+        if (result==0) {
+          alert("회원 가입 가능");
+        }else{
+          alert("이미 있는 회원입니다.")
+        }
+      });
     };
 
     const sendJoin = (e) => {
@@ -57,7 +66,7 @@ const Join = () => {
                 <input className='Input' name='id' value={id}
                     placeholder="아이디(조건?)" onChange={onChange} autoFocus required />
                 
-                <Button outline onclick={checkId}>중복 확인</Button>
+                <Button outline onClick={checkId}>중복 확인</Button>
 
                 <input type='password' className='Input' name='pwd' value={pwd}
                     placeholder="비밀번호" onChange={onChange}  required />
