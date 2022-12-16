@@ -17,6 +17,20 @@ const Join = () => {
       email: ""
     });
     const {id, pwd, nickname, name, phone, email} = form;
+
+    //오류메시지 상태저장
+    const [idMessage, setIdMessage] = useState('')
+    const [pwdMessage, setPwdMessage] = useState('')
+    const [nameMessage, setNameMessage] = useState('')
+    const [emailMessage, setEmailMessage] = useState('')
+
+
+    // 유효성 검사
+    const [isId, setIsId] = useState(false)
+    const [isPwd, setIsPwd] = useState(false)
+    const [isName, setIsName] = useState(false)
+    const [isEmail, setIsEmail] = useState(false)
+    // const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
     
     const checkId = () => {
       if (id === "") {
@@ -26,7 +40,7 @@ const Join = () => {
       axios
       .get(`/checkId?id=${id}`)
       .then((result) => {
-        if (result==0) {
+        if (result.data === 0) {
           alert("회원 가입 가능");
         }else{
           alert("이미 있는 회원입니다.")
@@ -58,26 +72,100 @@ const Join = () => {
         },[form]
       );
 
+      const ocId = useCallback(
+        (e) => {
+          const idRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{5,10}$/
+          const formObj = {
+            ...form,
+             [e.target.name]: e.target.value,
+          };
+          if (!idRegex.test(e.target.value)) {
+            setIdMessage('아이디 형식을 확인해주세요.(5~10자 영문,숫자 조합)')
+            setIsId(false)
+          } else {
+            setIdMessage('사용가능한 아이디 입니다.')
+            setIsId(true)
+          }
+          setForm(formObj);
+        },[form]
+      );   
+
+      const ocPwd = useCallback(
+        (e) => {
+          const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+          const formObj = {
+            ...form,
+             [e.target.name]: e.target.value,
+          };
+          if (!pwdRegex.test(e.target.value)) {
+            setPwdMessage('비밀번호 형식을 확인해주세요.(8자리 이상/숫자+영문+특수문자)')
+            setIsPwd(false)
+          } else {
+            setPwdMessage('사용가능합니다.')
+            setIsPwd(true)
+          }
+          setForm(formObj);
+        },[form]
+      );    
+    
+    const ocName = useCallback(
+        (e) => {
+          const formObj = {
+            ...form,
+             [e.target.name]: e.target.value,
+          };
+          if (e.target.value.length < 2 || e.target.value.length > 5) {
+            setNameMessage('2글자 이상 5글자 미만으로 입력해주세요.')
+            setIsName(false)
+          } else {
+            setNameMessage('올바른 이름 형식입니다 :)')
+            setIsName(true)
+          }
+          setForm(formObj);
+        },[form]
+      );   
+    
+      const ocEmail = useCallback(
+        (e) => {
+          const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
+          const formObj = {
+            ...form,
+             [e.target.name]: e.target.value,
+          };
+          if (!emailRegex.test(e.target.value)) {
+            setEmailMessage('이메일 형식을 확인해주세요.')
+            setIsEmail(false)
+          } else {
+            setEmailMessage('올바른 이메일 형식입니다.')
+            setIsEmail(true)
+          }
+          setForm(formObj);
+        },[form]
+      );  
     return (
         <div className='Join'>
             <form className='Content' onSubmit={sendJoin}>
                 <h3>회원가입</h3>
-
-                <input className='Input' name='id' value={id}
-                    placeholder="아이디(조건?)" onChange={onChange} autoFocus required />
                 
+                <input className='Input' name='id' value={id} placeholder="*아이디(5~10자 영문,숫자 조합)" onChange={ocId} autoFocus required />
+                {id.length > 0 && <span className={`message ${isId ? 'success' : 'error'}`}>{idMessage}</span>}
+
+
                 <Button outline onClick={checkId}>중복 확인</Button>
 
-                <input type='password' className='Input' name='pwd' value={pwd}
-                    placeholder="비밀번호" onChange={onChange}  required />
-                <input className='Input' name='nickname' value={nickname}
-                    placeholder="닉네임" onChange={onChange}  required />
-                <input className='Input' name='name' value={name}
-                    placeholder="이름" onChange={onChange}  required />
-                <input className='Input' name='phone' value={phone}
-                    placeholder="연락처" onChange={onChange}  required />
-                <input className='Input' name='email' value={email}
-                    placeholder="이메일" onChange={onChange}  required />
+                <input type='password' className='Input' name='pwd' value={pwd} placeholder="*비밀번호" onChange={ocPwd}  required />
+                {pwd.length > 0 && <span className={`message ${isPwd ? 'success' : 'error'}`}>{pwdMessage}</span>}
+
+                <input className='Input' name='nickname' value={nickname} placeholder="*닉네임" onChange={onChange}  required />
+
+                <input className='Input' name='name' value={name} placeholder="*이름" onChange={ocName}  required />
+                {name.length > 0 && <span className={`message ${isName ? 'success' : 'error'}`}>{nameMessage}</span>}
+
+                <input className='Input' name='phone' value={phone}placeholder="*연락처" onChange={onChange}  required />
+
+                <input className='Input' name='email' value={email} placeholder="이메일" onChange={ocEmail}  required />
+                {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
+
 
                 <Button type="submit">가입</Button>      
             </form>
