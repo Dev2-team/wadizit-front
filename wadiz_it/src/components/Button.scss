@@ -1,8 +1,8 @@
 //변수 선언
-$blue : #228be6;
-$gray : #495057;
-$pink : #f06595;
-$red : #f74848;
+$blue : #00b2b2;
+$gray : #90949c;
+$pink : #ff6666;
+$red : #e94e58;
 
 @mixin btn-color($color) {
     background: $color;
