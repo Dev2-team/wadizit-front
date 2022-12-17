@@ -23,8 +23,8 @@ const Join = () => {
     const [pwdMessage, setPwdMessage] = useState('')
     const [nameMessage, setNameMessage] = useState('')
     const [emailMessage, setEmailMessage] = useState('')
-
-
+    
+    
     // 유효성 검사
     const [isId, setIsId] = useState(false)
     const [isPwd, setIsPwd] = useState(false)
@@ -70,9 +70,9 @@ const Join = () => {
           };
           setForm(formObj);
         },[form]
-      );
+    );
 
-      const ocId = useCallback(
+    const ocId = useCallback(
         (e) => {
           const idRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{5,10}$/
           const formObj = {
@@ -88,9 +88,9 @@ const Join = () => {
           }
           setForm(formObj);
         },[form]
-      );   
+    );   
 
-      const ocPwd = useCallback(
+    const ocPwd = useCallback(
         (e) => {
           const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
           const formObj = {
@@ -106,7 +106,7 @@ const Join = () => {
           }
           setForm(formObj);
         },[form]
-      );    
+    );    
     
     const ocName = useCallback(
         (e) => {
@@ -123,9 +123,9 @@ const Join = () => {
           }
           setForm(formObj);
         },[form]
-      );   
+    );   
     
-      const ocEmail = useCallback(
+    const ocEmail = useCallback(
         (e) => {
           const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
           const formObj = {
@@ -141,16 +141,16 @@ const Join = () => {
           }
           setForm(formObj);
         },[form]
-      );  
+    );        
+
     return (
         <div className='Join'>
             <form className='Content' onSubmit={sendJoin}>
                 <h3>회원가입</h3>
-                
+
                 <input className='Input' name='id' value={id} placeholder="*아이디(5~10자 영문,숫자 조합)" onChange={ocId} autoFocus required />
                 {id.length > 0 && <span className={`message ${isId ? 'success' : 'error'}`}>{idMessage}</span>}
-
-
+                
                 <Button outline onClick={checkId}>중복 확인</Button>
 
                 <input type='password' className='Input' name='pwd' value={pwd} placeholder="*비밀번호" onChange={ocPwd}  required />
