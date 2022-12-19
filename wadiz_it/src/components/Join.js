@@ -20,38 +20,56 @@ const Join = () => {
 
 
     //오류메시지 상태저장
+    const [validMessage, setValidMessage] = useState('')
     const [idMessage, setIdMessage] = useState('')
+    const [regMessage, setRegMessage] = useState('')
     const [pwdMessage, setPwdMessage] = useState('')
     const [nameMessage, setNameMessage] = useState('')
-    //const [nickMessage, setNickMessage] = useState('')
+    const [nickMessage, setNickMessage] = useState('')
     const [emailMessage, setEmailMessage] = useState('')
     
     
     // 유효성 검사
     const [isId, setIsId] = useState(false)
+    const [isReg, setIsReg] = useState(false)
     const [isPwd, setIsPwd] = useState(false)
     const [isName, setIsName] = useState(false)
-    //const [isNick, setIsNick] = useState(false)
+    const [isNick, setIsNick] = useState(false)
     const [isEmail, setIsEmail] = useState(false)
     // const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
 
-    
-    const checkId = () => {
-      if (id === "") {
-        alert("아이디를 입력하세요.");
-        return;
-      }
-      axios
-      .get(`member/checkId?id=${id}`)
-      .then((result) => {
-        if (result.data === 0) {
-          alert("가입 가능합니다.");
-        }else{
-          alert("이미 있는 회원입니다.")
-        }
-      });
-    };
-
+  const getValidId = () =>  {
+    return isId && isReg ? true : false;
+    }
+  
+  const ocId = useCallback(
+    async (e) => {
+          const idRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{5,10}$/
+          const formObj = {
+            ...form,
+             [e.target.name]: e.target.value
+          };
+          if (!idRegex.test(e.target.value)) {
+            setRegMessage('아이디 형식을 확인해주세요.(5~10자 영문,숫자 조합)')
+            setIsReg(false)
+          } else {
+            setIsReg(true)
+            axios
+            .get(`member/checkId?id=${e.target.value}`)
+            .then((result) => {
+              if (result.data === 0) {
+                setValidMessage('사용가능한 아이디 입니다.')
+                setIsId(true)
+              } else {
+                setIdMessage("이미 있는 회원입니다.")
+                setIsId(false)
+              }
+            });
+          }
+        setForm(formObj);
+        },[form]
+  );
+  
     const sendJoin = (e) => {
       e.preventDefault();
   
@@ -75,24 +93,6 @@ const Join = () => {
           setForm(formObj);
         },[form]
     );
-
-    const ocId = useCallback(
-        (e) => {
-          const idRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{5,10}$/
-          const formObj = {
-            ...form,
-             [e.target.name]: e.target.value,
-          };
-          if (!idRegex.test(e.target.value)) {
-            setIdMessage('아이디 형식을 확인해주세요.(5~10자 영문,숫자 조합)')
-            setIsId(false)
-          } else {
-            setIdMessage('사용가능한 아이디 입니다.')
-            setIsId(true)
-          }
-          setForm(formObj);
-        },[form]
-    );   
 
     const ocPwd = useCallback(
         (e) => {
@@ -129,23 +129,24 @@ const Join = () => {
         },[form]
     );   
     
-    const onNick = useCallback(
+    const ocNick = useCallback(
       (e) => {
         const formObj = {
           ...form,
            [e.target.name]: e.target.value,
         };
-        // axios
-        // .get(`/checkNickname?nickname=${nickname}`)
-        // .then((result) => {
-        //   if (result.data === 0) {
-        //     setNickMessage('사용가능한 닉네임입니다.')
-        //     setIsNick(true)
-        //   }else{
-        //     setNickMessage('사용 중인 닉네임입니다.')
-        //     setIsNick(false)
-        //   }
-        // });
+        console.log(e.target.value);
+        axios
+        .get(`member/checkNickname?nickname=${e.target.value}`)
+        .then((result) => {
+          if (result.data === 0) {
+            setNickMessage('사용가능한 닉네임입니다.')
+            setIsNick(true)
+          }else{
+            setNickMessage('사용 중인 닉네임입니다.')
+            setIsNick(false)
+          }
+        });
         setForm(formObj);
       },[form]
   ); 
@@ -166,35 +167,37 @@ const Join = () => {
           }
           setForm(formObj);
         },[form]
-    );        
+    );
 
     return (
         <div className='Join'>
             <form className='Content' onSubmit={sendJoin}>
                 <h3>회원가입</h3>
 
-                <input className='Input' name='id' value={id} placeholder="*아이디(5~10자 영문,숫자 조합)" onChange={ocId} autoFocus required />
-                {id.length > 0 && <span className={`message ${isId ? 'success' : 'error'}`}>{idMessage}</span>}
-                
-                <Button outline onClick={checkId}>중복 확인</Button>
+                <input className='Input' name='id' value={id} placeholder="*아이디(5~10자 영문,숫자 조합)" onInput={ocId} autoFocus required />
+                {id.length > 0 && !isId && <span className={`message error`}>{idMessage}</span>}
+                {id.length > 0 && !isReg && <span className={`message error`}>{regMessage}</span>}
+                {id.length > 0 && getValidId() && <span className={`message success`}>{validMessage}</span>}
+          
+                {/* <Button outline onClick={checkId}>중복 확인</Button> */}
 
                 <input type='password' className='Input' name='pwd' value={pwd} placeholder="*비밀번호" onChange={ocPwd}  required />
                 {pwd.length > 0 && <span className={`message ${isPwd ? 'success' : 'error'}`}>{pwdMessage}</span>}
 
-                <input className='Input' name='nickname' value={nickname} placeholder="*닉네임" onChange={onNick}  required />
-                {/* {nickname.length > 0 && <span className={`message ${isNick ? 'success' : 'error'}`}>{nickMessage}</span>} */}
+                <input className='Input' name='nickname' value={nickname} placeholder="*닉네임" onChange={ocNick}  required />
+                {nickname.length > 0 && <span className={`message ${isNick ? 'success' : 'error'}`}>{nickMessage}</span>}
 
                 <input className='Input' name='name' value={name} placeholder="*이름" onChange={ocName}  required />
                 {name.length > 0 && <span className={`message ${isName ? 'success' : 'error'}`}>{nameMessage}</span>}
 
-                <input className='Input' name='phone' value={phone}placeholder="연락처" onChange={onChange}/>
+                <input className='Input' name='phone' value={phone} placeholder="연락처" onChange={onChange}/>
 
                 <input className='Input' name='email' value={email} placeholder="이메일" onChange={ocEmail}/>
                 {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
 
 
                 {/* 필수조건이 다 맞다면 초록버튼으로 */}
-                <Button type="submit" disabled={!(isId && isPwd && isName)}>가입</Button>
+                <Button type="submit" disabled={!(isId && isPwd && isNick && isName)}>가입</Button>
                 {/* <Button type="submit">가입</Button> */}
             </form>
         </div>
