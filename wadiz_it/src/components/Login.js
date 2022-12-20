@@ -18,20 +18,21 @@ const Login = ({ sucLogin }) => {
     axios
       .post("member/login", form)
       .then((result) => {
-        if (result.data !== "") {
-          const id = result.data;
-          sucLogin(id);
+        if (result.data.success === true) {
+          sucLogin(result.data.nickName);
           //로그인 상태 유지(세션)
-          sessionStorage.setItem("id", id);
-          nav("/test");
+          sessionStorage.setItem("nickName", result.data.nickName);
+          sessionStorage.setItem("memberNum", result.data.memberNum);
+          nav("/main");
         } else {
           alert("아이디나 비밀번호가 틀립니다.");
+        }
           const formObj = {
             id: "",
             pwd: "",
           };
           setForm(formObj);
-        }
+        
       })
       .catch((err) => console.log(err));
   };
