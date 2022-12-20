@@ -1,5 +1,5 @@
 import './App.scss';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
 import Test from './components/Test';
 import Join from './components/Join';
@@ -14,7 +14,7 @@ function App() {
 
   //로그인 상태 저장
   const [logState, setLogState] = useState({
-    logid: "",
+    logNick: "",
     flink: "/login",
   });
 
@@ -32,9 +32,9 @@ function App() {
   }, []);
 
   //로그인 성공 시 로그인 상태 변경 함수
-  const sucLogin = useCallback((mid) => {
+  const sucLogin = useCallback((nickName) => {
     const newState = {
-      logid: mid,
+      logNick: nickName,
       flink: "/main",
     };
     setLogState(newState);
@@ -44,7 +44,7 @@ function App() {
     const onLogout = () => {
       alert("로그아웃");
       const newState = {
-        logid: "",
+        logNick: "",
         flink: "/login",
       };
       setLogState(newState);
@@ -55,19 +55,16 @@ function App() {
     };
 
 
-
   return (
     <div className="App"> 
-      <Router>
-        <Header lstate={logState} onLogout={onLogout} />
+        <Header logState={logState} onLogout={onLogout} />
         <Routes>
           <Route path="/" element={<Join />} />
           <Route path="/login" element={<Login sucLogin={sucLogin} />} />
           {/* <Route path="/join" element={<Join />} /> */}
           <Route path="/main" element={<Main />} />
-          <Route path="/Test" element={<Test />} /> 
+          <Route path="/test" element={<Test />} /> 
         </Routes>
-      </Router>
     </div>
   );
 }
