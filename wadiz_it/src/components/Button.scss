@@ -6,13 +6,17 @@ $red : #e94e58;
 
 @mixin btn-color($color) {
     background: $color;
-
-    &:hover {
-        background: lighten($color, 10%); //색상 10% 밝게.
+    &:disabled {
+        background: $gray;
+        color: #ffffff;
+        &:active {
+            background: $gray; // 버튼 미활성화 시 반응 x
+            color: #ffffff;
+        }
     }
-
+    
     &:active {
-        background: darken($color, 10%); //색상 10% 어둡게.
+            background: lighten($color, 10%);
     }
 
     &.outline {
