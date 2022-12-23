@@ -14,7 +14,7 @@ const Login = ({ sucLogin }) => {
 
   const sendLogin = (e) => {
     e.preventDefault();
-
+    
     axios
       .post("member/login", form)
       .then((result) => {
@@ -54,7 +54,7 @@ const Login = ({ sucLogin }) => {
         <h1>로그인</h1>
         <input className="Input" name="id" value={id} placeholder="아이디" onChange={onChange} autoFocus required/>
         <input type="password" className="Input" name="pwd" value={pwd} placeholder="비밀번호" onChange={onChange} required/>
-        <Button type="submit">로그인</Button>
+        <Button type="submit" disabled={!(id && pwd)}>로그인</Button>
       </form>
     </div>
   );
