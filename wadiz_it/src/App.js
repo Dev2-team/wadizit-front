@@ -61,7 +61,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Join />} />
           <Route path="/login" element={<Login sucLogin={sucLogin} />} />
-          {/* <Route path="/join" element={<Join />} /> */}
+          <Route path="/join" element={<Join />} />
           <Route path="/main" element={<Main />} />
           <Route path="/test" element={<Test />} /> 
         </Routes>
