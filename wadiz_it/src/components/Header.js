@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import logo from "../logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+
 
 const Header = ({ logState, onLogout }) => {
   const { logNick, flink } = logState;
@@ -10,7 +13,6 @@ const Header = ({ logState, onLogout }) => {
 
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-
 
   const handleClick = () => setClick(!click) ;
   const closeMobileMenu = () => setClick(false);
@@ -32,63 +34,52 @@ const Header = ({ logState, onLogout }) => {
 
   return (
       <div className="Header">
-      <div className="Content">
-        <Link to={homeLink} className='navbar-logo' onClick={closeMobileMenu}>
-          <img className='App-logo' src={logo} alt="logo" />
-          {/* <i className='fab fa-typo3' /> */}
-          {/* 로고 */}
-        </Link>
+        <div className="Content">
+          <Link to={homeLink} onClick={closeMobileMenu}>
+            <img src={logo} className='navbar-logo' alt="logo" />
+            {/* <i className='fab fa-typo3' /> */}
+            {/* 로고 */}
+          </Link>
 
-        <div className='menu-icon' onClick={handleClick}>
-          <i className = {click ? 'fas fa-times' : 'fas fa-bars' } />
-        </div>
+          <div className='menu-icon' onClick={handleClick}>
+            <FontAwesomeIcon icon={click ? faTimes : faBars} />
+          </div>
 
-        <div className={click ? 'nav-menu active' : 'nav-menu'}>
-          <div className='nav-item'>
-          <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test1</Link>
-          </div>
-          <div className='nav-item'>
-          <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test2</Link>
-          </div>
-          <div className='nav-item'>
-          <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test3</Link>
-          </div>
-          <div className='nav-item'>
-          <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test4</Link>
-          </div>
-          <div className='nav-item'>
-          <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test5</Link>
-          </div>
-        </div>  
-        
-        <div className="log-item">
-          <div className="log-div">
-            <Link to={flink}>{button && logNick !== "" ? `${logNick}님` : "Login"}</Link>
-          </div>
-          <div className="log-div">
-            {button && logNick !== "" ? (<span onClick={onLogout}>Logout</span>) : (<Link to="/join">join</Link>)}
-          </div>
-        </div>
+          <div className={click ? 'nav-menu active' : 'nav-menu'}>
+            <div className="nav-item">
+              <div className='nav-div'>
+                <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test1</Link>
+              </div>
+              <div className='nav-div'>
+                <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test2</Link>
+              </div>
+              <div className='nav-div'>
+                <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test3</Link>
+              </div>
+              <div className='nav-div'>
+                <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test4</Link>
+              </div>
+              {/* <div className='nav-div'>
+                <Link to='/login' className='nav-links-mobile' onClick = {closeMobileMenu}>Login</Link>
+              </div>
+              <div className='nav-div'>
+                <Link to='/join' className='nav-links-mobile' onClick = {closeMobileMenu}>Join</Link>
+              </div> */}
 
-      </div>
-      </div>
+            </div> {/* nav-item end  */}
+          
+            <div className="log-item">
+              <div className="log-div">
+                <Link to={flink}>{button && logNick !== "" ? `${logNick}님` : "Login"}</Link>
+              </div>
+              <div className="log-div">
+                {button && logNick !== "" ? (<span onClick={onLogout}>Logout</span>) : (<Link to="/join">Join</Link>)}
+              </div>
+            </div> {/* log-item end  */}
+          </div> {/* nav-menu end  */}
 
-    // <div className="Header">
-    //   <div className="Content">
-    //     <Link to={homeLink}>
-    //       <FontAwesomeIcon icon={faHouse} size="2x" className="IconStyle" />
-    //     </Link>
-    //     <div className="Title">wadiz_it</div>
-    //     <div className="Menu">
-    //       <div className="Item">
-    //         <Link to={flink}>{logNick !== "" ? `${logNick}님` : "Login"}</Link>
-    //       </div>
-    //       <div className="Item">
-    //         {logNick !== "" ? (<span onClick={onLogout}>Logout</span>) : (<Link to="/join">join</Link>)}
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
+        </div> {/* Content end  */}
+      </div> 
   );
 };
 
