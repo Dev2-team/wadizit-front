@@ -1,46 +1,217 @@
 .Header {
-    background: white;
-    color: black;
-    padding: 10px;
-    margin: 0;
+  background: white;
+  color: black;
+  // padding: 10px;
+  margin: 0;
+  height: 80px;
+  line-height: 50px;
+}
+
+.Content {
+  width:60vw;
     height: 80px;
-    line-height: 50px;
+    padding: 0px 20vw 0px 20vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.navbar-logo {
+  // position: relative;
+  // justify-self: start;
+  margin-top: 10px;
+  width: 150px;
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  width:80vw;
+  justify-content: space-between;
+}
+
+.nav-item{
+  display: flex;
+  grid-gap: 5px;
+  text-align: center;
+  align-items: center;
+}
+
+.log-item {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  a {
+  text-decoration: none;
+  color: black;
   }
-    .Content {
-        width: 70vw;
-        height: 80px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center
-    }
+  span {
+  cursor: pointer;
+  }
+}
+
+.log-div:hover {
+  padding: 5px;
+  border-bottom: 4px solid #00b2b2;
+  transition: all 0.2s ease-out;
+}
+
+.log-join{
+  margin-left:1.5vw;
+}
+
+.nav-links {
+  color: black;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  height: 100%;
+  &:hover {
+    color: #00b2b2;
+    border-bottom: 4px solid #00b2b2;
+    transition: all 0.2s ease-out;
+  }
+}
+ 
+.menu-icon {
+  // display: none;
+}
+
+// .log-item-mobile {
+//   display: none;
+// }
+@media screen and (min-width: 960px)  {
+  .cds-test{
+    display:none;
+  }
+
+  .menu-icon{
+    display:none;
+  }
+}
+
+
+// 반응형
+@media screen and (max-width: 960px) {
+  .cds-test{
+    width:5vw;
+    height:80px;
+  }
+  .Content {
+      width:80vw;
+      height: 80px;
+      padding: 0px 10vw 0px 10vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+  }
+
+  .nav-header-mobile{
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-menu{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 70vh;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+
+  .nav-item{
+      display: flex;
+      flex-direction: column;
+      margin-left: -30px;
+  }
+
+  .log-item{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+  }
   
+  
+  .nav-menu.active{
+    display: flex;
+    align-items: center;
+    background: white;
+    left: 0;
+    opacity: 1;
+    transition: all 0.5s ease;
+    z-index: 1;
+  }
+
+  .nav-links {
+    text-align: center;
+    height: 10px;
+    width: 100%;
+    display: table;
+  }
+
+
   .navbar-logo {
-    position: relative;
-    justify-self: start;
-    margin-top: 10px;
-    width: 150px;
+    margin-top: 30px;
+    align-items: center;
+
+  }
+
+  .menu-icon {
+    // transform: translate(-100%, 60%);
+    width:5vw;
+    font-size: 1.8rem;
     cursor: pointer;
   }
-  
-  .nav-menu {
+
+  // .log-item{
+  //   display: none;
+  // }
+
+  // .log-item-mobile{
+  //   display: flex;
+  //   justify-content: flex-start;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   margin: 10px;
+  //   a {
+  //   text-decoration: none;
+  //   color: black;
+  //   }
+  //   span {
+  //   cursor: pointer;
+  //   }
+  // }
+
+
+  // .log-div-mobile{
+  //   margin-bottom: 10px;
+  //   padding: 3px 0 3px 0;
+  //   border: 1px solid black;
+  //   border-radius: 5px;
+  //   width: 30vw;
+  //   &:hover{
+  //     background-color: #00b2b2;
+  //     border: 4px white;
+  //     a{
+  //       color: white;
+  //     }
+  //   }
+  // }
+
+  .log-item{
     display: flex;
-  }
-  
-  .nav-item{
-    display: flex;
-    grid-gap: 5px;
-    text-align: center;
+    justify-content: flex-start;
+    flex-direction: column;
     align-items: center;
-    width: 40vw;
-  }
-  
-  .log-item {
-    width: 10vw;
-    height: 80px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    margin: 10px;
     a {
     text-decoration: none;
     color: black;
@@ -50,106 +221,23 @@
     }
   }
 
-  .log-div:hover {
-    padding: 5px;
-    border-bottom: 4px solid #00b2b2;
-    transition: all 0.2s ease-out;
-  }
-  
-  .nav-links {
-    color: black;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    height: 100%;
-    &:hover {
-      color: #00b2b2;
-      border-bottom: 4px solid #00b2b2;
-      transition: all 0.2s ease-out;
-    }
-  }
-   
-  .menu-icon {
-    display: none;
-  }
 
-  .nav-links-mobile {
-    display: none;
-  }
-  
-  @media screen and (max-width: 960px) {
-    .nav-menu{
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 70vh;
-      position: absolute;
-      top: 80px;
-      left: -100%;
-      opacity: 1;
-      transition: all 0.5s ease;
-    }
-
-    .nav-item{
-        display: flex;
-        flex-direction: column;
-        margin-left: -30px;
-    }
-
-    .log-item{
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-      align-items: center;
-      margin: 10px;
-    }
-    
-    .log-div{
-      margin-bottom: 10px;
-      padding: 3px 0 3px 0;
-      border: 1px solid black;
-      border-radius: 5px;
-      width: 30vw;
-      &:hover{
-        background-color: #00b2b2;
-        border: 4px white;
-        a{
-          color: white;
-        }
+  .log-div{
+    margin-bottom: 10px;
+    padding: 3px 0 3px 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 30vw;
+    &:hover{
+      background-color: #00b2b2;
+      border: 4px white;
+      a{
+        color: white;
       }
-    }
-    
-    .nav-menu.active{
-      display: flex;
-      align-items: center;
-      background: white;
-      left: 0;
-      opacity: 1;
-      transition: all 0.5s ease;
-      z-index: 1;
-    }
-  
-    .nav-links {
-      text-align: center;
-      height: 10px;
-      width: 100%;
-      display: table;
-    }
-  
-  
-    .navbar-logo {
-      left: -50px;
-      margin-top: 30px;
-    }
-  
-    .menu-icon {
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      transform: translate(-100%, 60%);
-      font-size: 1.8rem;
-      cursor: pointer;
+      span {
+        color: white;
+        }
     }
   }
+
+}

@@ -35,15 +35,13 @@ const Header = ({ logState, onLogout }) => {
   return (
       <div className="Header">
         <div className="Content">
-          <Link to={homeLink} onClick={closeMobileMenu}>
-            <img src={logo} className='navbar-logo' alt="logo" />
-            {/* <i className='fab fa-typo3' /> */}
-            {/* 로고 */}
-          </Link>
-
-          <div className='menu-icon' onClick={handleClick}>
+            <div className="cds-test"></div>
+            <Link to={homeLink} onClick={closeMobileMenu}>
+              <img src={logo} className='navbar-logo' alt="logo" />
+            </Link>
+            <div className='menu-icon' onClick={handleClick}>
             <FontAwesomeIcon icon={click ? faTimes : faBars} />
-          </div>
+           </div>  
 
           <div className={click ? 'nav-menu active' : 'nav-menu'}>
             <div className="nav-item">
@@ -59,20 +57,22 @@ const Header = ({ logState, onLogout }) => {
               <div className='nav-div'>
                 <Link to='/test' className='nav-links' onClick = {closeMobileMenu}>test4</Link>
               </div>
-              {/* <div className='nav-div'>
-                <Link to='/login' className='nav-links-mobile' onClick = {closeMobileMenu}>Login</Link>
-              </div>
-              <div className='nav-div'>
-                <Link to='/join' className='nav-links-mobile' onClick = {closeMobileMenu}>Join</Link>
-              </div> */}
-
             </div> {/* nav-item end  */}
-          
-            <div className="log-item">
-              <div className="log-div">
+
+            {/* <div className='log-item-mobile' >
+              <div className='log-div-mobile' onClick = {closeMobileMenu}>
                 <Link to={flink}>{button && logNick !== "" ? `${logNick}님` : "Login"}</Link>
               </div>
-              <div className="log-div">
+              <div className='log-div-mobile' onClick = {closeMobileMenu}>
+                {button && logNick !== "" ? (<span onClick={onLogout}>Logout</span>) : (<Link to="/join">Join</Link>)}
+              </div>
+            </div> */}
+          
+            <div className="log-item">
+              <div className="log-div" onClick = {closeMobileMenu}>
+                <Link to={flink}>{button && logNick !== "" ? `${logNick}님` : "Login"}</Link>
+              </div>
+              <div className="log-div log-join" onClick = {closeMobileMenu}>
                 {button && logNick !== "" ? (<span onClick={onLogout}>Logout</span>) : (<Link to="/join">Join</Link>)}
               </div>
             </div> {/* log-item end  */}

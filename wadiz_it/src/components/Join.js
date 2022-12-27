@@ -171,7 +171,7 @@ const Join = () => {
 
     return (
         <div className='Join'>
-            <form className='Content' onSubmit={sendJoin}>
+            <form className='JoinContent' onSubmit={sendJoin}>
                 <h3>회원가입</h3>
 
                 <input className='Input' name='id' value={id} placeholder="*아이디(5~10자 영문,숫자 조합)" onInput={ocId} autoFocus required />

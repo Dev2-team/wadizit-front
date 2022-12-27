@@ -1,18 +1,18 @@
 .Join {
-    flex: 1;
-    min-height: 500px;
-    width: 800px;
-    margin: 10px auto;
+    // flex: 1;
+    // min-height: 500px;
+    // width: 800px;
+    // margin: 10px auto;
     
 
-    .Content {
+    .JoinContent {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 500px;
-        padding: 15px;
+        // width: 500px;
+        // padding: 15px;
         background: white;
-        margin: 1.5rem auto;
+        margin-top: 10vh;
         border-radius: 5px;
         padding-bottom: 2rem;
         .message {

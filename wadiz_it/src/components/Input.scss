@@ -1,5 +1,5 @@
 .Input {
-    width: 80%;
+    width: 30vw;
     height: 2.5rem;
     font-size: 1.25rem;
     line-height: 2.5rem;
@@ -15,4 +15,15 @@
     &+&, &+.Button, .Button+& {
         margin-top: 1rem;
     }    
+}
+@media screen and (min-width: 1500px)  {
+    .Input{
+        width:25vw;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .Input{
+        width:40vw;
+    }
 }
