@@ -35,7 +35,8 @@ const Header = ({ logState, onLogout }) => {
   return (
       <div className="Header">
         <div className="Content">
-            <div className="cds-test"></div>
+
+            <div className="logo-dummy"></div>
             <Link to={homeLink} onClick={closeMobileMenu}>
               <img src={logo} className='navbar-logo' alt="logo" />
             </Link>
@@ -72,7 +73,7 @@ const Header = ({ logState, onLogout }) => {
               <div className="log-div" onClick = {closeMobileMenu}>
                 <Link to={flink}>{button && logNick !== "" ? `${logNick}님` : "Login"}</Link>
               </div>
-              <div className="log-div log-join" onClick = {closeMobileMenu}>
+              <div className="log-div" onClick = {closeMobileMenu}>
                 {button && logNick !== "" ? (<span onClick={onLogout}>Logout</span>) : (<Link to="/join">Join</Link>)}
               </div>
             </div> {/* log-item end  */}

@@ -172,7 +172,7 @@ const Join = () => {
     return (
         <div className='Join'>
             <form className='JoinContent' onSubmit={sendJoin}>
-                <h3>회원가입</h3>
+                <h2>회원가입</h2>
 
                 <input className='Input' name='id' value={id} placeholder="*아이디(5~10자 영문,숫자 조합)" onInput={ocId} autoFocus required />
                 {id.length > 0 && !isId && <span className={`message error`}>{idMessage}</span>}

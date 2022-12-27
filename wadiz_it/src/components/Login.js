@@ -51,7 +51,7 @@ const Login = ({ sucLogin }) => {
   return (
     <div className="Login">
       <form className="Content" onSubmit={sendLogin}>
-        <h1>로그인</h1>
+        <h2>로그인</h2>
         <input className="Input" name="id" value={id} placeholder="아이디" onChange={onChange} autoFocus required/>
         <input type="password" className="Input" name="pwd" value={pwd} placeholder="비밀번호" onChange={onChange} required/>
         <Button type="submit" disabled={!(id && pwd)}>로그인</Button>
