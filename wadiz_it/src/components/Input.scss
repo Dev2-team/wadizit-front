@@ -1,7 +1,7 @@
 .Input {
     width: 30vw;
     height: 2.5rem;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     line-height: 2.5rem;
     border: none;
     border-radius: 1.25rem;
@@ -16,9 +16,9 @@
         margin-top: 1rem;
     }    
 }
-@media screen and (min-width: 1500px)  {
+@media screen and (min-width: 1920px)  {
     .Input{
-        width:25vw;
+        width:576px;
     }
 }
 

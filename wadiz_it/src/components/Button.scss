@@ -31,16 +31,14 @@ $red : #e94e58;
     }
 }
 
-@mixin btn-size($h, $fsize) {
-    height: $h;
-    line-height: $h;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: $fsize;
-}
-
 .Button {
-    display: inline-flex;
+    width: 30vw;
+    height: 2.5rem;
+    font-size: 1.1rem;
+    line-height: 2.5rem;
+    text-align: center;
+    
+    // display: inline-flex;
     color: white;
     font-weight: bold;
     outline: none;
@@ -48,19 +46,6 @@ $red : #e94e58;
     border-radius: 1.125rem;
     cursor: pointer;
     justify-content: center;
-
-    //여기 부분을 단계별로 변경.
-    &.large {
-        @include btn-size(3rem, 1.25rem);
-    }
-
-    &.medium {
-        @include btn-size(2.25rem, 1rem);
-    }
-
-    &.small {
-        @include btn-size(1.75rem, 0.875rem);
-    }
 
     &.blue {
         @include btn-color($blue);
@@ -82,18 +67,87 @@ $red : #e94e58;
         margin-left: 1rem;
     }
 
-    &.basic {
-        width: 80%;
-    }
-
-    &.s-30 {
-        width: 30%;
-    }
-    &.s-5 {
-        width: 5%;
-    }
+    // &.basic {
+    //     width: 80%;
+    // }
 
     input + & {
         margin-top: 2rem;
     }
+
+    // &+&, &+.Button, .Button+& {
+    //     margin-top: 1rem;
+    // }
 }
+@media screen and (min-width: 1920px)  {
+    .Button{
+        width:576px;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .Button{
+        width:40vw;
+    }
+}
+
+
+
+// @mixin btn-size($h, $fsize) {
+//     width: 30vw;
+//     height: $h;
+//     line-height: $h;
+//     padding-left: 1rem;
+//     padding-right: 1rem;
+//     font-size: $fsize;
+// }
+
+// .Button {
+//     //여기 부분을 단계별로 변경.
+//     &.large {
+//         @include btn-size(3rem, 1.25rem);
+//     }
+
+//     &.medium {
+//         @include btn-size(2.25rem, 1rem);
+//     }
+
+//     &.small {
+//         @include btn-size(1.75rem, 0.875rem);
+//     }
+
+//     &.blue {
+//         @include btn-color($blue);
+//     }
+
+//     &.gray {
+//         @include btn-color($gray);
+//     }
+
+//     &.pink {
+//         @include btn-color($pink);
+//     }
+
+//     &.red {
+//         @include btn-color($red);
+//     }
+
+//     &+& {
+//         margin-left: 1rem;
+//     }
+
+//     &.basic {
+//         width: 80%;
+//     }
+
+//     &.s-30 {
+//         width: 30%;
+//     }
+//     &.s-5 {
+//         width: 5%;
+//     }
+
+//     input + & {
+//         margin-top: 2rem;
+//     }
+// }
