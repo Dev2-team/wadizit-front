@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+// import GoogleButton3 from "./GoogleButton3";
 import "./Login.scss";
 
 const Login = ({ sucLogin }) => {
@@ -23,7 +24,8 @@ const Login = ({ sucLogin }) => {
           //로그인 상태 유지(세션)
           sessionStorage.setItem("nickName", result.data.nickName);
           sessionStorage.setItem("memberNum", result.data.memberNum);
-          nav("/main");
+          // nav("/fundingList");
+          nav("/main")
         } else {
           alert("아이디나 비밀번호가 틀립니다.");
         }
@@ -56,6 +58,7 @@ const Login = ({ sucLogin }) => {
         <input type="password" className="Input" name="pwd" value={pwd} placeholder="비밀번호" onChange={onChange} required/>
         <Button type="submit" disabled={!(id && pwd)}>로그인</Button>
       </form>
+      {/* <GoogleButton3/> */}
     </div>
   );
 };
