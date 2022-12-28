@@ -1,3 +1,4 @@
+import 'semantic-ui-css/semantic.min.css';
 import './App.scss';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
@@ -7,7 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Main from './components/Main';
 import FundingList from './components/FundingList';
-//import Home from './components/Home';
+import Home from './components/Home';
 
 
 function App() {
@@ -58,14 +59,15 @@ function App() {
 
   return (
     <div className="App"> 
-        <Header logState={logState} onLogout={onLogout} />
+        <Header logState={logState} onLogout={onLogout}/>
         <Routes>
           {/* <Route path="/" element={<Join />} /> */}
           <Route path="/" element={<Login sucLogin={sucLogin}/>} />
-          {/* <Route path="/login" element={<Login sucLogin={sucLogin} />} /> */}
+          <Route path="/login" element={<Login sucLogin={sucLogin} />} />
           <Route path="/join" element={<Join />} />
           <Route path="/main" element={<Main />} />
           <Route path="/test" element={<Test />} /> 
+          <Route path="/home" element={<Home />} /> 
           <Route path="/fundingList" element={<FundingList />} /> 
         </Routes>
     </div>

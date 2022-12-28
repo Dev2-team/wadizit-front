@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Container } from 'semantic-ui-react';
-// import FundingList from './FundingList';
+import FundingList from './FundingList';
 import "./Main.scss";
 
 const Main = () => {
@@ -9,7 +9,7 @@ const Main = () => {
   <div className="Main">
     <div className="Content">
       <h1>Main</h1>
-      {/* <FundingList/> */}
+      <FundingList/>
     </div>
   </div>
     // <Container>

@@ -33,7 +33,7 @@ const Header = ({ logState, onLogout }) => {
   }, []);
 
   return (
-      <div className="m-header">
+      <div className="Header">
         <div className="h-content">
 
             <div className="logo-dummy"></div>

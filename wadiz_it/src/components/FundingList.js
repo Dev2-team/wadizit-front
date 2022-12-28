@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Container, Grid, Image, Segment } from 'semantic-ui-react';
 import muzi from "./muzi.jpg";
-// import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-css/semantic.min.css';
 
 
 const FundingCard = () => (
