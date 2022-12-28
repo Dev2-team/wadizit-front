@@ -6,6 +6,7 @@ import Join from './components/Join';
 import { useCallback, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Main from './components/Main';
+import FundingList from './components/FundingList';
 //import Home from './components/Home';
 
 
@@ -59,11 +60,13 @@ function App() {
     <div className="App"> 
         <Header logState={logState} onLogout={onLogout} />
         <Routes>
-          <Route path="/" element={<Join />} />
-          <Route path="/login" element={<Login sucLogin={sucLogin} />} />
+          {/* <Route path="/" element={<Join />} /> */}
+          <Route path="/" element={<Login sucLogin={sucLogin}/>} />
+          {/* <Route path="/login" element={<Login sucLogin={sucLogin} />} /> */}
           <Route path="/join" element={<Join />} />
           <Route path="/main" element={<Main />} />
           <Route path="/test" element={<Test />} /> 
+          <Route path="/fundingList" element={<FundingList />} /> 
         </Routes>
     </div>
   );
