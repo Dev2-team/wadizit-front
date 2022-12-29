@@ -9,6 +9,14 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import FundingList from "./components/FundingList";
 import Home from "./components/Home";
+import AdminPage from "./components/AdminPage";
+import BoardDetail from "./components/BoardDetail";
+import BoardList from "./components/BoardList";
+import FundingForm from "./components/FundingForm";
+import FundingDetail from "./components/FundingDetail";
+import MyPage from "./components/MyPage";
+import FundingTerms from "./components/FundingTerms";
+import TokenTransaction from "./components/TokenTransaction";
 
 function App() {
   const nav = useNavigate();
@@ -67,6 +75,14 @@ function App() {
         <Route path="/test" element={<Test />} />
         <Route path="/home" element={<Home />} />
         <Route path="/fundingList" element={<FundingList />} />
+        <Route path="/fundingDetail" element={<FundingDetail />} />
+        <Route path="/adminPage" element={<AdminPage />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/boardDetail" element={<BoardDetail />} />
+        <Route path="/boardList" element={<BoardList />} />
+        <Route path="/fundingForm" element={<FundingForm />} />
+        <Route path="/fundingTerms" element={<FundingTerms />} />
+        <Route path="/tokenTransaction" element={<TokenTransaction />} />
       </Routes>
     </div>
   );
