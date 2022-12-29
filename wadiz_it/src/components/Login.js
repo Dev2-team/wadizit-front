@@ -21,10 +21,8 @@ const Login = ({ sucLogin }) => {
       .post("member/login", form)
       .then((result) => {
         if (result.data.success === true) {
-          sucLogin(result.data.nickName);
-          //로그인 상태 유지(세션)
-          sessionStorage.setItem("nickName", result.data.nickName);
-          sessionStorage.setItem("memberNum", result.data.memberNum);
+          sucLogin(result.data);
+          
           // nav("/fundingList");
           nav("/main")
         } else {
