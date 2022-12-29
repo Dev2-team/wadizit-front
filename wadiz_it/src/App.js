@@ -17,6 +17,8 @@ import FundingDetail from "./components/FundingDetail";
 import MyPage from "./components/MyPage";
 import FundingTerms from "./components/FundingTerms";
 import TokenTransaction from "./components/TokenTransaction";
+import KakaoButton from "./components/KakaoButton";
+import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 
 function App() {
   const nav = useNavigate();
@@ -67,6 +69,9 @@ function App() {
     <div className="App">
       <Header logState={logState} onLogout={onLogout} />
       <Routes>
+        <Route path="/KakaoButton" element={<KakaoButton />} />
+        <Route path="/oauth/callback/kakao" element={<KakaoRedirectHandler/>}/>
+
         {/* <Route path="/" element={<Join />} /> */}
         <Route path="/" element={<Login sucLogin={sucLogin} />} />
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
