@@ -23,10 +23,10 @@ const FundingCard = () => (
       </a>
     </Card.Content> */}
   </Card>
-)
+);
 
 const FundingList = () => {
-    return ( 
+  return (
     <Container>
     <Segment placeholder style={{'margin':0, 'padding':0, }}>
         <Image style={{'width':'100%', 'height':300, 'objectFit': 'cover'}} src={slider}></Image>
