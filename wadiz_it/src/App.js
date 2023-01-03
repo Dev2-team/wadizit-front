@@ -19,6 +19,7 @@ import FundingTerms from "./components/FundingTerms";
 import TokenTransaction from "./components/TokenTransaction";
 import KakaoButton from "./components/KakaoButton";
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
+import AdminPage1 from "./components/AdminPage1";
 import axios from "axios";
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
     };
     setLogState(newState);
   }, []);
+
 
   //로그아웃함수 (일반, 카카오)
   const onLogout = () => {
@@ -96,13 +98,23 @@ function App() {
     nav("/main");
   }, [nav]);
 
+  const onMypage = () => {
+    const nickName = sessionStorage.getItem("nickName");
+
+    const newState = {
+      logNick: nickName,
+      flink: "/myPage",
+    };
+    setLogState(newState);
+    nav("/myPage")
+  }
+
   return (
     <div className="App">
-      <Header logState={logState} onLogout={onLogout} />
+      <Header logState={logState} onLogout={onLogout} onMypage={onMypage}/>
       <Routes>
         <Route path="/KakaoButton" element={<KakaoButton />} />
         <Route path="/oauth/callback/kakao" element={<KakaoRedirectHandler setKakaoData={setKakaoData}/>}/>
-
         {/* <Route path="/" element={<Join />} /> */}
         <Route path="/" element={<Login sucLogin={sucLogin} />} />
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
@@ -113,6 +125,9 @@ function App() {
         <Route path="/fundingList" element={<FundingList />} />
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
+
+        <Route path="/adminPage1" element={<AdminPage1 />} />
+
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardDetail" element={<BoardDetail />} />
         <Route path="/boardList" element={<BoardList />} />
