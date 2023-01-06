@@ -64,6 +64,7 @@ const Header = ({ logState, onLogout, onMypage }) => {
               </Link>
             </div>
             <div className="nav-div">
+
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
               test4
               </Link>
