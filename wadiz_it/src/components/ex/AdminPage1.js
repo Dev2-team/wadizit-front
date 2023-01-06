@@ -1,7 +1,13 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Tab, Header, Table, Button } from "semantic-ui-react";
+import {
+  Container,
+  Tab,
+  Header,
+  Table,
+  Button,
+} from "semantic-ui-react";
 
 const AdminPage = () => {
   const nav = useNavigate();
@@ -17,15 +23,15 @@ const AdminPage = () => {
     axios
       .get("/member/findAll")
       .then((res) => {
-        setMemberItem(res.data);
+          setMemberItem(res.data);
       })
       .catch((err) => console.log(err));
-
+    
     // 서버로부터 펀딩 목록 가져오기
     axios
       .get("/funding/list")
       .then((res) => {
-        setFundingItem(res.data);
+          setFundingItem(res.data);
       })
       .catch((err) => console.log(err));
 
@@ -36,6 +42,7 @@ const AdminPage = () => {
         setBoardItem(res.data);
       })
       .catch((err) => console.log(err));
+
   }, []);
 
   //////////////////// Member /////////////////////
@@ -47,27 +54,23 @@ const AdminPage = () => {
       <Table.Cell>{item.nickname}</Table.Cell>
       <Table.Cell>{item.email}</Table.Cell>
       <Table.Cell>{item.phone}</Table.Cell>
-      <Table.Cell>
-        <Button size="small" onClick={() => delMember(item.memberNum)}>
-          삭제
-        </Button>
-      </Table.Cell>
+      <Table.Cell><Button size="small" onClick={() => delMember(item.memberNum)}>삭제</Button></Table.Cell>
     </Table.Row>
   ));
 
   // 회원 삭제
   const delMember = (memberNum) => {
     axios
-      .delete("/member/delete", { params: { MemberNum: memberNum } })
-      .then((res) => {
-        const result = res.data;
-        if (result === true) {
-          alert("회원 삭제 완료");
-        } else {
-          alert("회원 삭제 실패");
-        }
-      })
-      .catch((err) => console.log(err));
+        .delete("/member/delete", { params: { MemberNum: memberNum } })
+        .then((res) => {
+            const result = res.data;
+            if (result === true) {
+                alert("회원 삭제 완료");
+            } else {
+                alert("회원 삭제 실패");
+            }
+        })
+        .catch((err) => console.log(err));
   };
 
   //////////////////// Funding /////////////////////
@@ -76,24 +79,19 @@ const AdminPage = () => {
     <Table.Row key={item.fundingNum} textAlign="center">
       <Table.Cell>{item.fundingNum}</Table.Cell>
       <Table.Cell>{item.memberNum.name}</Table.Cell>
-      <Table.Cell>
-        <div onClick={() => getFunding(item.fundingNum)}>{item.title}</div>
-      </Table.Cell>
+      <Table.Cell><div onClick={() => getFunding(item.fundingNum)}>{item.title}</div></Table.Cell>
       <Table.Cell>{item.targetAmount}</Table.Cell>
       <Table.Cell>{item.status}</Table.Cell>
     </Table.Row>
   ));
 
   // 해당 펀딩 상세로 이동
-  const getFunding = useCallback(
-    (fundingNum) => {
-      // 보여질 펀딩 글의 번호를 localStorage에 저장
-      localStorage.setItem("fundingNum", fundingNum);
-      // 해당 링크로 이동
-      nav("/adminPage/FundingDetail");
-    },
-    [nav]
-  );
+  const getFunding = useCallback((fundingNum) => {
+    // 보여질 펀딩 글의 번호를 localStorage에 저장
+    localStorage.setItem("fundingNum", fundingNum);
+    // 해당 링크로 이동
+    nav("/adminPage/FundingDetail")
+  }, [nav]);
 
   //////////////////// Board /////////////////////
   // 출력할 게시글 목록 작성
@@ -103,22 +101,16 @@ const AdminPage = () => {
       <Table.Cell>{item.memberNum.name}</Table.Cell>
       <Table.Cell>{item.title}</Table.Cell>
       <Table.Cell>{item.date}</Table.Cell>
-      <Table.Cell>
-        <Button size="small" onClick={() => delBoard(item.boardNum, memberNum)}>
-          삭제
-        </Button>
-      </Table.Cell>
+      <Table.Cell><Button size="small" onClick={() => delBoard(item.boardNum, memberNum)}>삭제</Button></Table.Cell>
     </Table.Row>
   ));
 
   // 게시글 삭제 처리
   const delBoard = (boardNum, memberNum) => {
     axios
-      .delete("/board/delete", {
-        params: { boardNum: boardNum, memberNum: memberNum },
-      })
+      .delete("/board/delete", { params: { boardNum: boardNum, memberNum: memberNum }})
       .then((res) => {
-        alert(res.data);
+          alert(res.data);
       })
       .catch((err) => console.log(err));
   };
@@ -147,7 +139,9 @@ const AdminPage = () => {
             </Table.Row>
           </Table.Header>
 
-          <Table.Body>{memberList}</Table.Body>
+          <Table.Body>
+            {memberList}
+          </Table.Body>
         </Table>
       </Container>
     );
@@ -176,7 +170,9 @@ const AdminPage = () => {
             </Table.Row>
           </Table.Header>
 
-          <Table.Body>{fundingList}</Table.Body>
+          <Table.Body>
+            {fundingList}
+          </Table.Body>
         </Table>
       </Container>
     );
@@ -205,7 +201,9 @@ const AdminPage = () => {
             </Table.Row>
           </Table.Header>
 
-          <Table.Body>{boardList}</Table.Body>
+          <Table.Body>
+            {boardList}
+          </Table.Body>
         </Table>
       </Container>
     );
