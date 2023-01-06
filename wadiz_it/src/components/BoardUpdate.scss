@@ -1,0 +1,86 @@
+.ui.container{
+    margin-top: 30px;
+    width: 60vw;
+}
+
+.theme{
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 30px;
+
+}
+
+.boardForm{
+    margin-bottom: 10px;
+    border-top : 2px solid #90949c;
+}
+
+.buTitle{
+    border: none;
+    width: 60vw;
+    font-size: 15px;
+    padding : 5px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    outline: none;
+}
+
+.buContent {
+    border: none;
+    border-top: 1px solid #a2a6ad;
+    border-bottom: 1px solid #a2a6ad;
+    width: 60vw;
+    outline: none;
+    font-size: 15px;
+    padding : 15px;
+    height: 60vh;
+    resize: none;
+
+}
+
+
+.buFile {
+    width: 60vw;
+    font-size: 13px;
+    padding : 5px;
+    padding-top: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 2px solid #90949c;
+    height: 45px;
+    line-height: 5px;
+    display: inline-block;
+    text-align: left;
+}
+
+.buFileTitle{
+    height: 20px;
+    line-height: 20px;
+}
+
+.boardUpdFilesDown{
+    display: inline;
+    padding-right: 8px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.boardUpdFilesBtn {
+    width: 20px;
+    height: 20px;
+}
+
+
+.upBtnArea {
+    width: 150px;
+    height: 40px;
+    margin-top: 10px;
+    display: inline;
+    float:right;
+    
+}
+

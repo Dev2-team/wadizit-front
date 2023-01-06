@@ -17,12 +17,16 @@ import FundingDetail from "./components/FundingDetail";
 import MyPage from "./components/MyPage";
 import FundingTerms from "./components/FundingTerms";
 import TokenTransaction from "./components/TokenTransaction";
+
+import BoardWrite from "./components/BoardWrite";
+import BoardUpdate from "./components/BoardUpdate";
 import KakaoButton from "./components/KakaoButton";
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
 import SimpleSlider from "./components/SimpleSlider";
 import KakaoPayApprove from "./components/KakaoPayApprove";
+
 
 function App() {
   const nav = useNavigate();
@@ -35,10 +39,13 @@ function App() {
 
   useEffect(() => {
     //세션에 저장된 로그인 아이디를 가져옴(로그인 상태 유지)
+
     const nickName = sessionStorage.getItem("nickName");
+
     //console.log(mid);
     if (nickName !== null) {
       const newState = {
+
         logNick: nickName,
         flink: "/main",
       };
@@ -84,7 +91,12 @@ function App() {
     //   console.log(res);
     // })
     //로그아웃 시 로그인 상태 및 페이지번호 삭제
+
+    sessionStorage.removeItem("nickName");
+    sessionStorage.removeItem("memberNum");
+
     // alert("로그아웃");
+
     // sessionStorage.removeItem("pageNum");
     nav("/"); //첫페이지로 돌아감.
   };
@@ -128,13 +140,14 @@ function App() {
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
 
-        {/* <Route path="/adminPage1" element={<AdminPage1 />} />
+        <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
-
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove/>} />
 
         <Route path="/myPage" element={<MyPage />} />
+        <Route path="/boardWrite" element={<BoardWrite/>}/>
         <Route path="/boardDetail" element={<BoardDetail />} />
+        <Route path="/boardUpdate" element={<BoardUpdate/>}/>
         <Route path="/boardList" element={<BoardList />} />
         <Route path="/fundingForm" element={<FundingForm />} />
         <Route path="/fundingTerms" element={<FundingTerms />} />
