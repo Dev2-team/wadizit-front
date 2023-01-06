@@ -4,6 +4,9 @@ import "./Header.scss";
 import logo from "../logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const Header = ({ logState, onLogout, onMypage }) => {
 
@@ -46,13 +49,13 @@ const Header = ({ logState, onLogout, onMypage }) => {
         <div className={click ? "nav-menu active" : "nav-menu"}>
           <div className="nav-item">
             <div className="nav-div">
-              <Link to="/adminPage1" className="nav-links" onClick={closeMobileMenu}>
-              adminPage
+              <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
+              test
               </Link>
             </div>
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test2
+              test
               </Link>
             </div>
             <div className="nav-div">
@@ -62,7 +65,7 @@ const Header = ({ logState, onLogout, onMypage }) => {
             </div>
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test4
+              test4
               </Link>
             </div>
           </div>{" "}
