@@ -51,7 +51,7 @@ const KakaoPayApprove = () => {
     <Container>
       <div className="approve-div">
         <div>
-          <img className="check-img" src="/asset/check-img.png" />
+          <img className="check-img" src="/asset/check-img.png" alt="사진없음" />
           <h2>구매가 완료되었습니다.</h2>
         </div>
         <div className="approve-info">

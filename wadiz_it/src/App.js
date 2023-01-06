@@ -140,10 +140,9 @@ function App() {
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
 
-        {/* <Route path="/adminPage1" element={<AdminPage1 />} />
+        <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
-
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove/>} />
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite/>}/>
