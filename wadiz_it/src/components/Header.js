@@ -4,9 +4,14 @@ import "./Header.scss";
 import logo from "../logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const Header = ({ logState, onLogout }) => {
+
+const Header = ({ logState, onLogout, onMypage }) => {
+
   const { logNick, flink } = logState;
+  // const { logNick } = logState;
   //로고 클릭(로그인 후 main, 로그인 전 home)
   const homeLink = logNick === "" ? "/" : "/main";
 
@@ -30,6 +35,7 @@ const Header = ({ logState, onLogout }) => {
     showButton();
   }, []);
 
+
   return (
     <div className="Header">
       <div className="h-content">
@@ -44,12 +50,12 @@ const Header = ({ logState, onLogout }) => {
           <div className="nav-item">
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test1
+              test
               </Link>
             </div>
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test2
+              test
               </Link>
             </div>
             <div className="nav-div">
@@ -59,7 +65,7 @@ const Header = ({ logState, onLogout }) => {
             </div>
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test4
+              test4
               </Link>
             </div>
           </div>{" "}
@@ -67,8 +73,11 @@ const Header = ({ logState, onLogout }) => {
           <div className="log-item">
             <div className="log-div" onClick={closeMobileMenu}>
               <Link to={flink}>
-                {button && logNick !== "" ? `${logNick}님` : "Login"}
+                {button && logNick !== "" ? (<span onClick={onMypage}>{logNick}님</span>): "Login"}
               </Link>
+              {/* <Link to="/myPage">
+                {button && logNick !== "" ? `${logNick}님` : "Login"}
+              </Link> */}
             </div>
             <div className="log-div" onClick={closeMobileMenu}>
               {button && logNick !== "" ? (
