@@ -19,8 +19,10 @@ import FundingTerms from "./components/FundingTerms";
 import TokenTransaction from "./components/TokenTransaction";
 import KakaoButton from "./components/KakaoButton";
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
-import AdminPage1 from "./components/AdminPage1";
+import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
+import SimpleSlider from "./components/SimpleSlider";
+import KakaoPayApprove from "./components/KakaoPayApprove";
 
 function App() {
   const nav = useNavigate();
@@ -126,7 +128,10 @@ function App() {
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
 
-        <Route path="/adminPage1" element={<AdminPage1 />} />
+        {/* <Route path="/adminPage1" element={<AdminPage1 />} />
+        <Route path="/simpleSlider" element={<SimpleSlider />} />
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
+
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardDetail" element={<BoardDetail />} />
