@@ -22,14 +22,13 @@ import BoardWrite from "./components/BoardWrite";
 import BoardUpdate from "./components/BoardUpdate";
 import KakaoButton from "./components/KakaoButton";
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
-import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
-import SimpleSlider from "./components/SimpleSlider";
-import KakaoPayApprove from "./components/KakaoPayApprove";
 
 
 function App() {
   const nav = useNavigate();
+  // const [loading, setLoading] = useState(null);
+
 
   //로그인 상태 저장
   const [logState, setLogState] = useState({
@@ -96,14 +95,15 @@ function App() {
     sessionStorage.removeItem("memberNum");
 
     // alert("로그아웃");
-
     // sessionStorage.removeItem("pageNum");
     nav("/"); //첫페이지로 돌아감.
   };
 
   const setKakaoData = useCallback((data) => {
+    // setLoading(true);
     sessionStorage.setItem("nickName", data.nickname);
     sessionStorage.setItem("access_token", data.access_token);
+    // setLoading(false)
     const newState = {
       logNick: data.nickname,
       flink: "/main",
@@ -140,9 +140,10 @@ function App() {
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
 
-        <Route path="/adminPage1" element={<AdminPage1 />} />
+        {/* <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove/>} />
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
+
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite/>}/>
