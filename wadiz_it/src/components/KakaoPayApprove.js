@@ -3,6 +3,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
+import checkimg from "./check-img.png";
 import "./KakaoPayApprove.scss";
 
 const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
@@ -52,6 +53,7 @@ const KakaoPayApprove = () => {
       <div className="approve-div">
         <div>
           <img className="check-img" src="/asset/check-img.png" alt="사진없음" />
+          <img className="check-img" src={checkimg} />
           <h2>구매가 완료되었습니다.</h2>
         </div>
         <div className="approve-info">
@@ -64,6 +66,8 @@ const KakaoPayApprove = () => {
           <Link to="/main">
             <Button>홈으로 돌아가기</Button>
           </Link>
+
+          <Button>홈으로 돌아가기</Button>
         </div>
       </div>
     </Container>
