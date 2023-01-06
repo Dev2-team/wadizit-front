@@ -12,6 +12,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
+    "http-proxy-middleware": "^2.0.6",
+    "moment": "^2.29.4",
     "gapi-script": "^1.2.0",
     "moment": "^2.29.4",
     "node-api-auth": "^0.0.13",
@@ -53,5 +55,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080/"
+  "proxy": "http://localhost:9999/"
 }
