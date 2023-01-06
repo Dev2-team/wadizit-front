@@ -1,8 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
 import BoardListTable from "./BoardListTable";
 
 const BoardList = () => {
+
+  const nav = useNavigate();
+  const loginPerson = sessionStorage.getItem("memberNum");
+  console.log("로그인한 사람 : " + loginPerson);
+
+  const boardWrite = () => {
+    //로그인한 상태가 아닐 경우, 로그인 페이지로 이동
+    if (loginPerson === null) {
+      alert("로그인을 하셔야 글 작성이 가능합니다.");
+      nav("/login");
+    } else {
+      nav("/boardWrite");
+    }
+        
+  }
+  
+
   return (
     <Container>
       <Container
@@ -13,7 +31,7 @@ const BoardList = () => {
         }}
       >
         <Header as="h2">자유게시판</Header>
-        <Button size="tiny">작성</Button>
+        <Button size="tiny" onClick={boardWrite} style={{height : "30px"}}>작성</Button>
       </Container>
       <BoardListTable></BoardListTable>
     </Container>

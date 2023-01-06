@@ -58,8 +58,8 @@ const Header = ({ logState, onLogout }) => {
               </Link>
             </div>
             <div className="nav-div">
-              <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test4
+              <Link to="/boardList" className="nav-links" onClick={closeMobileMenu}>
+                자유게시판
               </Link>
             </div>
           </div>{" "}

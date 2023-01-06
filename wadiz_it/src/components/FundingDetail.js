@@ -1,4 +1,6 @@
-import React from "react";
+import axios from "axios";
+import moment from "moment/moment";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Image,
@@ -33,14 +35,56 @@ const TabMenu = () => (
   <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
 );
 
+
+const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
+
 const FundingDetail = () => {
+
+  
+  const [fundData, setFundData] = useState({
+    currentAmount: 0,
+    targetAmount: 0,
+    title: "",
+    startDate: "",
+    endDate: ""
+  });
+
+  //디데이 계산
+  var today = new Date();
+  var endDateFormat = new Date(fundData.endDate);
+  // console.log(endDateFormat - today);
+  var diff = endDateFormat - today;
+  const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));
+  console.log(diffDay);
+
+  //달성률 %
+  var achieveRate = (parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) * 100 
+  console.log("달성률 : " + achieveRate);
+
+  //금액 쉼표 표시
+  let currentAmtFormat = fundData.currentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  let targetAmtFormat = fundData.targetAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  useEffect(() => {
+    axios
+      .get("funding", { params: { fundingNum: 2 } })
+      .then((res) => {
+        console.log(res.data);
+        setFundData(res.data);
+
+      })
+      .catch((err) => console.log(err));
+
+  }, []);
+  
   return (
     <Container>
+      <Header as="h2" style={{marginTop:"40px"}}>{fundData.title}</Header>
       <Grid centered doubling columns={2}>
         <Grid.Column>
           <Image
-            style={{ width: "100%", height: 450, "object-fit": "cover" }}
-            src="lesson_black.png"
+            style={{ width: "100%", height: 420, "object-fit": "cover", marginTop:"30px" }}
+            src="asset/dog.jpg"
           />
         </Grid.Column>
 
@@ -53,39 +97,67 @@ const FundingDetail = () => {
         >
           <Container style={{ height: 10 }}></Container>
 
-          <Segment vertical>
+          <Segment vertical style={{ border: "none" }}>
+            <div className="subTitle" style={{fontSize:"13px"}}>모인 금액</div>
             <Header
               style={{
                 "white-space": "nowrap",
                 overflow: "hidden",
                 "text-overflow": "ellipsis",
+                marginTop:"12px"
               }}
             >
-              포켓몬스터 골드버전
+              <div className="aimAmount" style={{display: "inline-block"}}>
+                <div className="currentAmt" style={{display: "inline", marginRight:"15px"}}>{currentAmtFormat}원 모금</div>
+                <div className="achieveRate" style={{display:"inline", fontSize:"13px"}}>{achieveRate}%</div>
+              </div>
             </Header>
           </Segment>
-          <Segment vertical>
+
+          <Segment vertical style={{ border: "none" }}>
+          <div className="subTitle" style={{fontSize:"13px"}}>남은 시간</div>
             <Header
               style={{
                 "white-space": "nowrap",
                 overflow: "hidden",
                 "text-overflow": "ellipsis",
+                marginTop:"12px"
               }}
             >
-              100,000원 모금
+              {diffDay}일 남음
+              
             </Header>
           </Segment>
-          <Segment vertical>
+          <Segment vertical style={{ border: "none" }}>
+          <div className="subTitle" style={{fontSize:"13px"}}>후원자</div>
             <Header
               style={{
                 "white-space": "nowrap",
                 overflow: "hidden",
                 "text-overflow": "ellipsis",
+                marginTop:"12px"
               }}
             >
-              2022-12-31 마감
+              1,200명
             </Header>
           </Segment>
+
+          <Segment vertical style={{ border: "none" }}>
+            <div className="fundInfo" style={{border: "1px solid",fontSize:"10px", padding:"10px"}}>
+              <div className="targetAmt">목표 금액 &nbsp;&nbsp;&nbsp;&nbsp; {targetAmtFormat}원</div>
+              <div className="fundPeriod">펀딩 기간 &nbsp;&nbsp;&nbsp;&nbsp; {dateFormat(fundData.startDate)} ~ {dateFormat(fundData.endDate)}</div>
+              <div className="payAcount">결제 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 목표금액 달성시 결제가 진행됩니다.</div>
+            </div>
+          </Segment>
+          {/* <label for="rewardOptions">리워드</label>
+          <select value="">
+              <option value="">리워드 선택</option>
+              <option value="a">리워드 A</option>
+              <option value="b">리워드 B</option>
+              <option value="c">리워드 C</option>
+            </select> */}
+            
+          
           <Segment vertical>
             <Button fluid>후원하기</Button>
           </Segment>
