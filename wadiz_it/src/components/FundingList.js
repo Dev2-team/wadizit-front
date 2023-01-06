@@ -1,10 +1,11 @@
 import React, { useCallback, useRef, useEffect, useState} from 'react';
 import { Card, Container, Grid, Image, Segment } from 'semantic-ui-react';
-import img1 from "./img1.jpg";
+// import img1 from "img1.jpg";
 import 'semantic-ui-css/semantic.min.css';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import SimpleSlider from './SimpleSlider';
+import Loading from './Loading';
 
 const FundingList = () => {
   const nav = useNavigate();
@@ -14,6 +15,7 @@ const FundingList = () => {
   const preventRef = useRef(true);
   const obsRef = useRef(null);
   const endRef = useRef(false);
+  const [loading, setLoading] = useState(null);
 
   useEffect(()=> {
     if (nickName === null) {
@@ -21,6 +23,8 @@ const FundingList = () => {
       return;
     }
     getList();
+    setLoading(true);
+
     const observer = new IntersectionObserver(obsHandler, { threshold : 0.5 });
     if(obsRef.current) observer.observe(obsRef.current);
     return () => {
@@ -66,10 +70,19 @@ const obsHandler = ((entries) => {
         setFundingItem(arr);
         sessionStorage.setItem("pageNum", pageNum);
         preventRef.current = true;
+        setLoading(false)
       })
       .catch((err) => console.log(err));
   }, [page]);
+
   
+    // 펀딩 카드 클릭하면 해당 펀딩 상세로 이동함
+    const getFundingDetail = useCallback((fundingNum) => {
+      // 보여질 펀딩 글의 번호를 localStorage에 저장
+      localStorage.setItem("fundingNum", fundingNum);
+      nav("/FundingDetail")
+    }, [nav]);
+
 // const getImage = (data) =>{
 //   return "/public/asset/"+data;
 // }
@@ -78,13 +91,13 @@ const obsHandler = ((entries) => {
     return (
       Object.values(fundingItem).map((item) => {
         return (
-            <Grid.Column key={item.fundingNum}>
+            <Grid.Column key={item.fundingNum} onClick={() => getFundingDetail(item.fundingNum)} >
             <Card fluid>
               {
                 item.fileName ?
                 <Image style={{'height':300, 'objectFit': 'cover'}} src={require(`../../public/asset/${item.fileName}`)} />
                   :
-                  <Image style={{'height':300, 'objectFit': 'cover'}} src={img1} />
+                <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg"/>
               }
             <Card.Content>
               <Card.Header>{item.title}</Card.Header>
@@ -105,17 +118,17 @@ const obsHandler = ((entries) => {
   return (
     <Container>
     <Segment placeholder style={{'margin':0, 'padding':0, }}> 
-        {/* <Image style={{'width':'100%', 'height':300, 'objectFit': 'cover'}} src={slider}></Image> */}
         <SimpleSlider/>
       </Segment>
       {
-        fundingItem.length === 0 &&<div style={{height : "100vh"} }>로딩 중입니다....</div>
+        fundingItem.length === 0 &&<div style={{height : "100vh"}}></div> 
       }
     <Container style={{height:10}}/>
     <Grid doubling columns={4} >
-    <FundingCard />
+    <FundingCard/>
     </Grid>
     <div ref={obsRef} />
+    {loading && <Loading/>}
     </Container>
     );
 };
