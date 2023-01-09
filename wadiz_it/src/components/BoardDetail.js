@@ -223,7 +223,7 @@ localStorage.setItem("content", bitem.content);
 
 
     return (
-      <Container>
+      <Container style={{marginTop:"30px", width:"60vw"}}>
           <Header as="h2">자유게시판 상세페이지</Header>
             <div className='bdBoardForm'>
                 <div className="bdTitle">{bitem.title}</div>

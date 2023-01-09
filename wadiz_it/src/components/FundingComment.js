@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Container, Header, Comment, Form } from "semantic-ui-react";
 import Button from "./Button";
 import FundingCommentList from "./FundingCommentList";
-import "./textArea.scss";
-
 
 const FundingComment = () => {
 
@@ -80,7 +78,7 @@ const FundingComment = () => {
         <Form reply onSubmit={fundComWrite}>
           <div className="fundComWrArea" style={{display:"inline-block", width:"700px"}}>
             <Form.TextArea id="fundingComTextArea" style={{
-              resize: "none", height: "100px", width: "600px", display: "inline"}}
+              resize: "none", height: "100px", width: "600px", display: "inline", fontSize:"15px"}}
               name="content" value={content} onChange={onChange} placeholder="응원의 한마디 부탁드립니다!" required/>
           <Button
             // labelPosition="left"

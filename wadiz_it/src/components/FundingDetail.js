@@ -14,9 +14,8 @@ import FundingComment from "./FundingComment";
 import FundingProjectIntro from "./FundingProjectIntro";
 import FundingReward from "./FundingReward";
 import Button from "./Button";
-import "./FundingDetail.scss";
 import ProgressBar from "./ProgressBar";
-// import * as Progress from 'react-native-progress';
+
 
 const panes = [
   {
@@ -43,6 +42,7 @@ const TabMenu = () => (
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const FundingDetail = () => {
+  const fundingNum = localStorage.getItem("fundingNum");
 
   
   const [fundData, setFundData] = useState({
@@ -71,9 +71,13 @@ const FundingDetail = () => {
   //progress bar 애니메이션
   const [completeRate, setCompleteRate] = useState(0);
 
+  //펀딩 상세정보 대표이미지 출력 
+  
+
+  //펀딩 상세정보 출력
   useEffect(() => {
     axios
-      .get("funding", { params: { fundingNum: 3 } })
+      .get("funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
         console.log(res.data);
         setFundData(res.data);
@@ -103,6 +107,7 @@ const FundingDetail = () => {
             display: "flex",
             "flex-direction": "column",
             justifyContent: "space-between",
+            marginTop:"30px"
           }}
         >
           <Container style={{ height: 10 }}></Container>
@@ -185,17 +190,9 @@ const FundingDetail = () => {
               </div>
             </div>
           </Segment>
-          {/* <label for="rewardOptions">리워드</label>
-          <select value="">
-              <option value="">리워드 선택</option>
-              <option value="a">리워드 A</option>
-              <option value="b">리워드 B</option>
-              <option value="c">리워드 C</option>
-            </select> */}
-            
-          
+        
           <Segment vertical>
-            <Button fluid style={{marginLeft:"10px", width:"28.5vw"}}>후원하기</Button>
+            {/* <Button fluid style={{marginLeft:"10px", width:"100%"}}>후원하기</Button> */}
           </Segment>
         </Grid.Column>
       </Grid>

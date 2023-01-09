@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FundingCommentDetail from './FundingCommentDetail';
-import { Comment } from 'semantic-ui-react';
-
-
 
 
 const FundingCommentList = () => {
