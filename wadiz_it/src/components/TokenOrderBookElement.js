@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, Header, Segment } from "semantic-ui-react";
+import { Grid, Header, Segment } from "semantic-ui-react";
 
 const TokenOrderBookElement = (props) => {
   return (

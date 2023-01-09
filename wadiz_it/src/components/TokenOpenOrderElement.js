@@ -21,7 +21,7 @@ const TokenOpenOrderElement = (props) => {
             verticalAlign={"middle"}
             stretched
             style={{ margin: 0, padding: 0 }}
-            width={4}
+            width={5}
           >
             <Header
               as={"h4"}
@@ -29,15 +29,15 @@ const TokenOpenOrderElement = (props) => {
               textAlign={"left"}
               style={{ margin: 0, marginLeft: 5, padding: 0 }}
             >
-              {/* 주문 타입 */}
-              {props.orderType}
+              {/* 수량 */}
+              {props.orderRemainAmount} TK
             </Header>
           </Grid.Column>
           <Grid.Column
             verticalAlign={"middle"}
             stretched
             style={{ margin: 0, padding: 0 }}
-            width={8}
+            width={9}
           >
             <Container
               style={{
@@ -53,7 +53,7 @@ const TokenOpenOrderElement = (props) => {
                 style={{ flex: 1, margin: 0, padding: 0, marginRight: 5 }}
               >
                 {/* 주문 가격 */}
-                {props.orderPrice}
+                {props.orderPrice} 원
               </Header>
             </Container>
           </Grid.Column>
@@ -62,7 +62,7 @@ const TokenOpenOrderElement = (props) => {
             verticalAlign={"middle"}
             stretched
             style={{ margin: 0, padding: 0 }}
-            width={4}
+            width={2}
           >
             <Container
               style={{

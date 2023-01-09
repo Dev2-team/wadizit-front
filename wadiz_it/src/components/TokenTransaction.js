@@ -5,13 +5,13 @@ import TokenOrderBook from "./TokenOrderBook";
 import TokenOpenOrderList from "./TokenOpenOrderList";
 import SockJS from "sockjs-client";
 import * as StompJs from "@stomp/stompjs";
+import { useSearchParams } from "react-router-dom";
 
 const TokenTransaction = () => {
+  const [searchParams] = useSearchParams();
   const [data, setData] = useState({
     memberNum: Number(sessionStorage.getItem("memberNum")),
-    // memberNum: 1,
-    tokenNum: 1,
-    // tokenNum: 1,
+    tokenNum: searchParams.get("token"),
     currentPrice: 0,
     listingPrice: 0,
     maxPrice: 1,
@@ -94,84 +94,93 @@ const TokenTransaction = () => {
       console.log(res.errorMsg);
       return;
     }
-    console.log("order res", res);
+    console.log("order res", res.txList);
+    for (let i = 0; i < res.txList.length; i++) {
+      const tx = res.txList[i];
+      // 저장할 데이터 처리
+      setData((prev) => {
+        let newData = { ...prev };
+        let newOrderList = [];
+        // 주문 타입에 따른 주문 얻기
+        const newOrder = tx.sellOrder === null ? tx.buyOrder : tx.sellOrder;
+        console.log("neworder", newOrder);
 
-    // 저장할 데이터 처리
-    setData((prev) => {
-      let newData = { ...prev };
-      // 주문 타입에 따른 주문 얻기
-      const newOrder = res.sellOrder === null ? res.buyOrder : res.sellOrder;
-
-      console.log("neworder", newOrder);
-
-      // 체결된 경우
-      if (res.orderTransaction !== null) {
-        // 주문 리스트에서 해당하는 매수/매도 주문 삭제
-        const newOrderList = prev.orderList.filter(
-          (order) =>
-            order.orderNum !== res.orderTransaction.buyTokenOrderNum &&
-            order.orderNum !== res.orderTransaction.sellTokenOrderNum
-        );
-        newData = {
-          ...newData,
-          orderList: newOrderList,
-        };
-      }
-      // 체결되지 않은 경우
-      else {
-        // 주문 리스트에 주문 추가
-        newData = {
-          ...newData,
-          orderList: [...prev.orderList, newOrder],
-        };
-      }
-      console.log(prev.memberNum, res.ordererMemberNum);
-
-      // 내 주문 리스트 업데이트
-      console.log("myorder!", res.sellOrder);
-      if (
-        prev.memberNum === res.buyerMemberNum ||
-        prev.memberNum === res.sellerMemberNum
-      ) {
-        // 체결되지 않은 경우: 내 주문 리스트에 주문 추가
-        if (res.orderTransaction === null) {
-          newData = {
-            ...newData,
-            myOrderList: [...prev.myOrderList, newOrder],
-          };
-        }
-        // 체결된 경우: 내 주문 리스트에서 해당하는 주문 삭제
-        else {
-          const newOrderList = prev.myOrderList.filter(
-            (order) =>
-              order.orderNum !== res.orderTransaction.buyTokenOrderNum &&
-              order.orderNum !== res.orderTransaction.sellTokenOrderNum
+        // 체결된 경우
+        if (tx.buyOrder !== null && tx.sellOrder !== null) {
+          // 주문 리스트 갱신
+          prev.orderList.forEach((order) => {
+            if (order.orderNum === tx.buyOrder.orderNum) {
+              order.remainAmount = tx.buyOrder.remainAmount;
+            } else if (order.orderNum === tx.sellOrder.orderNum) {
+              order.remainAmount = tx.sellOrder.remainAmount;
+            }
+            newOrderList.push(order);
+          });
+          // 주문 리스트에서 잔여 수량이 없는 주문 제거
+          newOrderList = newOrderList.filter(
+            (order) => order.remainAmount !== 0
           );
           newData = {
             ...newData,
-            myOrderList: [...newOrderList],
+            orderList: newOrderList,
           };
         }
-      }
-      // 내 주문이 처리된 경우의 보유 포인트 및 토큰 업데이트
-      if (prev.memberNum === res.buyerMemberNum) {
-        newData = {
-          ...newData,
-          availableToken: res.buyerTokenAmount,
-          availablePoint: res.buyerPoint,
-        };
-      } else if (prev.memberNum === res.sellerMemberNum) {
-        newData = {
-          ...newData,
-          availableToken: res.sellerTokenAmount,
-          availablePoint: res.sellerPoint,
-        };
-      }
+        // 체결되지 않은 경우
+        else {
+          // 주문 리스트에 주문 추가
+          newData = {
+            ...newData,
+            orderList: [...prev.orderList, newOrder],
+          };
+        }
+        console.log(prev.memberNum, tx.ordererMemberNum);
 
-      console.log("prev", prev);
-      console.log("sum", { ...prev, ...newData });
-      return { ...prev, ...newData };
-    });
+        // 내 주문 리스트 업데이트
+        if (
+          prev.memberNum === tx.buyerMemberNum ||
+          prev.memberNum === tx.sellerMemberNum
+        ) {
+          // 체결되지 않은 경우: 내 주문 리스트에 주문 추가
+          if (tx.buyOrder === null || tx.sellOrder === null) {
+            newData = {
+              ...newData,
+              myOrderList: [...prev.myOrderList, newOrder],
+            };
+          }
+          // 체결된 경우: 내 주문 리스트에 존재하는 내 주문 찾기
+          else {
+            console.log(prev.memberNum);
+            newOrderList.forEach((order) => console.log(order));
+
+            const newMyOrderList = newOrderList.filter(
+              (order) => prev.memberNum === order.memberNum
+            );
+            newData = {
+              ...newData,
+              myOrderList: [...newMyOrderList],
+            };
+          }
+        }
+        // 내 주문이 처리된 경우의 보유 포인트 및 토큰 업데이트
+        if (prev.memberNum === tx.buyerMemberNum) {
+          newData = {
+            ...newData,
+            availableToken: tx.buyerTokenAmount,
+            availablePoint: tx.buyerPoint,
+          };
+        } else if (prev.memberNum === tx.sellerMemberNum) {
+          newData = {
+            ...newData,
+            availableToken: tx.sellerTokenAmount,
+            availablePoint: tx.sellerPoint,
+          };
+        }
+
+        console.log("prev", prev);
+        console.log("sum", { ...prev, ...newData });
+        return { ...prev, ...newData };
+      });
+    }
   };
 
   const cancelCallBack = (body) => {
@@ -181,23 +190,24 @@ const TokenTransaction = () => {
       return;
     }
     console.log("cancel res", res);
+    const tx = res.txList[0];
 
     // 저장할 데이터 처리
     setData((prev) => {
       let newData = { ...prev };
 
       // 내가 주문한 경우의 보유 포인트 및 토큰 업데이트
-      if (prev.memberNum === res.buyerMemberNum) {
-        console.log("myorder!", res.cancelOrder);
+      if (prev.memberNum === tx.buyerMemberNum) {
+        console.log("myorder!", tx.cancelOrder);
         // 포인트 및 보유 토큰 업데이트
         newData = {
           ...newData,
-          availableToken: res.buyerTokenAmount,
-          availablePoint: res.buyerPoint,
+          availableToken: tx.buyerTokenAmount,
+          availablePoint: tx.buyerPoint,
         };
         //내 주문 리스트에 주문에서 해당하는 주문 삭제
         const newOrderList = prev.myOrderList.filter(
-          (order) => order.orderNum !== res.cancelOrder.orderNum
+          (order) => order.orderNum !== tx.cancelOrder.orderNum
         );
         newData = {
           ...newData,
@@ -207,7 +217,7 @@ const TokenTransaction = () => {
 
       // 주문 리스트에서 삭제
       const newOrderList = prev.orderList.filter(
-        (order) => order.orderNum !== res.cancelOrder.orderNum
+        (order) => order.orderNum !== tx.cancelOrder.orderNum
       );
       newData = {
         ...newData,

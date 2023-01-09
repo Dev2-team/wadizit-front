@@ -1,9 +1,8 @@
 import React from "react";
-import { Segment, Header } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 import TokenOpenOrderElement from "./TokenOpenOrderElement";
 
 const makeTokenOpenOrderList = (orderList, cancel) => {
-  console.log("makeTokenOpenOrderList", orderList);
   if (orderList === undefined) return;
   const result = [];
   // result.push(<Header style={{ margin: 0, padding: 0 }}>주문 내역</Header>);
@@ -18,6 +17,7 @@ const makeTokenOpenOrderList = (orderList, cancel) => {
         key={i}
         color={color}
         orderNum={order.orderNum}
+        orderRemainAmount={order.remainAmount}
         orderType={order.type === 1 ? "BUY" : "SELL"}
         orderPrice={order.price}
         cancelOrder={cancel}

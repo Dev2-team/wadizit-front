@@ -1,18 +1,19 @@
 import React from "react";
 import TokenOrderBookElement from "./TokenOrderBookElement";
-import { Header, Segment } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 
 const makeOrderBook = (orderList) => {
-  console.log("orderList", orderList);
   let sellPriceList = [];
   let sellVolumeList = [];
   let buyPriceList = [];
   let buyVolumeList = [];
 
+  console.log("orderList", orderList);
+
   if (orderList !== undefined) {
     const sellOrderList = orderList.filter((order) => order.type === 2);
     let sellOrderMap = sellOrderList.reduce((accu, order) => {
-      accu.set(order.price, (accu.get(order.price) || 0) + 1);
+      accu.set(order.price, (accu.get(order.price) || 0) + order.remainAmount);
       return accu;
     }, new Map());
     sellOrderMap = new Map([...sellOrderMap].sort((a, b) => a[0] - b[0]));
@@ -21,7 +22,7 @@ const makeOrderBook = (orderList) => {
 
     const buyOrderList = orderList.filter((order) => order.type === 1);
     let buyOrderMap = buyOrderList.reduce((accu, order) => {
-      accu.set(order.price, (accu.get(order.price) || 0) + 1);
+      accu.set(order.price, (accu.get(order.price) || 0) + order.remainAmount);
       return accu;
     }, new Map());
     buyOrderMap = new Map([...buyOrderMap].sort((a, b) => b[0] - a[0]));
