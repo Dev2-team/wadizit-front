@@ -69,13 +69,15 @@ function App() {
 
   //로그아웃함수 (일반, 카카오)
   const onLogout = () => {
-    const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
-    const LOGOUT_REDIRECT_URI =  "http://localhost:3000";
-    const newState = {
-      logNick: "",
-      flink: "/login",
-    };
-    setLogState(newState);
+    if (window.confirm("로그아웃 하실?")) {
+      alert("로그아웃");
+      const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
+      const LOGOUT_REDIRECT_URI =  "http://localhost:3000";
+      const newState = {
+        logNick: "",
+        flink: "/login",
+      };
+      setLogState(newState);
     
     //카카오계정과 함께 로그아웃하여 다시 로그인할 때 아이디 비밀번호 입력 필요
     axios.get(`https://kauth.kakao.com/oauth/logout?client_id=${CLIENT_ID}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`).then((res)=>{
@@ -100,6 +102,9 @@ function App() {
 
     // sessionStorage.removeItem("pageNum");
     nav("/"); //첫페이지로 돌아감.
+  }else{
+    alert("취소")
+  }
   };
 
   const setKakaoData = useCallback((data) => {
