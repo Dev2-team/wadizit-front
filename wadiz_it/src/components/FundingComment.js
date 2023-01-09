@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Header, Comment, Form } from "semantic-ui-react";
 import Button from "./Button";
@@ -7,11 +7,13 @@ import FundingCommentList from "./FundingCommentList";
 
 const FundingComment = () => {
 
+  const fundingNum = localStorage.getItem("fundingNum");
+
   const nav = useNavigate();
 
   const [fundCom, setFundCom] = useState({
     content: "",
-    fundingNum: {}
+    fundingNum: fundingNum
   });
 
   const [, updateState] = useState();
@@ -21,33 +23,43 @@ const FundingComment = () => {
 
   const { content } = fundCom;
 
-  const loginPerson = sessionStorage.getItem("memberNum");
-  console.log("로그인한 사람 : " + loginPerson);
+  const memberNum = sessionStorage.getItem("memberNum");
+
+  const [fundComData, setFundComData] = useState([]);
+
+  // 펀딩 댓글 리스트 얻기
+  useEffect(() => {
+    axios
+        .get("/funding/comment/list", { params: { fundingNum: fundingNum } })
+        .then((res) => {
+          console.log("리스트", res.data);
+            setFundComData(res.data);
+            localStorage.setItem("fundAmount", res.data.length);
+        })
+        .catch((error) => console.log(error));
+  }, []);
 
   //댓글 입력 기능
   const fundComWrite = useCallback(
     () => {
       
-      if (loginPerson === null) {
+      if (memberNum === null) {
         alert("로그인 이후 이용가능합니다.");
         nav("/fundingDetail");
-
       } else {
         axios
-        .post("/funding/comment", fundCom , {params: {fundingNum : 2}})
+        .post("/funding/comment", {memberNum: {memberNum: memberNum}, content: fundCom.content} , {params: {fundingNum : fundingNum}})
         .then((res) => {
-            if (res.data === "댓글 입력 성공") {
+            if (res.data !== null) {
                 alert("댓글 작성에 성공하셨습니다.");
+                setFundComData([...fundComData, res.data])
             } else {
                 alert("댓글 작성에 실패하셨습니다.");
-
             }
-
         })
         .catch((error) => console.log(error));
 }},
-      [fundCom]
-
+      [fundCom, fundComData]
   );
 
   const onChange = useCallback(
@@ -61,12 +73,6 @@ const FundingComment = () => {
       },
       [fundCom]
   );
-
-
-
-
-    
-  
 
   return (
     <Container textAlign="left">
@@ -87,7 +93,7 @@ const FundingComment = () => {
             >등록하기</Button>
             </div>
         </Form>
-        <FundingCommentList/>  
+        <FundingCommentList fundingCommentList={fundComData}/>  
       </Comment.Group>
     </Container>
   );
