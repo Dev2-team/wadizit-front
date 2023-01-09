@@ -38,7 +38,7 @@ const FundingCommentUpd = (props) => {
     
 
     return (
-        <form onSubmit={getUpdateCom} className='viewChange'>
+        <form onSubmit={getUpdateCom} className='viewChange' style={{marginTop:"10px"}}>
             <div className='bComContentArea'>
                 <textarea type="text" className='bComContent' name="content" value={content} onChange={onChange}
                 style={{resize :"none"}}></textarea>                     
