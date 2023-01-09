@@ -1,12 +1,7 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Form,
-  Tab,
-  Header,
-  Table,
-  Divider,
-} from "semantic-ui-react";
+import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Container, Form, Tab, Header, Table, Divider} from "semantic-ui-react";
 import BoardListTable from "./BoardListTable";
 
 const MyPage = () => {
@@ -17,9 +12,45 @@ const MyPage = () => {
     setPwdModReadOnly(!pwdModReadOnly);
   };
 
-  const manageMember = (id, name) => {
-    return (
-      <Container>
+  const nav = useNavigate();
+
+  const [memberItem, setMemberItem] = useState([]);
+  const [myFundingItem, setMyFundingItem] = useState([]);
+  const [myDonateItem, setMyDonateItem] = useState([]);
+
+  const memberNum = sessionStorage.getItem("memberNum");
+
+  useEffect(() => {
+    // 서버로부터 내 정보 가져오기
+    axios
+    .get(`/member/get?MemberNum=${memberNum}`)
+    .then((res) => {
+      setMemberItem(res.data);
+    })
+    .catch((err) => console.log(err));
+
+    // 서버로부터 내 펀딩 생성 내역 가져오기
+    axios
+    .get(`/funding/plist?MemberNum=${memberNum}`)
+    .then((res) => {
+      console.log(res.data);
+      setMyFundingItem(res.data);
+    })
+    .catch((err) => console.log(err));
+
+    // 서버로부터 내 펀딩 참가 내역 가져오기
+    axios
+    .get(`/donate/dlist?MemberNum=${memberNum}`)
+    .then((res) => {
+      setMyDonateItem(res.data);
+    })
+    .catch((err) => console.log(err));    
+  }, []);
+
+
+  const manageMember = () => {
+        return (
+        <Container>
         <Form>
           <Container
             style={{
@@ -28,7 +59,7 @@ const MyPage = () => {
               alignItems: "center",
             }}
           >
-            <Form.Input label="ID" defaultValue={id} readOnly={true} />
+            <Form.Input label="ID" defaultValue={memberItem.id} readOnly={true} />
             {/* <Form.Button size='tiny'>수정</Form.Button> */}
           </Container>
         </Form>
@@ -44,7 +75,7 @@ const MyPage = () => {
             <Form.Input
               label="비밀번호"
               type="password"
-              defaultValue={"****"}
+              defaultValue={memberItem.pwd}
               readOnly={pwdModReadOnly}
             />
             <Form.Button size="tiny" onClick={pwdModBtnFunc}>
@@ -63,7 +94,7 @@ const MyPage = () => {
           >
             <Form.Input
               label="이름"
-              defaultValue={name}
+              defaultValue={memberItem.name}
               // onChange={func}
               readOnly={true}
             />
@@ -81,7 +112,7 @@ const MyPage = () => {
           >
             <Form.Input
               label="닉네임"
-              defaultValue={"닉네임123"}
+              defaultValue={memberItem.nickname}
               // onChange={func}
               readOnly={true}
             />
@@ -99,7 +130,7 @@ const MyPage = () => {
           >
             <Form.Input
               label="연락처"
-              defaultValue={"010-1234-1234"}
+              defaultValue={memberItem.phone}
               // onChange={func}
               readOnly={true}
             />
@@ -117,7 +148,7 @@ const MyPage = () => {
           >
             <Form.Input
               label="이메일"
-              defaultValue={"asdsadsa@gmail.com"}
+              defaultValue={memberItem.email}
               // onChange={func}
               readOnly={true}
             />
@@ -125,34 +156,71 @@ const MyPage = () => {
           </Container>
         </Form>
       </Container>
-    );
-  };
+    )
+  }
 
   const manageFunding = () => {
+      return (
+      <Container>
+        <Table celled compact definition collapsing={false}>
+          <Table.Header fullWidth>
+            <Table.Row>
+              <Table.HeaderCell>제목</Table.HeaderCell>
+              <Table.HeaderCell>시작일</Table.HeaderCell>
+              <Table.HeaderCell>종료일</Table.HeaderCell>
+              <Table.HeaderCell>목표금액</Table.HeaderCell>
+              <Table.HeaderCell>현재금액</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            <FundingTable/>
+          </Table.Body>
+        </Table>
+      </Container>
+      )
+  };
+
+  const FundingTable = () => {
     return (
+      Object.values(myFundingItem).map((item) => {
+        return (
+          <Table.Row  key={item.fundingNum} >
+          <Table.Cell>{item.title}</Table.Cell>
+          <Table.Cell>{item.startDate}</Table.Cell>
+          <Table.Cell>{item.endDate}</Table.Cell>
+          <Table.Cell>{item.targetAmount}</Table.Cell>
+          <Table.Cell>{item.currentAmount}</Table.Cell>
+        </Table.Row>
+        )
+        })  
+  )}
+
+
+  const manageDonate = () => {
+    return (
+      Object.values(myFundingItem).map((item) => {
+        return (
       <Container>
         <Table celled compact definition collapsing={false}>
           <Table.Header fullWidth>
             <Table.Row>
               <Table.HeaderCell>제목</Table.HeaderCell>
               <Table.HeaderCell>작성자</Table.HeaderCell>
-              <Table.HeaderCell>기간</Table.HeaderCell>
-              <Table.HeaderCell>목표 금액</Table.HeaderCell>
+              <Table.HeaderCell>시작일</Table.HeaderCell>
+              <Table.HeaderCell>종료일</Table.HeaderCell>
+              <Table.HeaderCell>목표금액</Table.HeaderCell>
+              <Table.HeaderCell>현재금액</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
             <Table.Row>
-              <Table.Cell>John Lilki</Table.Cell>
-              <Table.Cell>September 14, 2013</Table.Cell>
-              <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-              <Table.Cell>No</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Jamie Harington</Table.Cell>
-              <Table.Cell>January 11, 2014</Table.Cell>
-              <Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-              <Table.Cell>Yes</Table.Cell>
+              <Table.Cell>{item.title}</Table.Cell>
+              <Table.Cell>{item.startDate}</Table.Cell>
+              <Table.Cell>{item.endDate}</Table.Cell>
+              <Table.Cell>{item.targetAmount}</Table.Cell>
+              <Table.Cell>{item.currentAmount}</Table.Cell>
             </Table.Row>
           </Table.Body>
 
@@ -175,28 +243,28 @@ const MyPage = () => {
     </Table.Footer> */}
         </Table>
       </Container>
+      )
+  })
     );
   };
 
-  const manageBoard = () => {
-    return <BoardListTable></BoardListTable>;
-  };
-
   const panes = [
-    {
-      menuItem: "회원 정보",
-      render: () => (
-        <Tab.Pane attached={false}>{manageMember("aaa", "홍길동")}</Tab.Pane>
-      ),
-    },
     {
       menuItem: "펀딩 생성 내역",
       render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
     },
     {
       menuItem: "펀딩 참가 내역",
-      render: () => <Tab.Pane attached={false}>{manageBoard()}</Tab.Pane>,
+      render: () => <Tab.Pane attached={false}>{manageDonate()}</Tab.Pane>,
     },
+    // {
+    //   menuItem: "내가 쓴 글",
+    //   render: () => <Tab.Pane attached={false}>{manageBoard()}</Tab.Pane>,
+    // },
+    {
+      menuItem: "회원 정보",
+      render: () => <Tab.Pane attached={false}>{manageMember()}</Tab.Pane>
+    }
   ];
 
   const TabMenu = () => (
