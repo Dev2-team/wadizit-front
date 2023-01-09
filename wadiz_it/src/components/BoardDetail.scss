@@ -32,7 +32,7 @@
 .bdInfo {
     width: 60vw;
     font-size: 15px;
-    height: 41px;
+    height: 40px;
     line-height: 40px;
     border-bottom: 1px solid #90949c;
     
@@ -50,9 +50,12 @@
 
 .bdWriter, .bdDate, .bdView{
     display: inline;
-    padding: 5px;
     font-size: 12px;
     height: 40px;
+}
+
+.bdWriter, .bdDate {
+    padding: 5px;
 }
 
 .bdContent {

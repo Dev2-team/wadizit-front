@@ -26,6 +26,7 @@ import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
 import SimpleSlider from "./components/SimpleSlider";
 import KakaoPayApprove from "./components/KakaoPayApprove";
+import FundingComment from "./components/FundingComment";
 
 
 function App() {
@@ -139,11 +140,9 @@ function App() {
         <Route path="/fundingList" element={<FundingList />} />
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
-
-        {/* <Route path="/adminPage1" element={<AdminPage1 />} />
+        <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
-
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove/>} />
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite/>}/>
