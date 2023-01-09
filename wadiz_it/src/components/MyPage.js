@@ -1,25 +1,72 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Tab, Header, Table, Divider} from "semantic-ui-react";
+import { Container, Form, Tab, Header, Table, Divider, Button, Message} from "semantic-ui-react";
+import styled from "styled-components";
 
 
 
 
 const MyPage = () => {
-
-  const [pwdModReadOnly, setPwdModReadOnly] = useState(true);
-  const pwdModBtnFunc = () => {
-    console.log("pwdModBtn");
-
-    setPwdModReadOnly(!pwdModReadOnly);
-  };
-
-  const nav = useNavigate();
-
   const [memberItem, setMemberItem] = useState([]);
   const [myFundingItem, setMyFundingItem] = useState([]);
   const [myDonateItem, setMyDonateItem] = useState([]);
+  // const [editPwd, setEditPwd] = useState([]);
+  // const [editName, setEditName] = useState([]);
+  // const [editNickname, setEditNickname] = useState([]);
+  // const [editPhone, setEditPhone] = useState([]);
+  // const [editEmail, setEditEmail] = useState([]);
+  // const [editData, setEditData] = useState({
+  //   pwd: "",
+  //   name: "",
+  //   nickname: "",
+
+  // })
+  const [nameError, setNameError] = useState(false)
+  const [editName, setEditName] = useState([])
+
+  const nameChange = (e) => {
+    console.log(e.target.value.length);
+    if(e.target.value.length < 2 || e.target.value.length > 5)
+    {
+      setNameError(true);
+    }else{
+      setNameError(false);
+      setEditName(e.target.value)
+    }
+  }
+
+  const handleSubmit = () => {
+    // 유효성 검사
+    if(nameError){
+      console.log('안돼 돌아가');
+      return
+    }
+
+
+    // 내 정보 깊은 복사로 객체 생성
+    const editData = JSON.parse(JSON.stringify(memberItem)) // 깊은 복사
+
+    // 각 속성 editValue 할당
+    editData.name = editName
+
+
+
+    // editData axios 로 put 또는 patch 사용하여 서버 전달
+
+
+    // 서버에서 JPA 로 Update method 실행
+
+
+    // .then 으로 성공 or 실패 띄워주기
+    
+    
+
+    // 객체의 깊은 복사, 얕은 복사 확인하는 방법
+    console.log('editData :>> ', editData);
+    console.log('memberItem :>> ', memberItem);
+  }
+
 
   const memberNum = sessionStorage.getItem("memberNum");
 
@@ -51,6 +98,32 @@ const MyPage = () => {
   }, []);
 
 
+  const onUpdateName = () => {
+    document.getElementById("updateName").style.display = "block";
+    document.getElementById("updateNameButton").style.display = "none";
+    document.getElementById("cancelNameButton").style.display = "block";
+  }
+
+  const onCalcelName = () => {
+    document.getElementById("cancelNameButton").style.display = "none";
+    document.getElementById("updateNameButton").style.display = "block";
+    document.getElementById("updateName").style.display = "none";
+  }
+
+  // const handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
+  // const handleSubmit = () => {
+  //   const { pwd, name, nickname, phone, email } = this.state
+    
+  //   this.setState({
+  //   setEditPwd: pwd,
+  //   setEditName: name,
+  //   setEditNickname: nickname,
+  //   setEditPhone: phone,
+  //   setEditEmail: email
+  //   })
+  // }
+
   const manageMember = () => {
     return (
       <Container>
@@ -79,9 +152,11 @@ const MyPage = () => {
               label="비밀번호"
               type="password"
               defaultValue={memberItem.pwd}
-              readOnly={pwdModReadOnly}
+              readOnly={true}
             />
-            <Form.Button size="tiny" onClick={pwdModBtnFunc}>
+            <Form.Button size="tiny"
+            // onClick={onUpdatePwd}
+            >
               수정
             </Form.Button>
           </Container>
@@ -101,8 +176,35 @@ const MyPage = () => {
               // onChange={func}
               readOnly={true}
             />
-            <Form.Button size="tiny">수정</Form.Button>
+            <Button id="updateNameButton" size="tiny" onClick={onUpdateName}>수정</Button>
+            <Button id="cancelNameButton" size="tiny" style={{display: "none"}} onClick={onCalcelName}>취소</Button>
+          </Container>     
+        </Form>
+
+        {/* -------------------------이름 수정 form ---------------------------- */}
+        <Form error={nameError} id="updateName" style={{display: "none"}}>
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Form.Input
+              label="이름"
+              name='name'
+              defaultValue={editName}
+              onChange={nameChange}
+            />
+            
+            <Form.Button size="tiny" >확인</Form.Button>
+            
           </Container>
+          <Message
+              error
+              header='형식 제한'
+              content='2글자 이상 5글자 미만으로 입력해주세요.'
+            />
         </Form>
         <Divider></Divider>
         <Form>
@@ -158,7 +260,9 @@ const MyPage = () => {
             <Form.Button size="tiny">수정</Form.Button>
           </Container>
         </Form>
+        <Form.Button size="tiny" onClick={handleSubmit} >완료</Form.Button>
       </Container>
+      
     );
   };
 
