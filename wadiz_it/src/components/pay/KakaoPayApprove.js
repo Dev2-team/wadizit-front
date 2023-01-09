@@ -2,10 +2,11 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Button, Container } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import "./KakaoPayApprove.scss";
 
 const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
+const orderDate = (date) => moment(date).format("YYYYMMDDHHmmss");
 
 const KakaoPayApprove = () => {
   // 현재 링크에서 pg_token 값을 찾아줌
@@ -41,32 +42,49 @@ const KakaoPayApprove = () => {
         setResApprove(res.data);
       });
 
+    // 결제된 포인트 금액 db에 반영
     axios
       .put("/member/point?point=" + info.paid)
+      .then((res) => {})
+      .catch((err) => console.log(err));
+
+    // 결제 내역 저장
+    let approveDate = new Date(df(resApprove.approved_at));
+
+    console.log("orderNum : " + "wadizit" + orderDate(resApprove.approved_at));
+    console.log("orderName : " + localStorage.getItem("itemName"));
+    console.log("approveDate : " + approveDate);
+
+    axios
+      .post("/payment", {
+        params: {
+          oNum: "wadizit" + orderDate(resApprove.approved_at),
+          oName: localStorage.getItem("itemName"),
+          date: approveDate,
+        },
+      })
       .then((res) => {})
       .catch((err) => console.log(err));
   }, []);
 
   return (
-    <Container>
-      <div className="approve-div">
-        <div>
-          <img className="check-img" src="/asset/check-img.png" />
-          <h2>구매가 완료되었습니다.</h2>
-        </div>
-        <div className="approve-info">
-          <h4 className="approve-item">결제 상품</h4>
-          <h4 className="approve-item-res">{resApprove.item_name}</h4>
-          <h4 className="approve-date">결제 시간</h4>
-          <h4 className="approve-date-res">{df(resApprove.approved_at)}</h4>
-        </div>
-        <div>
-          <Link to="/main">
-            <Button>홈으로 돌아가기</Button>
-          </Link>
-        </div>
+    <div className="approve-div">
+      <div>
+        <img className="check-img" src="/asset/check-img.png" />
+        <h2>구매가 완료되었습니다.</h2>
       </div>
-    </Container>
+      <div className="approve-info">
+        <h4 className="approve-item">결제 상품</h4>
+        <h4 className="approve-item-res">{resApprove.item_name}</h4>
+        <h4 className="approve-date">결제 시간</h4>
+        <h4 className="approve-date-res">{df(resApprove.approved_at)}</h4>
+      </div>
+      <div className="goMain-div">
+        <Link to="/main">
+          <Button>홈으로 돌아가기</Button>
+        </Link>
+      </div>
+    </div>
   );
 };
 

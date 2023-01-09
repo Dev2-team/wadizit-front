@@ -39,7 +39,11 @@ const KakaoPayReady = ({ price }) => {
   return (
     <div>
       <div className="pay-div">
-        <button className="kakaopay-btn" onClick={() => payBtn()}></button>
+        <button
+          className="kakaopay-btn"
+          style={{ background: "url(/asset/kakaopay-btn.png) no-repeat" }}
+          onClick={() => payBtn()}
+        ></button>
       </div>
     </div>
   );

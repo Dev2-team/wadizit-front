@@ -1,11 +1,13 @@
-.ui.container {
-  height: 90vh;
+.top-div {
+  height: 60vh;
 }
 
 .approve-div {
+  width: 60vw;
+  display: inline-block;
   border-radius: 20px;
-  margin-top: 80px;
-  background-color: #f9f6f6f9;
+  margin: 80px 0;
+  background-color: #effafa;
 }
 
 .approve-info {
