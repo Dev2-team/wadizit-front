@@ -130,7 +130,7 @@ const obsHandler = ((entries) => {
       }
       
     <Container style={{height:10}}/>
-    <Grid doubling columns={4} >
+    <Grid doubling columns={3} >
     <FundingCard />
     </Grid>
     {loading && <Loading/>}
