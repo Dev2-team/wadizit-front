@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Header } from 'semantic-ui-react';
+import { Button, Container, Form, Header } from 'semantic-ui-react';
 import ButtonScss from "./Button.scss";
 
 import "./BoardWrite.scss";
@@ -77,6 +77,7 @@ const BoardWrite = () => {
         (e) => {
           const files = e.target.files;
           //console.log(files);
+            formData = new FormData();
           for (let i = 0; i < files.length; i++) {
             formData.append("files", files[i]);
           }
@@ -85,7 +86,7 @@ const BoardWrite = () => {
       );
     
     return (
-        <Container>
+        <Container style={{marginTop:"30px", width:"60vw"}}>
             <Header as="h2">자유게시판</Header>
             <div className='boardForm'>
                 <form onSubmit={onWrite}>
@@ -99,8 +100,8 @@ const BoardWrite = () => {
                     </div>
                     <div className="btn">
                         <div className='btnArea'>
-                            <Button type='button' className='backBtn' onClick={boardList}>돌아가기</Button>
-                            <Button type='submit' className='writeBtn' style={{marginRight:"0px"}}>글쓰기</Button>
+                            <Button type='button' className='backBtn' style={{fontSize:"0.8rem"}} onClick={boardList}>돌아가기</Button>
+                            <Button type='submit' className='writeBtn' style={{marginRight:"0px", fontSize:"0.8rem"}}>글쓰기</Button>
                         </div>
                     </div>
                 </form>
