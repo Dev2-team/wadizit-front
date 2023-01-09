@@ -223,7 +223,7 @@ localStorage.setItem("content", bitem.content);
 
 
     return (
-      <Container>
+      <Container style={{marginTop:"30px", width:"60vw"}}>
           <Header as="h2">자유게시판 상세페이지</Header>
             <div className='bdBoardForm'>
                 <div className="bdTitle">{bitem.title}</div>
@@ -244,10 +244,14 @@ localStorage.setItem("content", bitem.content);
           
             <div className='bdBtn'>
                 <Button type='button' className='bdBackBtn' onClick={boardList}>돌아가기</Button>
-              <div className='bdBtnArea'>
-                    <Button type="button" className="bdUpdateBtn" onClick={boardUpdate} disabled={!(loginPerson===boardWriter)}>수정</Button>
-                    <Button type='button' className='bdDeleteBtn' onClick={boardFileDelete} disabled={!(loginPerson===boardWriter)}>삭제</Button>
+                {
+                    !(loginPerson === boardWriter) ? null :
+                    <div className='bdBtnArea'>
+                    <Button type="button" className="bdUpdateBtn" onClick={boardUpdate}>수정</Button>
+                    <Button type='button' className='bdDeleteBtn' onClick={boardFileDelete}>삭제</Button>
                 </div>
+                }
+              
             </div>
         
      </Container>
@@ -255,3 +259,4 @@ localStorage.setItem("content", bitem.content);
 };
 
 export default BoardDetail;
+ 

@@ -47,20 +47,21 @@ const FundingCommentDetail = (props) => {
 
     return (
         <div className='fundComDetail'>
-            <Comment style={{marginBottom : "10px"}}>
+            <Comment style={{ marginBottom: "10px" }}>
+                <Comment.Avatar src='asset/userIcon2.png'></Comment.Avatar>
                 <Comment.Content>
-                    <Comment.Author as="b">{props.writer}</Comment.Author>
+                    <Comment.Author as="b" style={{fontSize:"1.1em", marginRight:"5px"}}>{props.writer}</Comment.Author>
                     <Comment.Metadata><div>{dateFormat(props.date)}</div></Comment.Metadata>
+                
                     {view ? <FundingCommentUpd content={props.content} fundingComNum={props.fundingComNum} /> :
-                <div className="viewChange">
-                    <Comment.Text>{props.content}</Comment.Text>
-                    <div className='fundComBtnArea'>
-                        <button type='button' className='fundComUpd' disabled={!(nickname === props.writer)}
-                        onClick={changeView}>수정</button>
-                        <button type='button' className='fundComDel' onClick={()=> fundComDel(props.fundingComNum)}
-                            disabled={!(nickname === props.writer)}>삭제</button>
-                    </div> 
-                </div> }
+                    <div className="viewChange">
+                                <Comment.Text style={{marginTop:"10px", marginBottom:"10px"}}>{props.content}</Comment.Text>
+                                {!(nickname === props.writer) ? <div style={{marginBottom:"20px"}}></div> :
+                                    <div className='fundComBtnArea' style={{marginBottom:"20px"}}>
+                                        <button type='button' className='fundComUpd' onClick={changeView}>수정</button>
+                                        <button type='button' className='fundComDel' onClick={() => fundComDel(props.fundingComNum)}>삭제</button>
+                                    </div>}
+                    </div> }
                 </Comment.Content>
             </Comment>
                 

@@ -23,17 +23,18 @@ const BoardList = () => {
 
   return (
     <Container>
-      <Container
+      {/* <Container
         style={{
           display: "flex",
           verticalAlign: "middle",
           justifyContent: "space-between",
         }}
       >
+        </Container> */}
         <Header as="h2">자유게시판</Header>
-        <Button size="tiny" onClick={boardWrite} style={{height : "30px"}}>작성</Button>
-      </Container>
-      <BoardListTable></BoardListTable>
+        <Button size="tiny" onClick={boardWrite}>작성</Button>
+        <BoardListTable></BoardListTable>
+        
     </Container>
   );
 };
