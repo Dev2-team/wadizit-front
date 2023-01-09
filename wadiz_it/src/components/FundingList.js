@@ -1,12 +1,14 @@
 import React, { useCallback, useRef, useEffect, useState} from 'react';
 // import React from 'react';
-import { Card, Container, Grid, Image, Segment } from 'semantic-ui-react';
+import {Button, Card, Container, Grid, Image, Segment } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import SimpleSlider from './SimpleSlider';
 import Loading from './Loading';
 import ProgressBar from './ProgressBar';
+// import Button from "./Button";
+// import "./Button.scss";
 
 const FundingList = () => {
   const nav = useNavigate();
@@ -40,11 +42,12 @@ const FundingList = () => {
         fffList.map((x) => {
           delete x.funding.memberNum;
           if(x.fundingFileList.length !== 0){
-            x.funding.fileName = x.fundingFileList[0].originName;
+            x.funding.fileName = "upload/" + x.fundingFileList[1].sysName;
           }
           arr.push(x.funding);
           return x;
         })
+        console.log(arr);
         setFundingItem(arr);
         sessionStorage.setItem("pageNum", pageNum);
         preventRef.current = true;
@@ -78,10 +81,6 @@ const obsHandler = ((entries) => {
     }
   })
 
-// const getImage = (data) =>{
-//   return "/public/asset/"+data;
-// }
-
     //펀딩 카드 클릭하면 해당 펀딩 상세로 이동함
     const getFundingDetail = useCallback((fundingNum) => {
       // 보여질 펀딩 글의 번호를 localStorage에 저장
@@ -97,11 +96,10 @@ const obsHandler = ((entries) => {
             <Card fluid onClick={() => getFundingDetail(item.fundingNum)}>
               {
                 item.fileName ?
-                <Image style={{'height':300, 'objectFit': 'cover'}} src={require(`../../public/asset/${item.fileName}`)} />
+                <Image style={{'height':300, 'objectFit': 'cover'}} src={item.fileName} />
                   :
                   <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg"/>
                 }
-
             <Card.Content>
               <Card.Header style={{'height': '80px'}}>{item.title}</Card.Header>
               {/* <Card.Meta>{item.category}</Card.Meta> */}
@@ -128,8 +126,13 @@ const obsHandler = ((entries) => {
       {
         fundingItem.length === 0 &&<div style={{height : "100vh"} }></div>
       }
-      
-    <Container style={{height:10}}/>
+    <Container style={{display: "flex", justifyContent: "space-between", alignItems: "center", margin: "10px 0 10px 0"}}>
+      <div style={{width: "50px",height: "50px", border: "1px solid black"}}>
+        정렬 
+      </div>
+    <Button style={{alignItems: "center" , margin:"0px"}}>프로젝트 만들기</Button>
+    {/* <Button style={{margin: "10px 0 0 85%"}}>프로젝트 만들기</Button> */}
+    </Container>
     <Grid doubling columns={3} >
     <FundingCard />
     </Grid>
