@@ -22,13 +22,14 @@ import BoardWrite from "./components/BoardWrite";
 import BoardUpdate from "./components/BoardUpdate";
 import KakaoButton from "./components/KakaoButton";
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
+import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
+import SimpleSlider from "./components/SimpleSlider";
+import KakaoPayApprove from "./components/KakaoPayApprove";
 
 
 function App() {
   const nav = useNavigate();
-  // const [loading, setLoading] = useState(null);
-
 
   //로그인 상태 저장
   const [logState, setLogState] = useState({
@@ -40,8 +41,11 @@ function App() {
     //세션에 저장된 로그인 아이디를 가져옴(로그인 상태 유지)
 
     const nickName = sessionStorage.getItem("nickName");
+
+    //console.log(mid);
     if (nickName !== null) {
       const newState = {
+
         logNick: nickName,
         flink: "/main",
       };
@@ -64,46 +68,42 @@ function App() {
 
   //로그아웃함수 (일반, 카카오)
   const onLogout = () => {
-    if (window.confirm("로그아웃 하실?")) {
-      alert("로그아웃");
-      const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
-      const LOGOUT_REDIRECT_URI =  "http://localhost:3000";
-      const newState = {
-        logNick: "",
-        flink: "/login",
-      };
-      setLogState(newState);
+    const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
+    const LOGOUT_REDIRECT_URI =  "http://localhost:3000";
+    const newState = {
+      logNick: "",
+      flink: "/login",
+    };
+    setLogState(newState);
     
-      //카카오계정과 함께 로그아웃하여 다시 로그인할 때 아이디 비밀번호 입력 필요
-      axios.get(`https://kauth.kakao.com/oauth/logout?client_id=${CLIENT_ID}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`).then((res)=>{
+    //카카오계정과 함께 로그아웃하여 다시 로그인할 때 아이디 비밀번호 입력 필요
+    axios.get(`https://kauth.kakao.com/oauth/logout?client_id=${CLIENT_ID}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`).then((res)=>{
       sessionStorage.removeItem("nickName");
       sessionStorage.removeItem("access_token");
-      })
-      // 토큰만 만료시켜 로그아웃하여 다시 로그인할 때 아이디 비밀번호 자동입력
-      // axios.post(`https://kapi.kakao.com/v1/user/logout`,null, {
-      //   headers : {
-      //     'Content-Type': 'application/x-www-form-urlencoded',
-      //     'Authorization' : `Bearer ${sessionStorage.getItem("access_token")}`
-      //   }
-      // }).then((res) => {
-      //   console.log(res);
-      // })
-      //로그아웃 시 로그인 상태 및 페이지번호 삭제
-      sessionStorage.removeItem("nickName");
-      sessionStorage.removeItem("memberNum");
-      // alert("로그아웃");
-      // sessionStorage.removeItem("pageNum");
-      nav("/"); //첫페이지로 돌아감.
-    } else {
-      alert("취소");
-    }
+    })
+    // 토큰만 만료시켜 로그아웃하여 다시 로그인할 때 아이디 비밀번호 자동입력
+    // axios.post(`https://kapi.kakao.com/v1/user/logout`,null, {
+    //   headers : {
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //     'Authorization' : `Bearer ${sessionStorage.getItem("access_token")}`
+    //   }
+    // }).then((res) => {
+    //   console.log(res);
+    // })
+    //로그아웃 시 로그인 상태 및 페이지번호 삭제
+
+    sessionStorage.removeItem("nickName");
+    sessionStorage.removeItem("memberNum");
+
+    // alert("로그아웃");
+
+    // sessionStorage.removeItem("pageNum");
+    nav("/"); //첫페이지로 돌아감.
   };
 
   const setKakaoData = useCallback((data) => {
-    // setLoading(true);
     sessionStorage.setItem("nickName", data.nickname);
     sessionStorage.setItem("access_token", data.access_token);
-    // setLoading(false)
     const newState = {
       logNick: data.nickname,
       flink: "/main",
@@ -114,6 +114,7 @@ function App() {
 
   const onMypage = () => {
     const nickName = sessionStorage.getItem("nickName");
+
     const newState = {
       logNick: nickName,
       flink: "/myPage",
@@ -139,9 +140,9 @@ function App() {
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
 
-        {/* <Route path="/adminPage1" element={<AdminPage1 />} />
+        <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove/>} />
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite/>}/>
