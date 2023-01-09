@@ -24,11 +24,13 @@ const BoardListTable = () => {
             .get("/board/list")
             .then((res) => {
                 console.log(res.data);
-
-                setBoardItem(res.data);
+              setBoardItem(res.data);
+            
             })
             .catch((err) => console.log(err));
     }, []);
+  
+  
 
   const getBoardDetail = useCallback((boardNum) => {
     localStorage.setItem("boardNum", boardNum);

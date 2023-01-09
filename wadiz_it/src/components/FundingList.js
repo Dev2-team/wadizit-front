@@ -96,7 +96,7 @@ const obsHandler = ((entries) => {
             <Card fluid onClick={() => getFundingDetail(item.fundingNum)}>
               {
                 item.fileName ?
-                <Image style={{'height':300, 'objectFit': 'cover'}} src={require(`../../public/asset/${item.fileName}`)} />
+                <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg" />
 
                   :
                   <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg"/>

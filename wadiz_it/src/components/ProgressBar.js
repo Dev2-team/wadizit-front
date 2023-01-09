@@ -1,3 +1,4 @@
+import { max } from 'moment';
 import React from 'react';
 
 const ProgressBar = (props) => {
@@ -7,7 +8,7 @@ const ProgressBar = (props) => {
     //progress bar 스타일
     const containerStyles = {
         height: "12px",
-        width: "120%",
+        width: "15vw",
         backgroundColor: "#e0e0de",
         borderRadius: 50,
         display: "inline-block",
@@ -17,6 +18,7 @@ const ProgressBar = (props) => {
     const fillerStyles = {
         height: "100%",
         width: `${completed}%`,
+        maxWidth:"100%",
         backgroundColor: "#00b2b2",
         borderRadius: "inherit",
         textAlian: 'right',
