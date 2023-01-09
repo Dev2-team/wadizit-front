@@ -11,8 +11,10 @@ const FundingCommentList = (props) => {
     if (fundingCommentList.size !== 0) {
         fundComList = Object.values(fundingCommentList).map((fundComItem) => (
             <div className='commentArea' key={fundComItem.fundingComNum}>
-                <FundingCommentDetail fundingComNum={fundComItem.fundingComNum}
-                    writer={fundComItem.memberNum.nickname} content={fundComItem.content} date={fundComItem.date} />
+                <FundingCommentDetail 
+                    deleteComment={props.deleteComment} modifyComment={props.modifyComment}
+                    fundingComNum={fundComItem.fundingComNum} writer={fundComItem.memberNum.nickname}
+                    content={fundComItem.content} date={fundComItem.date} />
             </div>
         ))
         
