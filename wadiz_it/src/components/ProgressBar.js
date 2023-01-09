@@ -7,7 +7,7 @@ const ProgressBar = (props) => {
     //progress bar 스타일
     const containerStyles = {
         height: "12px",
-        width: "120%",
+        width: "100%",
         backgroundColor: "#e0e0de",
         borderRadius: 50,
         display: "inline-block",

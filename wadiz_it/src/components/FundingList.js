@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import SimpleSlider from './SimpleSlider';
 import Loading from './Loading';
+import ProgressBar from './ProgressBar';
 
 const FundingList = () => {
   const nav = useNavigate();
@@ -97,15 +98,14 @@ const obsHandler = ((entries) => {
               {
                 item.fileName ?
                 <Image style={{'height':300, 'objectFit': 'cover'}} src={require(`../../public/asset/${item.fileName}`)} />
-
                   :
                   <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg"/>
                 }
 
-              
             <Card.Content>
               <Card.Header style={{'height': '80px'}}>{item.title}</Card.Header>
               {/* <Card.Meta>{item.category}</Card.Meta> */}
+              <ProgressBar/>
               <Card.Header style={{'color':'#00b2b2'}}>
                 {item.targetAmount}
               </Card.Header>
