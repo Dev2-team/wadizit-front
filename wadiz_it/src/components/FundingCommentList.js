@@ -45,11 +45,14 @@ const FundingCommentList = () => {
     }
     
     return (
-        <div className='fundingCommentList'>
-            <div className='fundComNum'>
-                <p className="fundCom">등록된 응원이 {fundAmount}개 있습니다.</p>
+        <div className='fundingCommentList' style={{marginTop:"30px"}}>
+            <div className='fundComNum' style={{display:"inline-block"}}>
+                <p className="fundCom" style={{ fontSize: "17px" , display:"inline" }}>등록된 응원이&nbsp;&nbsp;</p>
+                <p style={{display:"inline", fontSize: "17px", fontWeight:700, color:"#00b2b2"}}>{fundAmount}개&nbsp;&nbsp;</p>
+                <p style={{display:"inline", fontSize: "17px"}}>있습니다.</p>
+                
             </div>
-            <hr className='line' />
+            <div style={{borderTop:"1.5px solid rgba(34,36,38,.15)", marginBottom:"20px", marginTop:"18px"}}></div>
             <div className='fundingComList'>{fundComList}</div>
             
         </div>

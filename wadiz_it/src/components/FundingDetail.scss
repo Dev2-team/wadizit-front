@@ -1,0 +1,33 @@
+.achieveRate{
+  width: 400px;
+  height: 15px;
+  border-radius: 10px;
+  overflow:hidden;
+  background: #ccc;
+  position:relative;
+}
+
+.achieveRate::after{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  height: 15px;
+  width:0;
+  background:blue;
+  animation: progress 5s ease forwards;
+}
+@keyframes progress{
+  0%{width: 0px}
+  100%{width: 100%;}
+}
+.progress{
+  position: absolute;
+  top:0;
+  right:0;
+  z-index:99;
+}
+.progress::after{
+  content: '%';
+  
+}
