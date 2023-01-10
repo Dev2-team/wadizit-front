@@ -8,8 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import FundingList from "./components/FundingList";
-import Home from "./components/Home";
-// import AdminPage from "./components/AdminPage";
+import AdminPage from "./components/AdminPage";
 import BoardDetail from "./components/BoardDetail";
 import BoardList from "./components/BoardList";
 import FundingForm from "./components/FundingForm";
@@ -22,13 +21,10 @@ import BoardWrite from "./components/BoardWrite";
 import BoardUpdate from "./components/BoardUpdate";
 import KakaoButton from "./components/KakaoButton";
 import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
-import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
 import SimpleSlider from "./components/SimpleSlider";
-// import KakaoPayApprove from "./components/KakaoPayApprove";
-import Footer from "./components/Footer";
-import AdminPage from "./components/ex/AdminPage1";
-import AdminFundingDetail from "./components/admin/AdminFundingDetail";
+import KakaoPayApprove from "./components/KakaoPayApprove";
+import FundingComment from "./components/FundingComment";
 
 function App() {
   const nav = useNavigate();
@@ -59,6 +55,8 @@ function App() {
     //로그인 상태 유지(세션)
     sessionStorage.setItem("nickName", data.nickName);
     sessionStorage.setItem("memberNum", data.memberNum);
+    sessionStorage.setItem("grade", data.grade);
+
     const newState = {
       logNick: data.nickName,
       flink: "/main",
@@ -126,13 +124,24 @@ function App() {
 
   const onMypage = () => {
     const nickName = sessionStorage.getItem("nickName");
+    const grade = sessionStorage.getItem("grade");
 
-    const newState = {
-      logNick: nickName,
-      flink: "/myPage",
-    };
-    setLogState(newState);
-    nav("/myPage");
+    if (grade === "1") {
+      const newState = {
+        logNick: nickName,
+        flink: "/adminPage",
+      };
+      setLogState(newState);
+      nav("/adminPage");
+    } else {
+      const newState = {
+        logNick: nickName,
+        flink: "/myPage",
+      };
+      setLogState(newState);
+      nav("/myPage");
+    }
+
   };
 
   return (
@@ -150,14 +159,12 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/fundingList" element={<FundingList />} />
         <Route path="/fundingDetail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
-        <Route path="/admin/fundingDetail" element={<AdminFundingDetail />} />
-        <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        {/* <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
+        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} />
+
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite />} />
