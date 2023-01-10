@@ -134,6 +134,7 @@ const FundingList = () => {
                 src="asset/img1.jpg"
               />
             )}
+
             <Card.Content>
               <Card.Header style={{ height: "80px" }}>{item.title}</Card.Header>
               <ProgressBar completed={getCompleteRate(item)} />

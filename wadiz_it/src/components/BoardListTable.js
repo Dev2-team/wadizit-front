@@ -24,11 +24,13 @@ const BoardListTable = () => {
             .get("/board/list")
             .then((res) => {
                 console.log(res.data);
-
-                setBoardItem(res.data);
+              setBoardItem(res.data);
+            
             })
             .catch((err) => console.log(err));
     }, []);
+  
+  
 
   const getBoardDetail = useCallback((boardNum) => {
     localStorage.setItem("boardNum", boardNum);
@@ -38,26 +40,27 @@ const BoardListTable = () => {
 
   //출력할 게시글 목록 작성
   let boardList = null;
-  if (boardItem.size === 0) {
+  if (boardItem.length === 0) {
     boardList = (
       <Table.Row key={0}>
-        <Table.Cell>게시글이 아직 존재하지 않습니다.</Table.Cell>
+        <Table.Cell colspan="5" style={{
+          height: "180px", fontSize:"15px", fontWeight:600}}>게시글이 아직 존재하지 않습니다.</Table.Cell>
       </Table.Row>
     )
   } else {
 
     boardList = Object.values(boardItem).map((bItem) => (
       <Table.Row key={bItem.boardNum} className="tableCell" onMouseUp={mouseUp}>
-      <Table.Cell wd="w-10">
+      <Table.Cell>
           <div onClick={() => getBoardDetail(bItem.boardNum)}>{bItem.boardNum}</div>
       </Table.Cell>
-      <Table.Cell wd="w-35">
+      <Table.Cell>
           <div onClick={() => getBoardDetail(bItem.boardNum)} style={{
             cursor:"pointer"}}>{bItem.title}</div>
       </Table.Cell>
-      <Table.Cell wd="w-20">{bItem.memberNum.nickname}</Table.Cell>
-      <Table.Cell wd="w-25">{dateFormat(bItem.date)}</Table.Cell>
-          <Table.Cell wd="w-10">{bItem.view}</Table.Cell>
+      <Table.Cell>{bItem.memberNum.nickname}</Table.Cell>
+      <Table.Cell>{dateFormat(bItem.date)}</Table.Cell>
+          <Table.Cell>{bItem.view}</Table.Cell>
   </Table.Row>
     ))
   }
@@ -67,11 +70,11 @@ const BoardListTable = () => {
       <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
           <Table.Row style={{textAlign : "center"}}>
-            <Table.HeaderCell>번호</Table.HeaderCell>
-            <Table.HeaderCell>제목</Table.HeaderCell>
-            <Table.HeaderCell>작성자</Table.HeaderCell>
-            <Table.HeaderCell>작성날짜</Table.HeaderCell>
-            <Table.HeaderCell>조회수</Table.HeaderCell>
+            <Table.HeaderCell style={{width:"10%"}}>번호</Table.HeaderCell>
+            <Table.HeaderCell style={{width:"35%"}}>제목</Table.HeaderCell>
+            <Table.HeaderCell style={{width:"20%"}}>작성자</Table.HeaderCell>
+            <Table.HeaderCell style={{width:"25%"}}>작성날짜</Table.HeaderCell>
+            <Table.HeaderCell style={{width:"10%"}}>조회수</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

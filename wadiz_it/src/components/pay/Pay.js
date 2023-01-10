@@ -77,7 +77,7 @@ const Pay = () => {
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/approve",
-      fail_url: "http://localhost:3000/pay/approve",
+      fail_url: "http://localhost:3000/pay",
       cancel_url: "http://localhost:3000/pay",
     },
   };
@@ -104,7 +104,18 @@ const Pay = () => {
   return (
     <Container>
       <Header style={{}}>
-        <div className="payTitle">충전 금액 선택</div>
+        <div
+          style={{
+            backgroundColor: "#00b2b2",
+            color: "#fff",
+            paddingLeft: "20px",
+            height: "40px",
+            lineHeight: "40px",
+            textAlign: "left",
+          }}
+        >
+          충전 금액 선택
+        </div>
       </Header>
 
       <Table
@@ -124,7 +135,11 @@ const Pay = () => {
         <Table.Body>
           <Table.Row style={{ height: "60px" }}>
             <Table.Cell>
-              <div className="payBox">
+              <div
+                style={{
+                  paddingLeft: "36%",
+                }}
+              >
                 <input
                   type="radio"
                   name="price"
@@ -140,7 +155,11 @@ const Pay = () => {
           </Table.Row>
           <Table.Row style={{ height: "60px" }}>
             <Table.Cell>
-              <div className="payBox">
+              <div
+                style={{
+                  paddingLeft: "36%",
+                }}
+              >
                 <input
                   type="radio"
                   name="price"
@@ -155,7 +174,11 @@ const Pay = () => {
           </Table.Row>
           <Table.Row style={{ height: "60px" }}>
             <Table.Cell>
-              <div className="payBox">
+              <div
+                style={{
+                  paddingLeft: "36%",
+                }}
+              >
                 <input
                   type="radio"
                   name="price"
@@ -196,7 +219,9 @@ const Pay = () => {
           </Table.Row>
         </Table.Body>
       </Table>
-      <KakaoPayReady price={readyPay} />
+      <div style={{ height: "15px" }}>
+        <KakaoPayReady price={readyPay} />
+      </div>
     </Container>
   );
 };

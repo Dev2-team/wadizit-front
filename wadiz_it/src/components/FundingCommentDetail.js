@@ -1,73 +1,85 @@
-import axios from 'axios';
-import moment from 'moment/moment';
-import React, { useCallback, useState } from 'react';
+import moment from "moment/moment";
+import { useCallback, useState } from "react";
 //import userIcon from "../images/userIcon.png";
-import FundingCommentUpd from './FundingCommentUpd';
-import { Comment } from 'semantic-ui-react';
-
+import { Comment } from "semantic-ui-react";
+import FundingCommentUpd from "./FundingCommentUpd";
 
 const FundingCommentDetail = (props) => {
+  const dateFormat = () => moment(props.date).format("YYYY-MM-DD HH:mm:ss");
+  const nickname = sessionStorage.getItem("nickName");
+  const [modView, setModView] = useState(false);
 
-    const dateFormat = () => moment(props.date).format("YYYY.MM.DD");
+  const modifyComment = useCallback(
+    (content, callback) => {
+      props.modifyComment(props.fundingComNum, content);
+      setModView(!modView);
+    },
+    [props, modView]
+  );
 
-    //본인이 작성한 댓글에만 수정, 삭제 버튼 추가
-    const nickname = sessionStorage.getItem("nickName");
+  const cancelMod = useCallback(() => {
+    setModView(!modView);
+  }, [modView]);
 
-    //댓글 삭제 기능 
-    const fundComDel = useCallback((fundingComNum) => {
+  return (
+    <div className="fundComDetail">
+      <Comment>  
+        <Comment.Content>         
+          <Comment.Author
+            as="b"
+            style={{ fontSize: "1.1em", marginRight: "5px" , color:"#00b2b2"}}
+          >
+            {props.writer}
+          </Comment.Author>
+          <Comment.Metadata>
+            <div style={{fontSize:"11px", fontWeight:600}}>{dateFormat(props.date)}</div>
+          </Comment.Metadata>
 
-        let result = window.confirm("댓글을 삭제하시겠습니까?");
-    
-        if (result === true) {
-
-            axios
-                .delete("/funding/comment", { params: { fundingComNum: fundingComNum } })
-                .then((res) => {
-                    // console.log(res.data);
-                    if (res.data === "댓글 삭제 성공") {
-                        alert("댓글 삭제를 성공하였습니다.");
-                    } else {
-                        alert("댓글 삭제 실패");
-                    }
-                })
-            
-        } else {
-            alert("댓글 삭제를 취소하였습니다.");
-        }
-
-    })
-
-    //수정 버튼 클릭 시 div 변경
-    const [view, setView] = useState(false);
-
-    const changeView = () => {
-        setView(true);
-    }
-
-
-    return (
-        <div className='fundComDetail'>
-            <Comment style={{ marginBottom: "10px" }}>
-                <Comment.Avatar src='asset/userIcon2.png'></Comment.Avatar>
-                <Comment.Content>
-                    <Comment.Author as="b" style={{fontSize:"1.1em", marginRight:"5px"}}>{props.writer}</Comment.Author>
-                    <Comment.Metadata><div>{dateFormat(props.date)}</div></Comment.Metadata>
-                
-                    {view ? <FundingCommentUpd content={props.content} fundingComNum={props.fundingComNum} /> :
-                    <div className="viewChange">
-                                <Comment.Text style={{marginTop:"10px", marginBottom:"10px"}}>{props.content}</Comment.Text>
-                                {!(nickname === props.writer) ? <div style={{marginBottom:"20px"}}></div> :
-                                    <div className='fundComBtnArea' style={{marginBottom:"20px"}}>
-                                        <button type='button' className='fundComUpd' onClick={changeView}>수정</button>
-                                        <button type='button' className='fundComDel' onClick={() => fundComDel(props.fundingComNum)}>삭제</button>
-                                    </div>}
-                    </div> }
-                </Comment.Content>
-            </Comment>
-                
-        </div>
-        
-    );
+          <div className="viewChange">
+            {modView === false ? (
+              <div>
+                <Comment.Text
+                  style={{ margin : "30px 0px 10px 30px", fontSize:"1.1rem" }}
+                >
+                  {props.content}
+                </Comment.Text>
+                {!(nickname === props.writer) ? (
+                  <div style={{ marginBottom: "20px" }}></div>
+                ) : (
+                  <div
+                    className="fundComBtnArea"
+                    style={{marginTop:"10px", float:"right" }}
+                  >
+                    <button type="button" className="fundComUpd"
+                      onClick={() => {
+                        setModView(!modView);
+                        }}
+                        style={{all:"unset", cursor:"pointer",marginRight:"10px", color: "rgba(111, 111, 111, 0.69)"}}
+                    >
+                      수정
+                    </button>
+                    <button type="button" className="fundComDel"
+                        onClick={() => props.deleteComment(props.fundingComNum)}
+                        style={{ all: "unset", cursor: "pointer", marginRight: "10px", color: "rgba(111, 111, 111, 0.69)" }}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <FundingCommentUpd
+                fundingNum={props.fundingComNum}
+                content={props.content}
+                modify={modifyComment}
+                cancel={cancelMod}
+              ></FundingCommentUpd>
+            )}
+            </div>
+            </Comment.Content>
+      </Comment>
+    </div>
+  );
 };
 
 export default FundingCommentDetail;

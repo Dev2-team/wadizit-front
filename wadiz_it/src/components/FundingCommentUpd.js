@@ -1,53 +1,44 @@
-import axios from 'axios';
-import React, { useCallback, useState } from 'react';
+import axios from "axios";
+import React, { useCallback, useState } from "react";
 
 const FundingCommentUpd = (props) => {
+  const [content, setContent] = useState(props.content);
+  const fundingComNum = props.fundingComNum;
 
-    const [fundComData, setFundComData] = useState({
-        content : props.content
-    })
+  const onChange = useCallback(
+    (e) => {
+      setContent(e.target.value);
+    },
+    [content]
+  );
 
-    const { content } = fundComData;
+  //펀딩 댓글 수정 기능
+  const getUpdateCom = useCallback(() => {
+    console.log(content);
 
-    const onChange = useCallback(
-        (e) => {
-            const dataObj = {
-                ...fundComData,
-                [e.target.name]: e.target.value,
-            };
+    props.modify(content, () => {
+      setContent("");
+    });
+  }, [content]);
 
-            setFundComData(dataObj);
-        },
-        [fundComData]
-    );
-
-    //펀딩 댓글 수정 기능
-    const getUpdateCom = () => {
-        axios
-            .put("/funding/comment", fundComData, { params: { fundingComNum: props.fundingComNum } })
-            .then((res) => {
-                if (res.data === "댓글 수정 성공") {
-                    alert("댓글 수정이 완료되었습니다.");
-                } else {
-                    alert("댓글 수정 실패");
-                }
-            })
-            .catch((err) => console.log(err));
-
-    }
-    
-
-    return (
-        <form onSubmit={getUpdateCom} className='viewChange' style={{marginTop:"10px"}}>
-            <div className='bComContentArea'>
-                <textarea type="text" className='bComContent' name="content" value={content} onChange={onChange}
-                style={{resize :"none"}}></textarea>                     
-            </div>
-            <div className='fundComBtnArea'>
-                <button type='submit' className='fundComUpd'>수정하기</button>
-            </div> 
-        </form>
-    );
+  return (
+    <div>
+      <div className="bComContentArea">
+        <textarea 
+          type="text"
+          className="bComContent"
+          name="content"
+          value={content}
+          onChange={onChange}
+          style={{ resize: "none" ,margin : "20px 0px 10px 30px", padding:"10px", fontSize:"1.1rem", width:"500px", height:"50px"}}
+        ></textarea>
+      </div>
+      <div className="fundComBtnArea" style={{marginTop:"-10px", float:"right" }}>
+        <button onClick={props.cancel}  style={{all:"unset", cursor:"pointer",marginRight:"10px", color: "rgba(111, 111, 111, 0.69)"}}>취소</button>
+        <button onClick={getUpdateCom}  style={{all:"unset", cursor:"pointer",marginRight:"10px", color: "rgba(111, 111, 111, 0.69)"}}>확인</button>
+      </div>
+    </div>
+  );
 };
 
 export default FundingCommentUpd;

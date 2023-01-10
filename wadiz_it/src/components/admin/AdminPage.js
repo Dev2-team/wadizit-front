@@ -73,7 +73,11 @@ const AdminPage = () => {
   //////////////////// Funding /////////////////////
   // 출력할 펀딩 목록 작성
   let fundingList = Object.values(fundingItem).map((item) => (
-    <Table.Row key={item.fundingNum} textAlign="center">
+    <Table.Row
+      style={{ height: "47.43px" }}
+      key={item.fundingNum}
+      textAlign="center"
+    >
       <Table.Cell>{item.fundingNum}</Table.Cell>
       <Table.Cell>{item.memberNum.name}</Table.Cell>
       <Table.Cell>
@@ -90,7 +94,7 @@ const AdminPage = () => {
       // 보여질 펀딩 글의 번호를 localStorage에 저장
       localStorage.setItem("fundingNum", fundingNum);
       // 해당 링크로 이동
-      nav("/adminPage/FundingDetail");
+      nav("/admin/fundingDetail");
     },
     [nav]
   );

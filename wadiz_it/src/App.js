@@ -141,6 +141,7 @@ function App() {
       setLogState(newState);
       nav("/myPage");
     }
+
   };
 
   return (
@@ -153,7 +154,7 @@ function App() {
           element={<KakaoRedirectHandler setKakaoData={setKakaoData} />}
         />
         {/* <Route path="/" element={<Join />} /> */}
-        <Route path="/" element={<Login sucLogin={sucLogin} />} />
+        <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
@@ -164,6 +165,7 @@ function App() {
         <Route path="/simpleSlider" element={<SimpleSlider />} />
         <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} />
 
+
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite />} />
         <Route path="/boardDetail" element={<BoardDetail />} />
@@ -173,6 +175,7 @@ function App() {
         <Route path="/fundingTerms" element={<FundingTerms />} />
         <Route path="/tokenTransaction" element={<TokenTransaction />} />
       </Routes>
+      {/* <Footer /> */}
     </div>
   );
 }

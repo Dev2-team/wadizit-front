@@ -1,4 +1,3 @@
-import { right } from "@popperjs/core";
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
@@ -10,13 +9,8 @@ import {
   Header,
   Segment,
 } from "semantic-ui-react";
-import FundingComment from "./FundingComment";
-import FundingProjectIntro from "./FundingProjectIntro";
-import TokenTransaction from "./TokenTransaction";
-import ProgressBar from "./ProgressBar";
-import Button from "./Button";
-import FundingModal from "./FundingModal";
-// import GoodsList from "./GoodsList";
+import FundingProjectIntro from "../FundingProjectIntro";
+import ProgressBar from "../ProgressBar";
 
 const panes = [
   {
@@ -25,18 +19,6 @@ const panes = [
       <Tab.Pane attached={false}>{<FundingProjectIntro />}</Tab.Pane>
     ),
   },
-  {
-    menuItem: "커뮤니티",
-    render: () => <Tab.Pane attached={false}>{<FundingComment />}</Tab.Pane>,
-  },
-  {
-    menuItem: "토큰 거래",
-    render: () => <Tab.Pane attached={false}>{<TokenTransaction />}</Tab.Pane>,
-  },
-  // {
-  //   menuItem: "굿즈",
-  //   render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
-  // },
 ];
 
 const TabMenu = () => (
@@ -45,8 +27,8 @@ const TabMenu = () => (
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
-const FundingDetail = () => {
-  const fundingNum = localStorage.getItem("fundingNum");
+const Afunding = ({ fundingNum }) => {
+  fundingNum = localStorage.getItem("fundingNum");
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,
@@ -85,33 +67,30 @@ const FundingDetail = () => {
     },
   ]);
 
-  //로그인한 사람의 정보
-  const loginPerson = sessionStorage.getItem("memberNum");
+  //펀딩 상세정보 대표이미지 출력
 
   //펀딩 상세정보 출력
   useEffect(() => {
     axios
-      .get("funding/file/list", { params: { fundingNum: fundingNum } })
+      .get("/funding/file/list", { params: { fundingNum: fundingNum } })
       .then(
-      (res) => {
-        for (let i = 0; i < res.data.length; i++) {
-          if (res.data[i].fileType === 1) {
-            let newFileList = [];
-            const newFile = {
-              imageRoute: "upload/" + res.data[i].sysName,
-            };
-            newFileList.push(newFile);
-            setThumbNail(newFileList);
+        (res) => {
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].fileType === 1) {
+              let newFileList = [];
+              const newFile = {
+                imageRoute: "/upload/" + res.data[i].sysName,
+              };
+              newFileList.push(newFile);
+              setThumbNail(newFileList);
+            }
           }
-        }
-      },
-      [thumbNail]
-    );
-
-    
+        },
+        [thumbNail]
+      );
 
     axios
-      .get("funding", { params: { fundingNum: fundingNum } })
+      .get("/funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
         console.log(res.data);
         setFundData(res.data);
@@ -121,8 +100,6 @@ const FundingDetail = () => {
     setTimeout(() => setCompleteRate(achieveRate), 1000);
     console.log("달성률: " + achieveRate);
   }, [achieveRate]);
-
-
 
   //대표이미지 출력
   let fundingFileImage = null;
@@ -152,20 +129,6 @@ const FundingDetail = () => {
       />
     ));
   }
-
-
-  //펀딩 모달창 띄위기
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  }
-
-  const closeModal = () => {
-    setModalOpen(false);
-  }
-
-
 
   return (
     <Container>
@@ -336,9 +299,7 @@ const FundingDetail = () => {
           </Segment>
 
           <Segment vertical>
-            <FundingModal open={modalOpen} close={closeModal} header="후원하기"
-              fundingTitle={fundData.title} loginPerson={loginPerson}></FundingModal>
-            <Button fluid style={{ marginLeft: "10px", width: "100%" }} onClick={openModal}>후원하기</Button>
+            {/* <Button fluid style={{marginLeft:"10px", width:"100%"}}>후원하기</Button> */}
           </Segment>
         </Grid.Column>
       </Grid>
@@ -349,4 +310,4 @@ const FundingDetail = () => {
   );
 };
 
-export default FundingDetail;
+export default Afunding;
