@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import "./KakaoPayReady.scss";
 
 const KakaoPayReady = ({ price }) => {
   // 결제 준비 단계에서 리턴받을 값들을 저장하는 변수
@@ -38,8 +37,19 @@ const KakaoPayReady = ({ price }) => {
 
   return (
     <div>
-      <div className="pay-div">
-        <button className="kakaopay-btn" onClick={() => payBtn()}></button>
+      <div style={{ marginBottom: "20px" }}>
+        <button
+          style={{
+            background: "url(/asset/kakaopay-btn.png) no-repeat",
+            marginTop: "20px",
+            marginBottom: "60px",
+            height: "130px",
+            width: "201px",
+            border: "0",
+            float: "right",
+          }}
+          onClick={() => payBtn()}
+        ></button>
       </div>
     </div>
   );
