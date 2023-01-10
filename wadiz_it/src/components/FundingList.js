@@ -14,8 +14,7 @@ import axios from "axios";
 import SimpleSlider from "./SimpleSlider";
 import Loading from "./Loading";
 import ProgressBar from "./ProgressBar";
-// import Button from "./Button";
-// import "./Button.scss";
+import { Link } from "react-router-dom";
 
 const FundingList = () => {
   const nav = useNavigate();
@@ -98,6 +97,27 @@ const FundingList = () => {
     [nav]
   );
 
+  // progress
+  const getCompleteRate = (item) => {
+    console.log("currentAmount :>> ", item.currentAmount);
+    console.log("targetAmount :>> ", item.targetAmount);
+    console.log(
+      "percent:>> ",
+      (parseFloat(item.currentAmount) / parseFloat(item.targetAmount)) * 100
+    );
+    return (
+      (parseFloat(item.currentAmount) / parseFloat(item.targetAmount)) * 100
+    );
+  };
+
+  // d-day
+  const getDiffDate = (item) => {
+    var today = new Date();
+    var endDateFormat = new Date(item.endDate);
+    var diff = endDateFormat - today;
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  };
+
   const FundingCard = () => {
     return Object.values(fundingItem).map((item) => {
       return (
@@ -116,14 +136,12 @@ const FundingList = () => {
             )}
             <Card.Content>
               <Card.Header style={{ height: "80px" }}>{item.title}</Card.Header>
-              {/* <Card.Meta>{item.category}</Card.Meta> */}
-              <ProgressBar />
+              <ProgressBar completed={getCompleteRate(item)} />
               <Card.Header style={{ color: "#00b2b2" }}>
-                {item.targetAmount}
+                {item.targetAmount}원
               </Card.Header>
-              <Card.Header style={{ color: "#00b2b2" }}>
-                {item.currentAmount}
-              </Card.Header>
+              <Card.Meta>{item.currentAmount}원</Card.Meta>
+              <Card.Meta>{getDiffDate(item)}일 남음</Card.Meta>
             </Card.Content>
           </Card>
         </Grid.Column>
@@ -150,10 +168,19 @@ const FundingList = () => {
         >
           정렬
         </div>
-        <Button style={{ alignItems: "center", margin: "0px" }}>
-          프로젝트 만들기
-        </Button>
-        {/* <Button style={{margin: "10px 0 0 85%"}}>프로젝트 만들기</Button> */}
+        <Link to="/fundingForm">
+          <Button
+            style={{
+              alignItems: "center",
+              margin: "0px",
+              border: "1px solid #00b2b2",
+              backgroundColor: "#ffffff",
+              color: "#00b2b2",
+            }}
+          >
+            프로젝트 만들기
+          </Button>
+        </Link>
       </Container>
       <Grid doubling columns={3}>
         <FundingCard />
