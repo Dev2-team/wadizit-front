@@ -96,7 +96,7 @@ const obsHandler = ((entries) => {
             <Card fluid onClick={() => getFundingDetail(item.fundingNum)}>
               {
                 item.fileName ?
-                <Image style={{'height':300, 'objectFit': 'cover'}} src={require(`../../public/asset/${item.fileName}`)} />
+                <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg" />
 
                   :
                   <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg"/>
@@ -104,7 +104,7 @@ const obsHandler = ((entries) => {
 
               
             <Card.Content>
-              <Card.Header>{item.title}</Card.Header>
+              <Card.Header style={{'height': '80px'}}>{item.title}</Card.Header>
               {/* <Card.Meta>{item.category}</Card.Meta> */}
               <Card.Header style={{'color':'#00b2b2'}}>
                 {item.targetAmount}

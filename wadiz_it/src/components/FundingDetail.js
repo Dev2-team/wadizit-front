@@ -14,9 +14,8 @@ import FundingComment from "./FundingComment";
 import FundingProjectIntro from "./FundingProjectIntro";
 import FundingReward from "./FundingReward";
 import Button from "./Button";
-import "./FundingDetail.scss";
 import ProgressBar from "./ProgressBar";
-// import * as Progress from 'react-native-progress';
+
 
 const panes = [
   {
@@ -43,6 +42,7 @@ const TabMenu = () => (
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const FundingDetail = () => {
+  const fundingNum = localStorage.getItem("fundingNum");
 
   
   const [fundData, setFundData] = useState({
@@ -71,20 +71,64 @@ const FundingDetail = () => {
   //progress bar 애니메이션
   const [completeRate, setCompleteRate] = useState(0);
 
+  const [thumbNail, setThumbNail] = useState([{
+    imageRoute:""
+  }]);
+
+
+  //펀딩 상세정보 대표이미지 출력 
+
+
+  //펀딩 상세정보 출력
   useEffect(() => {
     axios
-      .get("funding", { params: { fundingNum: 3 } })
+      .get("funding/file/list", { params: { fundingNum: fundingNum } })
+      .then((res) => {
+        for (let i = 0; i < res.data.length; i++){
+          if (res.data[i].fileType === 1) {
+            let newFileList = [];
+            const newFile = {
+              imageRoute: "upload/" + res.data[i].sysName
+            };
+            newFileList.push(newFile);
+            setThumbNail(newFileList);
+          }
+        }
+      }, [thumbNail]);
+     
+    axios
+      .get("funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
         console.log(res.data);
         setFundData(res.data);
+
 
       })
       .catch((err) => console.log(err));
     
     setTimeout(() => setCompleteRate(achieveRate), 1000);
     console.log("달성률: " + achieveRate);
-    
+
   }, [achieveRate]);
+
+
+  //대표이미지 출력 
+  let fundingFile = null;
+  if (thumbNail.size === 0) {
+    fundingFile = (
+      <Image
+            style={{ width: "100%", height: 420, "object-fit": "cover", marginTop:"30px" }}
+            src="asset/img1.jpg"
+          />
+    )
+  } else {
+    fundingFile = Object.values(thumbNail).map((thumbImage) => (
+      <Image
+            style={{ width: "100%", height: 420, "object-fit": "cover", marginTop:"30px" }}
+            src={thumbImage.imageRoute} alt="사진없음"
+          />
+    ))
+  }
 
   
   return (
@@ -92,10 +136,7 @@ const FundingDetail = () => {
       <Header as="h2" style={{marginTop:"40px"}}>{fundData.title}</Header>
       <Grid centered doubling columns={2}>
         <Grid.Column>
-          <Image
-            style={{ width: "100%", height: 420, "object-fit": "cover", marginTop:"30px" }}
-            src="asset/dog.jpg"
-          />
+          {fundingFile}
         </Grid.Column>
 
         <Grid.Column
@@ -103,6 +144,7 @@ const FundingDetail = () => {
             display: "flex",
             "flex-direction": "column",
             justifyContent: "space-between",
+            marginTop:"30px"
           }}
         >
           <Container style={{ height: 10 }}></Container>
@@ -185,17 +227,9 @@ const FundingDetail = () => {
               </div>
             </div>
           </Segment>
-          {/* <label for="rewardOptions">리워드</label>
-          <select value="">
-              <option value="">리워드 선택</option>
-              <option value="a">리워드 A</option>
-              <option value="b">리워드 B</option>
-              <option value="c">리워드 C</option>
-            </select> */}
-            
-          
+        
           <Segment vertical>
-            <Button fluid style={{marginLeft:"10px", width:"28.5vw"}}>후원하기</Button>
+            {/* <Button fluid style={{marginLeft:"10px", width:"100%"}}>후원하기</Button> */}
           </Segment>
         </Grid.Column>
       </Grid>

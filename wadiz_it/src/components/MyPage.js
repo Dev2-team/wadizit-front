@@ -1,10 +1,13 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Tab, Header, Table, Divider} from "semantic-ui-react";
-import BoardListTable from "./BoardListTable";
+
+
+
 
 const MyPage = () => {
+
   const [pwdModReadOnly, setPwdModReadOnly] = useState(true);
   const pwdModBtnFunc = () => {
     console.log("pwdModBtn");
@@ -49,8 +52,8 @@ const MyPage = () => {
 
 
   const manageMember = () => {
-        return (
-        <Container>
+    return (
+      <Container>
         <Form>
           <Container
             style={{
@@ -156,8 +159,8 @@ const MyPage = () => {
           </Container>
         </Form>
       </Container>
-    )
-  }
+    );
+  };
 
   const manageFunding = () => {
       return (
@@ -214,7 +217,7 @@ const MyPage = () => {
             </Table.Row>
           </Table.Header>
 
-          <Table.Body>
+          {/* <Table.Body>
             <Table.Row>
               <Table.Cell>{item.title}</Table.Cell>
               <Table.Cell>{item.startDate}</Table.Cell>
@@ -222,7 +225,7 @@ const MyPage = () => {
               <Table.Cell>{item.targetAmount}</Table.Cell>
               <Table.Cell>{item.currentAmount}</Table.Cell>
             </Table.Row>
-          </Table.Body>
+          </Table.Body> */}
 
           {/* <Table.Footer fullWidth>
       <Table.Row textAlign='right'>
@@ -254,7 +257,7 @@ const MyPage = () => {
       render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
     },
     {
-      menuItem: "펀딩 참가 내역",
+      menuItem: "보유 코인 내역",
       render: () => <Tab.Pane attached={false}>{manageDonate()}</Tab.Pane>,
     },
     // {

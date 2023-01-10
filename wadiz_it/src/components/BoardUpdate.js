@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Header } from 'semantic-ui-react';
+import { Checkbox, Container, Header } from 'semantic-ui-react';
 import "./BoardUpdate.scss";
 
 const BoardUpdate = () => {
@@ -53,31 +53,25 @@ const BoardUpdate = () => {
             <div className="boardUpdFilesDown" id={v.boardFileNum} key={i}>{v.originName} &nbsp;
                 {
                     v.originName === "파일없음" ? null :
-                        <button className='boardUpdFilesBtn' type='button' onClick={() => fileDelete(v)}>x</button>
+                        <input className='boardUpdFilesBtn' type='checkbox' onClick={(e) => addDeleteFileList(e, v)}></input>
                 }
                 </div>
         )
     });
 
     //자유게시판 개별 파일 삭제 기능
-    const fileDelete = ((v) => {
+    const addDeleteFileList = useCallback((e, v) => {
+        console.log(e.target.checked);
+        if (e.target.checked) {
+            fileDeleteList.push(v.boardFileNum);
+        } else {
+            console.log("filedelete", fileDeleteList);
+            const newList = fileDeleteList.filter(fileNum => fileNum !== v.boardFileNum);
+            console.log(newList)
+            SetFileDeleteList(newList);
+        }
 
-        SetFileDeleteList([...fileDeleteList, v.boardFileNum])
-
-        axios
-            .delete("/board/file", { params: { boardFileNum: v.boardFileNum } })
-            .then((res) => {
-                console.log(res.data);
-                if (res.data === "파일 삭제 완료") {
-                    alert("삭제 성공");
-                    const div = document.getElementById(v.boardFileNum);
-                    div.remove();
-                } else {
-                    alert("삭제 실패");
-                }
-            })
-            .catch((err) => console.log(err));
-    });
+    }, [fileDeleteList]);
 
 
     //자유게시판 수정 기능
@@ -96,6 +90,22 @@ const BoardUpdate = () => {
             axios
                 .put("/board", data, {params : {boardNum : bNum}})
                 .then((res) => {
+
+                    // 파일 삭제
+                    console.log(fileDeleteList);
+                    for (const v of fileDeleteList) {
+                        axios
+                        .delete("/board/file", { params: { boardFileNum: v } })
+                        .then((res) => {
+                            console.log(res.data);
+                            if (res.data === "파일 삭제 완료") {
+                                const div = document.getElementById(v.boardFileNum);
+                                div.remove();
+                            }
+                        })
+                        .catch((err) => console.log(err));
+                    }
+
                     console.log(res.data);
                     if (res.data === "수정 성공") {
                         alert("글이 수정되었습니다.");
@@ -106,7 +116,7 @@ const BoardUpdate = () => {
                     
                 })
                 .catch((error) => console.log(error));
-        }, [data]
+        }, [data, fileDeleteList]
     );
 
     const onChange = useCallback(
@@ -122,7 +132,7 @@ const BoardUpdate = () => {
     
 
     return (
-        <Container>
+        <Container style={{marginTop:"30px", width:"60vw"}}>
             <Header as="h2">게시글 수정</Header>
             <div className='boardForm'>
                 <form onSubmit={onUpdate}>

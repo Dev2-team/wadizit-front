@@ -26,6 +26,9 @@ const Join = () => {
   const [nameMessage, setNameMessage] = useState("");
   const [nickMessage, setNickMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
+  const [nregMessage, setnRegMessage] = useState("");
+  const [nvalidMessage, setnValidMessage] = useState("");
+
 
   // 유효성 검사
   const [isId, setIsId] = useState(false);
@@ -34,10 +37,16 @@ const Join = () => {
   const [isName, setIsName] = useState(false);
   const [isNick, setIsNick] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
+  const [nIsReg, setnIsReg] = useState(false);
+
   // const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
 
   const getValidId = () => {
     return isId && isReg ? true : false;
+  };
+
+  const getValidNick = () => {
+    return isNick && nIsReg ? true : false;
   };
 
   const ocId = useCallback(
@@ -69,7 +78,6 @@ const Join = () => {
 
   const sendJoin = (e) => {
     e.preventDefault();
-
     axios
       .post("member/join", form)
       .then((result) => {
@@ -138,17 +146,24 @@ const Join = () => {
         [e.target.name]: e.target.value,
       };
       console.log(e.target.value);
-      axios
+      if (e.target.value.length < 2 || e.target.value.length > 4) {
+        setnRegMessage("2글자 이상 4글자 이하로 입력해주세요.");
+        setnIsReg(false);
+      } else {
+        setnRegMessage("올바른 형식입니다.");
+        setnIsReg(true);
+        axios
         .get(`member/checkNickname?nickname=${e.target.value}`)
         .then((result) => {
           if (result.data === 0) {
-            setNickMessage("사용가능한 닉네임입니다.");
+            setnValidMessage("사용가능한 닉네임입니다.");
             setIsNick(true);
           } else {
             setNickMessage("사용 중인 닉네임입니다.");
             setIsNick(false);
           }
         });
+      }
       setForm(formObj);
     },
     [form]
@@ -223,10 +238,14 @@ const Join = () => {
           onChange={ocNick}
           required
         />
-        {nickname.length > 0 && (
-          <span className={`message ${isNick ? "success" : "error"}`}>
-            {nickMessage}
-          </span>
+        {nickname.length > 0 && !isNick && (
+          <span className={`message error`}>{nickMessage}</span>
+        )}
+        {nickname.length > 0 && !nIsReg && (
+          <span className={`message error`}>{nregMessage}</span>
+        )}
+        {nickname.length > 0 && getValidNick() && (
+          <span className={`message success`}>{nvalidMessage}</span>
         )}
 
         <input
