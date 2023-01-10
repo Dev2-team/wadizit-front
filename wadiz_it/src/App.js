@@ -165,7 +165,7 @@ function App() {
         <Route path="/fundingTerms" element={<FundingTerms />} />
         <Route path="/tokenTransaction" element={<TokenTransaction />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Comment } from "semantic-ui-react";
 import FundingCommentUpd from "./FundingCommentUpd";
 
 const FundingCommentDetail = (props) => {
-  const dateFormat = () => moment(props.date).format("YYYY.MM.DD");
+  const dateFormat = () => moment(props.date).format("YYYY-MM-DD HH:mm:ss");
   const nickname = sessionStorage.getItem("nickName");
   const [modView, setModView] = useState(false);
 
@@ -23,24 +23,23 @@ const FundingCommentDetail = (props) => {
 
   return (
     <div className="fundComDetail">
-      <Comment style={{ marginBottom: "10px" }}>
-        <Comment.Avatar src="asset/userIcon2.png"></Comment.Avatar>
-        <Comment.Content>
+      <Comment>  
+        <Comment.Content>         
           <Comment.Author
             as="b"
-            style={{ fontSize: "1.1em", marginRight: "5px" }}
+            style={{ fontSize: "1.1em", marginRight: "5px" , color:"#00b2b2"}}
           >
             {props.writer}
           </Comment.Author>
           <Comment.Metadata>
-            <div>{dateFormat(props.date)}</div>
+            <div style={{fontSize:"11px", fontWeight:600}}>{dateFormat(props.date)}</div>
           </Comment.Metadata>
 
           <div className="viewChange">
             {modView === false ? (
               <div>
                 <Comment.Text
-                  style={{ marginTop: "10px", marginBottom: "10px" }}
+                  style={{ margin : "30px 0px 10px 30px", fontSize:"1.1rem" }}
                 >
                   {props.content}
                 </Comment.Text>
@@ -49,21 +48,19 @@ const FundingCommentDetail = (props) => {
                 ) : (
                   <div
                     className="fundComBtnArea"
-                    style={{ marginBottom: "20px" }}
+                    style={{marginTop:"10px", float:"right" }}
                   >
-                    <button
-                      type="button"
-                      className="fundComUpd"
+                    <button type="button" className="fundComUpd"
                       onClick={() => {
                         setModView(!modView);
-                      }}
+                        }}
+                        style={{all:"unset", cursor:"pointer",marginRight:"10px", color: "rgba(111, 111, 111, 0.69)"}}
                     >
                       수정
                     </button>
-                    <button
-                      type="button"
-                      className="fundComDel"
-                      onClick={() => props.deleteComment(props.fundingComNum)}
+                    <button type="button" className="fundComDel"
+                        onClick={() => props.deleteComment(props.fundingComNum)}
+                        style={{ all: "unset", cursor: "pointer", marginRight: "10px", color: "rgba(111, 111, 111, 0.69)" }}
                     >
                       삭제
                     </button>
@@ -78,8 +75,8 @@ const FundingCommentDetail = (props) => {
                 cancel={cancelMod}
               ></FundingCommentUpd>
             )}
-          </div>
-        </Comment.Content>
+            </div>
+            </Comment.Content>
       </Comment>
     </div>
   );
