@@ -31,8 +31,8 @@ const BoardList = () => {
         }}
       >
         </Container> */}
-        <Header as="h2">자유게시판</Header>
-        <Button size="tiny" onClick={boardWrite}>작성</Button>
+      <Header as="h1" style={{marginTop:"50px", textAlign:"left", marginBottom:"30px"}}>자유게시판</Header>
+        <Button size="tiny" onClick={boardWrite} style={{float:"right", marginBottom:"25px"}}>작성</Button>
         <BoardListTable></BoardListTable>
         
     </Container>

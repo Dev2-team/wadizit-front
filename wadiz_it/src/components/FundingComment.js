@@ -45,7 +45,7 @@ const FundingComment = () => {
       
       if (memberNum === null) {
         alert("로그인 이후 이용가능합니다.");
-        nav("/fundingDetail");
+        nav("/login");
       } else {
         axios
         .post("/funding/comment", {memberNum: {memberNum: memberNum}, content: fundCom.content} , {params: {fundingNum : fundingNum}})
@@ -84,12 +84,12 @@ const FundingComment = () => {
         <Form reply onSubmit={fundComWrite}>
           <div className="fundComWrArea" style={{display:"inline-block", width:"700px"}}>
             <Form.TextArea id="fundingComTextArea" style={{
-              resize: "none", height: "100px", width: "600px", display: "inline", fontSize:"15px"}}
+              resize: "none", height: "100px", display: "inline", fontSize:"15px"}}
               name="content" value={content} onChange={onChange} placeholder="응원의 한마디 부탁드립니다!" required/>
           <Button
             // labelPosition="left"
             icon="edit"
-            primary style={{float:"right", marginRight:"95px", width:"100px", fontSize:"15px"}}
+            primary style={{float:"right",fontSize:"15px"}}
             >등록하기</Button>
             </div>
         </Form>

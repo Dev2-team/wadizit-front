@@ -1,4 +1,3 @@
-import { max } from 'moment';
 import React from 'react';
 
 const ProgressBar = (props) => {
@@ -7,6 +6,7 @@ const ProgressBar = (props) => {
 
     //progress bar 스타일
     const containerStyles = {
+        marginLeft:"20px",
         height: "12px",
         width: "15vw",
         backgroundColor: "#e0e0de",

@@ -47,7 +47,7 @@ const FundingCommentDetail = (props) => {
 
     return (
         <div className='fundComDetail'>
-            <Comment style={{ marginBottom: "10px" }}>
+            <Comment style={{ marginBottom: "10px", width:"80vh" }}>
                 <Comment.Avatar src='asset/userIcon2.png'></Comment.Avatar>
                 <Comment.Content>
                     <Comment.Author as="b" style={{fontSize:"1.1em", marginRight:"5px"}}>{props.writer}</Comment.Author>
@@ -57,7 +57,7 @@ const FundingCommentDetail = (props) => {
                     <div className="viewChange">
                                 <Comment.Text style={{marginTop:"10px", marginBottom:"10px"}}>{props.content}</Comment.Text>
                                 {!(nickname === props.writer) ? <div style={{marginBottom:"20px"}}></div> :
-                                    <div className='fundComBtnArea' style={{marginBottom:"20px"}}>
+                                    <div className='fundComBtnArea' style={{marginBottom:"20px", float:"right"}}>
                                         <button type='button' className='fundComUpd' onClick={changeView}>수정</button>
                                         <button type='button' className='fundComDel' onClick={() => fundComDel(props.fundingComNum)}>삭제</button>
                                     </div>}

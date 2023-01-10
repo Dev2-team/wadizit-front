@@ -5,10 +5,12 @@ import FundingCommentDetail from './FundingCommentDetail';
 const FundingCommentList = (props) => {
     const fundingCommentList = props.fundingCommentList;
 
+
     let fundAmount = localStorage.getItem("fundAmount");
     let fundComList = null;
+    console.log("갯수:" + fundingCommentList.size);
 
-    if (fundingCommentList.size !== 0) {
+    if (fundingCommentList.length !== 0) {
         fundComList = Object.values(fundingCommentList).map((fundComItem) => (
             <div className='commentArea' key={fundComItem.fundingComNum}>
                 <FundingCommentDetail fundingComNum={fundComItem.fundingComNum}
@@ -17,14 +19,16 @@ const FundingCommentList = (props) => {
         ))
         
     } else {
-        <div>아직 응원글이 없습니다.</div>
+        fundComList = (
+            <div style={{height:"150px", lineHeight:"150px", textAlign:"center", fontSize:"17px", color:"#90949c"}}>등록된 응원글이 없습니다.</div>
+        )
     }
     
     return (
         <div className='fundingCommentList' style={{marginTop:"30px"}}>
             <div className='fundComNum' style={{display:"inline-block"}}>
                 <p className="fundCom" style={{ fontSize: "17px" , display:"inline" }}>등록된 응원이&nbsp;&nbsp;</p>
-                <p style={{display:"inline", fontSize: "17px", fontWeight:700, color:"#00b2b2"}}>{fundAmount}개&nbsp;&nbsp;</p>
+                <p style={{display:"inline", fontSize: "17px", fontWeight:700}}>{fundAmount}개&nbsp;&nbsp;</p>
                 <p style={{display:"inline", fontSize: "17px"}}>있습니다.</p>
                 
             </div>
