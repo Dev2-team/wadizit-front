@@ -47,20 +47,13 @@ const KakaoPayApprove = () => {
       .then((res) => {})
       .catch((err) => console.log(err));
 
-    let approveDate = new Date(df(resApprove.approved_at));
-
-    console.log("orderNum : " + "wadizit" + orderDate(resApprove.approved_at));
-    console.log("orderName : " + localStorage.getItem("itemName"));
-    console.log("approve_at : " + resApprove.approved_at);
-    console.log("approveDate : " + approveDate);
-
     // 결제 내역 db에 저장
     axios
-      .post("/payment", {
+      .get("/payment", {
         params: {
           oNum: "wadizit" + orderDate(resApprove.approved_at),
           oName: localStorage.getItem("itemName"),
-          date: resApprove.approved_at,
+          date: df(resApprove.approved_at),
         },
       })
       .then((res) => {})
