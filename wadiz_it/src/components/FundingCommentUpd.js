@@ -24,18 +24,18 @@ const FundingCommentUpd = (props) => {
   return (
     <div>
       <div className="bComContentArea">
-        <textarea
+        <textarea 
           type="text"
           className="bComContent"
           name="content"
           value={content}
           onChange={onChange}
-          style={{ resize: "none" }}
+          style={{ resize: "none" ,margin : "20px 0px 10px 30px", padding:"10px", fontSize:"1.1rem", width:"500px", height:"50px"}}
         ></textarea>
       </div>
-      <div className="fundComBtnArea">
-        <button onClick={getUpdateCom}>수정</button>
-        <button onClick={props.cancel}>취소</button>
+      <div className="fundComBtnArea" style={{marginTop:"-10px", float:"right" }}>
+        <button onClick={props.cancel}  style={{all:"unset", cursor:"pointer",marginRight:"10px", color: "rgba(111, 111, 111, 0.69)"}}>취소</button>
+        <button onClick={getUpdateCom}  style={{all:"unset", cursor:"pointer",marginRight:"10px", color: "rgba(111, 111, 111, 0.69)"}}>확인</button>
       </div>
     </div>
   );
