@@ -62,6 +62,7 @@ const FundingComment = () => {
           .delete("/funding/comment", { params: { fundingComNum: comNum } })
           .then((res) => {
             if (res.data === "댓글 삭제 성공") {
+              alert("댓글이 삭제되었습니다.");
               const newCommentList = fundComData.filter(
                 (comment) => comment.fundingComNum !== comNum
               );
@@ -125,7 +126,7 @@ const FundingComment = () => {
 
         <Form reply onSubmit={fundComWrite}
           style={{height: "200px", padding: "30px 30px 30px 30px", backgroundColor:"rgb(245, 245, 245)" }}>
-          <h3>창작작에게 응원의 한마디</h3>
+          <h3>창작자에게 응원의 한마디</h3>
           <h7>응원글은 펀딩 종료 전까지 작성 가능합니다.</h7>
           <Form.Group style={{marginTop:"20px"}}>
             <Form.Input
