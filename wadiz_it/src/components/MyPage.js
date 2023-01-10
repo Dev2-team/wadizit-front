@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Form,
@@ -13,13 +12,10 @@ import {
 } from "semantic-ui-react";
 
 const MyPage = () => {
-  const nav = useNavigate()
-  // 데이터 
+  // 데이터
   const [memberItem, setMemberItem] = useState([]);
   const [myFundingItem, setMyFundingItem] = useState([]);
   // const [myDonateItem, setMyDonateItem] = useState([]);
-
-
 
   // 유효성 검사
   const [pwdError, setPwdError] = useState(false);
@@ -34,8 +30,6 @@ const MyPage = () => {
   const [editNickname, setEditNickname] = useState("");
   const [editPhone, setEditPhone] = useState("");
   const [editEmail, setEditEmail] = useState("");
-  // 수정 후 전송
-  const [myUpdateItem, setMyUpdateItem] = useState([]);
 
   const memberNum = sessionStorage.getItem("memberNum");
 
@@ -56,15 +50,13 @@ const MyPage = () => {
       })
       .catch((err) => console.log(err));
     // 보유 코인 내역 가져오기
-  //   axios
-  //     .get(`/donate/dlist?MemberNum=${memberNum}`)
-  //     .then((res) => {
-  //       setMyDonateItem(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
+    //   axios
+    //     .get(`/donate/dlist?MemberNum=${memberNum}`)
+    //     .then((res) => {
+    //       setMyDonateItem(res.data);
+    //     })
+    //     .catch((err) => console.log(err));
   }, []);
-
-
 
   // pwd 유효성 검사
   const pwdChange = (e) => {
@@ -79,7 +71,6 @@ const MyPage = () => {
 
   // name 유효성 검사
   const nameChange = (e) => {
-    // console.log(e.target.value.length);
     if (e.target.value.length < 2 || e.target.value.length > 5) {
       setNameError(true);
     } else {
@@ -101,13 +92,12 @@ const MyPage = () => {
 
   // phone 유효성 검사
   const phoneChange = (e) => {
-    const phoneRegex = /^[0-9]+$/; 
+    const phoneRegex = /^[0-9]+$/;
     if (!phoneRegex.test(e.target.value)) {
       setPhoneError(true);
-    } else if(e.target.value.length > 15){
+    } else if (e.target.value.length > 15) {
       setPhoneError(true);
-    }
-    else {
+    } else {
       setPhoneError(false);
       setEditPhone(e.target.value);
     }
@@ -115,91 +105,55 @@ const MyPage = () => {
 
   // email 유효성 검사
   const emailChange = (e) => {
-    const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(e.target.value)) {
       setEmailError(true);
     } else {
       setEmailError(false);
       setEditEmail(e.target.value);
     }
-  };  
+  };
 
-  //localStorag에 저장한 내용 불러오기
-  // let getName = sessionStorage.getItem("name");
-  // let getNickname = sessionStorage.getItem("nickname");
-
-  let getPwd = localStorage.getItem("Pwd");
-  let getName = localStorage.getItem("name");
-  let getNickname = localStorage.getItem("nickname");
-  let getPhone = localStorage.getItem("phone");
-  let getEmail = localStorage.getItem("email");
-
-  const mNum = localStorage.getItem("memberNum");
-
-  const [data, setData] = useState({
-    pwd: getPwd,
-    name: getName,
-    nickname: getNickname,
-    phone: getPhone,
-    email: getEmail
-  });
-  const { pwd, name, nickname, phone, email } = data;
-
-
-  // console.log(memberItem);
-  // console.log(data);
-
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // 유효성 검사
-    if (pwdError) {return;}
-    if (nameError) {return;}
-    if (nicknameError) {return;}
-    if (phoneError) {return;}
-    if (emailError) {return;}
+    if (pwdError) return;
+    if (nameError) return;
+    if (nicknameError) return;
+    if (phoneError) return;
+    if (emailError) return;
 
     // 내 정보 깊은 복사로 객체 생성
     const editData = JSON.parse(JSON.stringify(memberItem)); // 깊은 복사
 
     // 각 속성 editValue 할당
-    editData.pwd = editPwd;
-    editData.name = editName;
-    editData.nickname = editNickname;
-    editData.phone = editPhone;
-    editData.email = editEmail;
+    if (editPwd) editData.pwd = editPwd;
+    if (editName) editData.name = editName;
+    if (editNickname) editData.nickname = editNickname;
+    if (editPhone) editData.phone = editPhone;
+    if (editEmail) editData.email = editEmail;
 
     // editData axios 로 put 사용하여 서버 전달
     axios
-    .put("/member/update" , data , {params: {memberNum: mNum}})
-    .then((res) => {
-      if(editData.length !== 0){
-        const dataObj = {
-          pwd: editPwd,
-          name: editData.name,
-          nickname: "",
-          phone: "",
-          email: ""
-          };
-          setData(dataObj);
-      }
-        console.log(res.data);
-        if(res.data === true){
-        alert("수정 되었습니다.")
-        nav("/myPage")
-      }else{
-        alert("수정 실패")
-      }
-    })
+      .put("/member/update", editData, { params: { memberNum: memberNum } })
+      .then((res) => {
+        if (res.data === true) {
+          alert("수정 되었습니다.");
+          window.location.reload();
+        } else {
+          alert("수정 실패");
+        }
+      })
       .catch((err) => console.log(err));
 
     // 객체의 깊은 복사, 얕은 복사 확인하는 방법
     // console.log("editData :>> ", editData);
     // console.log("memberItem :>> ", memberItem);
-  },[]);
+  };
 
-
-  // pwd button 
+  // pwd button
   const onUpdatePwd = () => {
     document.getElementById("updatePwd").style.display = "block";
     document.getElementById("updatePwdButton").style.display = "none";
@@ -211,7 +165,7 @@ const MyPage = () => {
     document.getElementById("updatePwd").style.display = "none";
   };
 
-  // name button 
+  // name button
   const onUpdateName = () => {
     document.getElementById("updateName").style.display = "block";
     document.getElementById("updateNameButton").style.display = "none";
@@ -223,7 +177,7 @@ const MyPage = () => {
     document.getElementById("updateName").style.display = "none";
   };
 
-  // nickname button 
+  // nickname button
   const onUpdateNickname = () => {
     document.getElementById("updateNickname").style.display = "block";
     document.getElementById("updateNicknameButton").style.display = "none";
@@ -235,7 +189,7 @@ const MyPage = () => {
     document.getElementById("updateNickname").style.display = "none";
   };
 
-  // phone button 
+  // phone button
   const onUpdatePhone = () => {
     document.getElementById("updatePhone").style.display = "block";
     document.getElementById("updatePhoneButton").style.display = "none";
@@ -247,7 +201,7 @@ const MyPage = () => {
     document.getElementById("updatePhone").style.display = "none";
   };
 
-  // email button 
+  // email button
   const onUpdateEmail = () => {
     document.getElementById("updateEmail").style.display = "block";
     document.getElementById("updateEmailButton").style.display = "none";
@@ -258,7 +212,6 @@ const MyPage = () => {
     document.getElementById("updateEmailButton").style.display = "block";
     document.getElementById("updateEmail").style.display = "none";
   };
-
 
   const manageMember = () => {
     return (
@@ -296,14 +249,35 @@ const MyPage = () => {
               defaultValue={memberItem.pwd}
               readOnly={true}
             />
-            <Button id="updatePwdButton" size="tiny" onClick={onUpdatePwd}>수정</Button>
-            <Button id="cancelPwdButton" size="tiny"style={{ display: "none" }} onClick={onCancelPwd}>
+            <Button
+              id="updatePwdButton"
+              size="tiny"
+              onClick={onUpdatePwd}
+              style={{
+                border: "1px solid #00b2b2",
+                backgroundColor: "#ffffff",
+                color: "#00b2b2",
+              }}
+            >
+              수정
+            </Button>
+            <Button
+              id="cancelPwdButton"
+              size="tiny"
+              onClick={onCancelPwd}
+              style={{
+                display: "none",
+                border: "1px solid #ff6666",
+                backgroundColor: "#ffffff",
+                color: "#ff6666",
+              }}
+            >
               취소
             </Button>
           </Container>
         </Form>
-         {/* pwd edit form  */}
-         <Form error={pwdError} id="updatePwd" style={{ display: "none" }}>
+        {/* pwd edit form  */}
+        <Form error={pwdError} id="updatePwd" style={{ display: "none" }}>
           <Container
             style={{
               display: "flex",
@@ -342,10 +316,29 @@ const MyPage = () => {
               defaultValue={memberItem.name}
               readOnly={true}
             />
-            <Button id="updateNameButton" size="tiny" onClick={onUpdateName}>
+            <Button
+              id="updateNameButton"
+              size="tiny"
+              onClick={onUpdateName}
+              style={{
+                border: "1px solid #00b2b2",
+                backgroundColor: "#ffffff",
+                color: "#00b2b2",
+              }}
+            >
               수정
             </Button>
-            <Button id="cancelNameButton" size="tiny"style={{ display: "none" }} onClick={onCancelName}>
+            <Button
+              id="cancelNameButton"
+              size="tiny"
+              onClick={onCancelName}
+              style={{
+                display: "none",
+                border: "1px solid #ff6666",
+                backgroundColor: "#ffffff",
+                color: "#ff6666",
+              }}
+            >
               취소
             </Button>
           </Container>
@@ -389,16 +382,39 @@ const MyPage = () => {
               defaultValue={memberItem.nickname}
               readOnly={true}
             />
-            <Button id="updateNicknameButton" size="tiny" onClick={onUpdateNickname}>
+            <Button
+              id="updateNicknameButton"
+              size="tiny"
+              onClick={onUpdateNickname}
+              style={{
+                border: "1px solid #00b2b2",
+                backgroundColor: "#ffffff",
+                color: "#00b2b2",
+              }}
+            >
               수정
             </Button>
-            <Button id="cancelNicknameButton" size="tiny"style={{ display: "none" }} onClick={onCancelNickname}>
+            <Button
+              id="cancelNicknameButton"
+              size="tiny"
+              onClick={onCancelNickname}
+              style={{
+                display: "none",
+                border: "1px solid #ff6666",
+                backgroundColor: "#ffffff",
+                color: "#ff6666",
+              }}
+            >
               취소
-            </Button>          
-            </Container>
+            </Button>
+          </Container>
         </Form>
         {/* nickname edit form  */}
-        <Form error={nicknameError} id="updateNickname" style={{ display: "none" }}>
+        <Form
+          error={nicknameError}
+          id="updateNickname"
+          style={{ display: "none" }}
+        >
           <Container
             style={{
               display: "flex",
@@ -436,13 +452,32 @@ const MyPage = () => {
               defaultValue={memberItem.phone}
               readOnly={true}
             />
-            <Button id="updatePhoneButton" size="tiny" onClick={onUpdatePhone}>
+            <Button
+              id="updatePhoneButton"
+              size="tiny"
+              onClick={onUpdatePhone}
+              style={{
+                border: "1px solid #00b2b2",
+                backgroundColor: "#ffffff",
+                color: "#00b2b2",
+              }}
+            >
               수정
             </Button>
-            <Button id="cancelPhoneButton" size="tiny"style={{ display: "none" }} onClick={onCancelPhone}>
+            <Button
+              id="cancelPhoneButton"
+              size="tiny"
+              onClick={onCancelPhone}
+              style={{
+                display: "none",
+                border: "1px solid #ff6666",
+                backgroundColor: "#ffffff",
+                color: "#ff6666",
+              }}
+            >
               취소
-            </Button>          
-            </Container>
+            </Button>
+          </Container>
         </Form>
         {/* phone edit form  */}
         <Form error={phoneError} id="updatePhone" style={{ display: "none" }}>
@@ -483,14 +518,33 @@ const MyPage = () => {
               defaultValue={memberItem.email}
               readOnly={true}
             />
-            <Button id="updateEmailButton" size="tiny" onClick={onUpdateEmail}>
+            <Button
+              id="updateEmailButton"
+              size="tiny"
+              onClick={onUpdateEmail}
+              style={{
+                border: "1px solid #00b2b2",
+                backgroundColor: "#ffffff",
+                color: "#00b2b2",
+              }}
+            >
               수정
             </Button>
-            <Button id="cancelEmailButton" size="tiny"style={{ display: "none" }} onClick={onCancelEmail}>
+            <Button
+              id="cancelEmailButton"
+              size="tiny"
+              onClick={onCancelEmail}
+              style={{
+                display: "none",
+                border: "1px solid #ff6666",
+                backgroundColor: "#ffffff",
+                color: "#ff6666",
+              }}
+            >
               취소
-            </Button>          
-            </Container>
-         </Form>   
+            </Button>
+          </Container>
+        </Form>
         {/* email edit form  */}
         <Form error={emailError} id="updateEmail" style={{ display: "none" }}>
           <Container
@@ -514,13 +568,34 @@ const MyPage = () => {
             content="이메일 형식을 확인해주세요."
           />
         </Form>
-        <Button size="tiny" onClick={handleSubmit}>
-          완료
-        </Button>
+        <Container
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            marginTop: "60px",
+          }}
+        >
+          <Button
+            size="tiny"
+            onClick={handleSubmit}
+            style={{
+              fontSize: "1rem",
+              backgroundColor: "#00b2b2",
+              color: "#ffffff",
+              width: "150px",
+              height: "40px",
+              alignItems: "center",
+              margin: "0px",
+            }}
+          >
+            완료
+          </Button>
+        </Container>
       </Container>
     );
   };
-  
+
   // 내가 개설한 펀딩 내역
   const FundingTable = () => {
     return Object.values(myFundingItem).map((item) => {
@@ -559,7 +634,6 @@ const MyPage = () => {
     );
   };
 
-
   // tab 2
   const manageDonate = () => {
     return Object.values().map((item) => {
@@ -584,16 +658,20 @@ const MyPage = () => {
 
   const panes = [
     {
+      menuItem: "회원 정보",
+      render: () => <Tab.Pane attached={false}>{manageMember()}</Tab.Pane>,
+    },
+    {
       menuItem: "펀딩 생성 내역",
       render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
     },
     {
       menuItem: "보유 코인 내역",
-      render: () => <Tab.Pane attached={false}>{manageDonate()}</Tab.Pane>,
+      render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
     },
     {
-      menuItem: "회원 정보",
-      render: () => <Tab.Pane attached={false}>{manageMember()}</Tab.Pane>,
+      menuItem: "결제 내역",
+      render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
     },
   ];
 
