@@ -106,7 +106,7 @@ const BClist = () => {
   return (
     <div>
       <BCwrite writeComment={writeComment}></BCwrite>
-      <div style={{ paddingBottom: "90px" }}>{boardCommentList}</div>
+      <div>{boardCommentList}</div>
     </div>
   );
 };

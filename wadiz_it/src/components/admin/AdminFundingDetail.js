@@ -2,9 +2,11 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Container } from "semantic-ui-react";
 import FundingDetail from "../FundingDetail";
+import Afunding from "./Afunding";
 
 const AdminFundingDetail = () => {
   const [fundingDetail, setFundingDetail] = useState([]);
+  const fundingNum = localStorage.getItem("fundingNum");
 
   const [ffList, setFfList] = useState([
     {
@@ -17,8 +19,6 @@ const AdminFundingDetail = () => {
   ]);
 
   useEffect(() => {
-    const fundingNum = localStorage.getItem("fundingNum");
-
     // 서버로부터 해당 펀딩 내용 가져오기
     axios
       .get("/funding", { params: { fundingNum: fundingNum } })
@@ -176,7 +176,7 @@ const AdminFundingDetail = () => {
           borderBottom: "3px solid #00b2b2",
         }}
       >
-        <h3 style={{ width: "66.5vw", textAlign: "left", lineHeight: "55px" }}>
+        <h3 style={{ width: "66vw", textAlign: "left", lineHeight: "55px" }}>
           사업자 파일
         </h3>
         <div
@@ -189,9 +189,7 @@ const AdminFundingDetail = () => {
           {viewFlist[0]}
         </div>
       </div>
-      <Container>
-        <FundingDetail></FundingDetail>
-      </Container>
+      <Afunding fundingNum={fundingNum}></Afunding>
     </Container>
   );
 };

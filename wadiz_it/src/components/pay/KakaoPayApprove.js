@@ -66,7 +66,7 @@ const KakaoPayApprove = () => {
         width: "60vw",
         display: "inline-block",
         borderRadius: "20px",
-        margin: "80px 0",
+        marginTop: "80px",
         backgroundColor: "#effafa",
       }}
     >
