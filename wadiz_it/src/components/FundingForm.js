@@ -10,8 +10,6 @@ import axios from "axios";
 import moment from "moment/moment";
 
 const FundingForm = () => {
-  // const [dateInputs, setDateInputs] = useState(new Date());
-
   const [modalOpen1, setModalOpen1] = useState(false);
   const openModal1 = () => {
     setModalOpen1(true);
@@ -19,20 +17,14 @@ const FundingForm = () => {
   const closeModal1 = () => {
     setModalOpen1(false);
   };
-  // const onChangeDate = (e) => {
-  //   const { value, name } = e.target;
-  //   if (value.length !== 0 && /^\d+$/.test(value) === false) return;
-  //   setDateInputs({
-  //     ...dateInputs,
-  //     [name]: value,
-  //   });
-  // };
 
   const nav = useNavigate();
   const memberNum = sessionStorage.getItem("memberNum");
   const [data, setData] = useState({
     title: "",
     membernum: { memberNum: memberNum },
+    tokenPrice: "",
+    tokenAmount: "",
     targetAmount: "",
     startDate: "",
     endDate: "",
@@ -41,8 +33,13 @@ const FundingForm = () => {
   });
 
   const [fileList, setFileList] = useState([]);
-  const { title, tamount } = data;
-
+  const { title, tokenPrice, tokenAmount } = data;
+  const targetAmount = tokenAmount * tokenPrice;
+  // const { title, tamount } = data;
+  // const tkprice = "";
+  // const tkamount = "";
+  //const tamount = String(tkprice * tkamount);
+  // const [targetAmount, setTargetAmount] = useState();
   // useEffect(() => {
   //   console.log("useEffect", data);
   // }, [data]);
@@ -60,12 +57,14 @@ const FundingForm = () => {
       for (let i = 0; i < fileList.length; i++) {
         form.append("files", fileList[i]);
       }
+      const sendData = { ...data, targetAmount: targetAmount };
+      console.log(sendData);
 
       axios
         // .post("funding", JSON.stringify(data), {
         //   headers: { "Content-Type": "application/json" },
         // })
-        .post("/funding", data)
+        .post("/funding", sendData)
         .then((res) => {
           if (res.data !== 0) {
             let keys = fileList.keys();
@@ -101,14 +100,21 @@ const FundingForm = () => {
         })
         .catch((error) => console.log(error));
     },
-    [data, fileList, nav]
+    [data, fileList, nav, targetAmount]
   );
+  //const [targetAmount, setTargetAmount] = useState();
   const onChange = useCallback(
     (e) => {
+      // const targetAmountFormat = tokenAmount * tokenPrice;
+      // setTargetAmount(targetAmountFormat);
+
       const dataObj = {
         ...data,
+        // targetAmount: targetAmountFormat,
+
         [e.target.name]: e.target.value,
       };
+      // setTargetAmount(tkprice * tkamount);
       // console.log(e);
       // console.log("target name: ", e.target.name);
       // console.log(dataObj);
@@ -128,9 +134,6 @@ const FundingForm = () => {
       setStartDate(startDateFormat);
       setEndDate(endDateFormat);
 
-      // console.log(startDateFormat);
-      // console.log(endDateFormat);
-
       const dataObj = {
         ...data,
         startDate: startDateFormat,
@@ -140,20 +143,6 @@ const FundingForm = () => {
     },
     [data]
   );
-  // const onChangeDate = (e) => {
-  //   const startDateFormat = moment(e[0]).format("YYYY-MM-DD");
-  //   const endDateFormat = moment(e[1]).format("YYYY-MM-DD");
-
-  //   setStartDate(startDateFormat);
-  //   setEndDate(endDateFormat);
-
-  //   const dataObj = {
-  //     ...data,
-  //     startDate: startDate,
-  //     endDate: endDate,
-  //   };
-  //   setData(dataObj);
-  // };
 
   const onFileChange = useCallback(
     (e) => {
@@ -164,14 +153,11 @@ const FundingForm = () => {
         setFileList((prev) => {
           return [...prev, files[i]];
         });
-        // formData.append("files", files[i]);
       }
       console.log(fileList);
     },
     [fileList]
   );
-  // console.log(data);
-  // console.log(startDate, endDate);
 
   return (
     <Container textAlign="left" onSubmit={onWrite}>
@@ -191,13 +177,39 @@ const FundingForm = () => {
       <Divider></Divider>
       <Form>
         <Form.Input
+          name="tokenPrice"
+          required={true}
+          fluid
+          type="number"
+          label="토큰 발행 가격"
+          placeholder="토큰 발행 가격 (숫자, 단위=￦)"
+          value={tokenPrice}
+          onChange={onChange}
+        />
+      </Form>
+      <Divider></Divider>
+      <Form>
+        <Form.Input
+          name="tokenAmount"
+          required={true}
+          fluid
+          type="number"
+          label="토큰 발행 개수"
+          placeholder="토큰 발행 개수 (숫자, 단위=개)"
+          value={tokenAmount}
+          onChange={onChange}
+        />
+      </Form>
+      <Divider></Divider>
+      <Form>
+        <Form.Input
           name="targetAmount"
           required={true}
           fluid
           type="number"
           label="목표 금액"
-          placeholder="목표 금액을 입력하세요 (숫자, 단위=￦)"
-          value={tamount}
+          placeholder="목표 금액 (숫자, 단위=￦)"
+          value={targetAmount}
           onChange={onChange}
         />
       </Form>
@@ -219,20 +231,6 @@ const FundingForm = () => {
                   />
                 </div>
               </Container>
-
-              {/* {startDate.length > 0 ? (
-                <p className="text-center">
-                  <span className="bold">시작:</span> {startDate.toDateString()}
-                  &nbsp;|&nbsp;
-                  <span className="bold">종료:</span> {endDate.toDateString()}
-                </p>
-              ) : (
-                <p className="text-center">
-                  <span className="bold">
-                    시작 날짜와 종료 날짜를 선택하세요
-                  </span>
-                </p>
-              )} */}
             </Modal>
           </React.Fragment>
           <Form.Field
@@ -244,35 +242,10 @@ const FundingForm = () => {
             value={startDate || ""}
             type="text"
             // maxLength="4"
-            width={5}
-            placeholder="시작 날짜와 종료날짜를 선택하세요"
+            width={3}
+            placeholder="시작 날짜"
             onChange={onChangeDate}
           />
-
-          {/* <Form.Field
-            required={true}
-            label="month"
-            control={Input}
-            name="startMM"
-            value={startMM}
-            type="text"
-            maxLength="2"
-            width={2}
-            placeholder="MM"
-            onChange={onChange}
-          />
-          <Form.Field
-            required={true}
-            label="day"
-            control={Input}
-            name="startDD"
-            value={startDD}
-            type="text"
-            maxLength="2"
-            width={2}
-            placeholder="MM"
-            onChange={onChange}
-          /> */}
         </Form.Group>
         <Divider></Divider>
         <Form.Group>
@@ -285,34 +258,10 @@ const FundingForm = () => {
             value={endDate || ""}
             type="text"
             // maxLength="4"
-            width={5}
-            placeholder="시작 날짜와 종료날짜를 선택하세요"
+            width={3}
+            placeholder="종료 날짜"
             onChange={onChangeDate}
           />
-          {/* <Form.Field
-            required={true}
-            label="month"
-            control={Input}
-            name="endMM"
-            value={endMM}
-            type="text"
-            maxLength="2"
-            width={2}
-            placeholder="MM"
-            onChange={onChange}
-          />
-          <Form.Field
-            required={true}
-            label="day"
-            control={Input}
-            name="endDD"
-            value={endDD}
-            type="text"
-            maxLength="2"
-            width={2}
-            placeholder="MM"
-            onChange={onChange}
-          /> */}
         </Form.Group>
       </Form>
       <Divider></Divider>
