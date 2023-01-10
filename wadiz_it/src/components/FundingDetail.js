@@ -12,8 +12,9 @@ import {
 } from "semantic-ui-react";
 import FundingComment from "./FundingComment";
 import FundingProjectIntro from "./FundingProjectIntro";
-import FundingReward from "./FundingReward";
+import TokenTransaction from "./TokenTransaction";
 import ProgressBar from "./ProgressBar";
+import GoodsList from "./GoodsList";
 
 const panes = [
   {
@@ -27,8 +28,12 @@ const panes = [
     render: () => <Tab.Pane attached={false}>{<FundingComment />}</Tab.Pane>,
   },
   {
-    menuItem: "리워드",
-    render: () => <Tab.Pane attached={false}>{<FundingReward />}</Tab.Pane>,
+    menuItem: "토큰 거래",
+    render: () => <Tab.Pane attached={false}>{<TokenTransaction />}</Tab.Pane>,
+  },
+  {
+    menuItem: "굿즈",
+    render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
   },
 ];
 
