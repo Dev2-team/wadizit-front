@@ -13,7 +13,6 @@ const FundingCommentDetail = (props) => {
     (content, callback) => {
       props.modifyComment(props.fundingComNum, content);
       setModView(!modView);
-      callback();
     },
     [props, modView]
   );

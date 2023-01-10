@@ -74,35 +74,38 @@ const FundingComment = () => {
   );
 
   // 댓글 수정 함수
-  const modifyComment = useCallback((comNum, content) => {
-    console.log(comNum);
-    axios
-      .put(
-        "/funding/comment",
-        { content: content },
-        {
-          params: { fundingComNum: comNum },
-        }
-      )
-      .then((res) => {
-        if (res.data !== null) {
-          console.log("update res", res.data);
-          const updatedComment = res.data;
-          let newCommentList = [];
-          for (let comment of fundComData) {
-            if (updatedComment.fundingComNum === comment.fundingComNum) {
-              comment.content = updatedComment.content;
-              comment.date = updatedComment.date;
-              newCommentList.push(comment);
-            } else {
-              newCommentList.push(comment);
-            }
+  const modifyComment = useCallback(
+    (comNum, content) => {
+      console.log(comNum);
+      axios
+        .put(
+          "/funding/comment",
+          { content: content },
+          {
+            params: { fundingComNum: comNum },
           }
-          setFundComData(newCommentList);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+        )
+        .then((res) => {
+          if (res.data !== null) {
+            console.log("update res", res.data);
+            const updatedComment = res.data;
+            let newCommentList = [];
+            for (let comment of fundComData) {
+              if (updatedComment.fundingComNum === comment.fundingComNum) {
+                comment.content = updatedComment.content;
+                comment.date = updatedComment.date;
+                newCommentList.push(comment);
+              } else {
+                newCommentList.push(comment);
+              }
+            }
+            setFundComData(newCommentList);
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    [fundComData]
+  );
 
   const onChange = useCallback(
     (e) => {
