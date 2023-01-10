@@ -9,7 +9,7 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import FundingList from "./components/FundingList";
 import Home from "./components/Home";
-import AdminPage from "./components/AdminPage";
+// import AdminPage from "./components/AdminPage";
 import BoardDetail from "./components/BoardDetail";
 import BoardList from "./components/BoardList";
 import FundingForm from "./components/FundingForm";
@@ -25,7 +25,7 @@ import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 import AdminPage1 from "./components/ex/AdminPage1";
 import axios from "axios";
 import SimpleSlider from "./components/SimpleSlider";
-import KakaoPayApprove from "./components/KakaoPayApprove";
+// import KakaoPayApprove from "./components/KakaoPayApprove";
 import Footer from "./components/Footer";
 
 function App() {
@@ -151,10 +151,10 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/fundingList" element={<FundingList />} />
         <Route path="/fundingDetail" element={<FundingDetail />} />
-        <Route path="/adminPage" element={<AdminPage />} />
+        {/* <Route path="/adminPage" element={<AdminPage />} /> */}
         <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} />
+        {/* <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
 
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/boardWrite" element={<BoardWrite />} />
