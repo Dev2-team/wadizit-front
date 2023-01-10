@@ -102,7 +102,6 @@ const obsHandler = ((entries) => {
                   <Image style={{'height':300, 'objectFit': 'cover'}} src="asset/img1.jpg"/>
                 }
 
-              
             <Card.Content>
               <Card.Header style={{'height': '80px'}}>{item.title}</Card.Header>
               {/* <Card.Meta>{item.category}</Card.Meta> */}

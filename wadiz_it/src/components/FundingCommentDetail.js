@@ -3,6 +3,7 @@ import moment from "moment/moment";
 import { Comment } from "semantic-ui-react";
 
 const FundingCommentDetail = (props) => {
+
   const dateFormat = () => moment(props.date).format("YYYY.MM.DD");
   //본인이 작성한 댓글에만 수정, 삭제 버튼 추가
   const nickname = sessionStorage.getItem("nickName");
@@ -51,6 +52,7 @@ const FundingCommentDetail = (props) => {
       </Comment>
     </div>
   );
+
 };
 
 export default FundingCommentDetail;

@@ -31,7 +31,7 @@ const FundingComment = () => {
     () => {
       if (memberNum === null) {
         alert("로그인 이후 이용가능합니다.");
-        nav("/fundingDetail");
+        nav("/login");
       } else {
         axios
         .post("/funding/comment", {memberNum: {memberNum: memberNum}, content: fundCom.content}, {params: {fundingNum : fundingNum}})
@@ -104,6 +104,7 @@ const FundingComment = () => {
                 >등록하기</Button>
           </Form.Group>
           {/* </div> */}
+
         </Form>
         <FundingCommentList fundingCommentList={fundComData} deleteComment={deleteComment} modifyComment={modifyComment}/>
       </Comment.Group>

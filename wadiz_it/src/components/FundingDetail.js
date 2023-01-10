@@ -113,16 +113,16 @@ const FundingDetail = () => {
 
 
   //대표이미지 출력 
-  let fundingFile = null;
+  let fundingFileImage = null;
   if (thumbNail.size === 0) {
-    fundingFile = (
+    fundingFileImage = (
       <Image
             style={{ width: "100%", height: 420, "object-fit": "cover", marginTop:"30px" }}
             src="asset/img1.jpg"
           />
     )
   } else {
-    fundingFile = Object.values(thumbNail).map((thumbImage) => (
+    fundingFileImage = Object.values(thumbNail).map((thumbImage) => (
       <Image
             style={{ width: "100%", height: 420, "object-fit": "cover", marginTop:"30px" }}
             src={thumbImage.imageRoute} alt="사진없음"
@@ -133,10 +133,10 @@ const FundingDetail = () => {
   
   return (
     <Container>
-      <Header as="h2" style={{marginTop:"40px"}}>{fundData.title}</Header>
+      <Header as="h1" style={{marginTop:"60px", marginBottom:"30px"}}>{fundData.title}</Header>
       <Grid centered doubling columns={2}>
         <Grid.Column>
-          {fundingFile}
+          {fundingFileImage}
         </Grid.Column>
 
         <Grid.Column
@@ -149,7 +149,7 @@ const FundingDetail = () => {
         >
           <Container style={{ height: 10 }}></Container>
 
-          <Segment vertical style={{ border: "none", marginLeft:"10px" }}>
+          <Segment vertical style={{ border: "none", marginLeft:"15px" }}>
             <div className="subTitle" style={{fontSize:"17px"}}>모인 금액</div>
             <Header
               style={{
@@ -170,7 +170,7 @@ const FundingDetail = () => {
             </Header>
           </Segment>
 
-          <Segment vertical style={{ border: "none", marginLeft:"10px" }}>
+          <Segment vertical style={{ border: "none", marginLeft:"15px" }}>
           <div className="subTitle" style={{fontSize:"17px"}}>남은 시간</div>
             <Header
               style={{
@@ -185,7 +185,7 @@ const FundingDetail = () => {
               
             </Header>
           </Segment>
-          <Segment vertical style={{ border: "none" , marginLeft:"10px" }}>
+          <Segment vertical style={{ border: "none" , marginLeft:"15px" }}>
           <div className="subTitle" style={{fontSize:"17px"}}>후원자</div>
             <Header
               style={{
@@ -200,7 +200,7 @@ const FundingDetail = () => {
             </Header>
           </Segment>
 
-          <Segment vertical style={{ border: "none", marginLeft:"10px" }}>
+          <Segment vertical style={{ border: "none", marginLeft:"15px" }}>
             <div className="fundInfo" style={{ border: "1px solid", fontSize: "14px", padding: "20px", paddingLeft: "30px" }}>
               
               <div>
@@ -235,7 +235,7 @@ const FundingDetail = () => {
       </Grid>
       <Container style={{ height: 10 }}></Container>
 
-      <TabMenu></TabMenu>
+      <TabMenu style={{marginBottom:"50px"}}></TabMenu>
     </Container>
   );
 };

@@ -133,9 +133,8 @@ const BoardDetail = () => {
   const viewFlist = bfList.map((v, i) => {
     // console.log("파일 이름 : " + v.originName);
     return (
-      <div className="fileDown" key={i} onClick={() => onDown(v)}>
-        <img src="asset/clipIcon.png" alt="사진없음" width="10px"></img>
-        {v.originName}
+        <div className="fileDown" key={i} onClick={() => onDown(v)}>
+            <img src="asset/clipIcon.png" alt="사진없음" style={{width:"13git px", height:"auto"}}></img>{v.originName}
       </div>
     );
   });
