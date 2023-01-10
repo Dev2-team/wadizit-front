@@ -5,12 +5,13 @@ import { Image, Segment } from "semantic-ui-react";
 
 const FundingProjectIntro = () => {
   const [imgCompList, setImgCompList] = useState([]);
+  const fundingNum = localStorage.getItem("fundingNum");
 
   //펀딩 상세정보 출력
   useEffect(() => {
     let imgList = [];
     axios
-      .get("funding/file/list", { params: { fundingNum: 47 } })
+      .get("funding/file/list", { params: { fundingNum: fundingNum } })
       .then((res) => {
         for (let i = 0; i < res.data.length; i++) {
           if (res.data[i].fileType === 2) {
