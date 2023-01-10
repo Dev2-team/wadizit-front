@@ -77,7 +77,7 @@ const Pay = () => {
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/approve",
-      fail_url: "http://localhost:3000/pay/approve",
+      fail_url: "http://localhost:3000/pay",
       cancel_url: "http://localhost:3000/pay",
     },
   };
@@ -137,7 +137,7 @@ const Pay = () => {
             <Table.Cell>
               <div
                 style={{
-                  paddingLeft: "33%",
+                  paddingLeft: "36%",
                 }}
               >
                 <input
@@ -157,7 +157,7 @@ const Pay = () => {
             <Table.Cell>
               <div
                 style={{
-                  paddingLeft: "33%",
+                  paddingLeft: "36%",
                 }}
               >
                 <input
@@ -176,7 +176,7 @@ const Pay = () => {
             <Table.Cell>
               <div
                 style={{
-                  paddingLeft: "33%",
+                  paddingLeft: "36%",
                 }}
               >
                 <input
@@ -219,7 +219,9 @@ const Pay = () => {
           </Table.Row>
         </Table.Body>
       </Table>
-      <KakaoPayReady price={readyPay} />
+      <div style={{ height: "100px" }}>
+        <KakaoPayReady price={readyPay} />
+      </div>
     </Container>
   );
 };

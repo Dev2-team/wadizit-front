@@ -145,7 +145,7 @@ const AdminFundingDetail = () => {
           borderBottom: "3px solid #00b2b2",
         }}
       >
-        <h3 style={{ width: "51.5vw", textAlign: "left", lineHeight: "55px" }}>
+        <h3 style={{ width: "65vw", textAlign: "left", lineHeight: "55px" }}>
           펀딩 승인/반려
         </h3>
         <div
@@ -176,7 +176,7 @@ const AdminFundingDetail = () => {
           borderBottom: "3px solid #00b2b2",
         }}
       >
-        <h3 style={{ width: "53vw", textAlign: "left", lineHeight: "55px" }}>
+        <h3 style={{ width: "66.5vw", textAlign: "left", lineHeight: "55px" }}>
           사업자 파일
         </h3>
         <div
