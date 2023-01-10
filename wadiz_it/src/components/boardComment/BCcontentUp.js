@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import BCcontent from "./BCcontent";
-import "./BCcontentUp.scss";
 
 const BCcontentUb = ({ bcNum, writer, content }) => {
   const [viewUpdate, setViewUpdate] = useState(true);
@@ -37,18 +36,56 @@ const BCcontentUb = ({ bcNum, writer, content }) => {
   return (
     <div>
       {viewUpdate ? (
-        <div className="up-ta-div">
+        <div
+          style={{
+            height: "80px",
+            width: "100%",
+            borderBottom: "1px solid #e8e8e8",
+          }}
+        >
           <textarea
             className="up-ta"
+            style={{
+              width: "95%",
+              height: "38px",
+              resize: "none",
+              position: "relative",
+              padding: "9.5px 12px",
+              border: "1px solid #e8e8e8",
+              backgroundColor: "#fff",
+              outline: "none",
+            }}
             name="content"
             defaultValue={ubContent}
             onChange={inputChange}
           />
-          <div className="up-btn-div">
-            <button className="cancle-btn" onClick={() => setViewUpdate(false)}>
+          <div style={{ textAlign: "right", marginRight: "22px" }}>
+            <button
+              style={{
+                padding: "0",
+                width: "31px",
+                border: "none",
+                fontSize: "12px",
+                color: "rgba(111, 111, 111, 0.69)",
+                backgroundColor: "white",
+                cursor: "pointer",
+              }}
+              onClick={() => setViewUpdate(false)}
+            >
               취소
             </button>
-            <button className="ok-btn" onClick={() => bcUpdate(bcNum)}>
+            <button
+              style={{
+                padding: "0",
+                width: "31px",
+                border: "none",
+                fontSize: "12px",
+                color: "rgba(111, 111, 111, 0.69)",
+                backgroundColor: "white",
+                cursor: "pointer",
+              }}
+              onClick={() => bcUpdate(bcNum)}
+            >
               확인
             </button>
           </div>

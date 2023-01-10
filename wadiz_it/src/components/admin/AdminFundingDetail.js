@@ -1,11 +1,7 @@
 import axios from "axios";
-import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Container, Header } from "semantic-ui-react";
+import { Button, Container } from "semantic-ui-react";
 import FundingDetail from "../FundingDetail";
-import "./AdminFundingDetail.scss";
-
-const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
 
 const AdminFundingDetail = () => {
   const [fundingDetail, setFundingDetail] = useState([]);
@@ -16,7 +12,6 @@ const AdminFundingDetail = () => {
       fileType: 0,
       originName: "파일없음",
       sysName: "",
-      fundingNum: 0,
       image: "",
     },
   ]);
@@ -40,7 +35,7 @@ const AdminFundingDetail = () => {
         if (res.data.length > 0) {
           let newFileList = [];
           for (let i = 0; i < res.data.length; i++) {
-            localStorage.setItem("fileAmount", res.data.length);
+            localStorage.setItem("ffileAmount", res.data.length);
             localStorage.setItem("ffNum" + i, res.data[i].fundingFileNum);
             localStorage.setItem("fileName" + i, res.data[i].originName);
             const newFile = {
@@ -49,8 +44,7 @@ const AdminFundingDetail = () => {
             };
             newFileList.push(newFile);
           }
-          setFfList(newFileList[0]);
-          // console.log("bfList.originName: " + bfList.originName);
+          setFfList(newFileList);
         }
       })
       .catch((err) => console.log(err));
@@ -135,7 +129,7 @@ const AdminFundingDetail = () => {
     // console.log("파일 이름 : " + v.originName);
     return (
       <div className="fileDown" key={i} onClick={() => onDown(v)}>
-        <img src="asset/clipIcon.png" alt="사진없음" width="10px"></img>
+        <img src="/asset/clipIcon.png" alt="" width="10px"></img>
         {v.originName}
       </div>
     );
@@ -143,18 +137,31 @@ const AdminFundingDetail = () => {
 
   return (
     <Container>
-      <div className="title-div">
-        <h3 className="title-h3">펀딩 승인/반려</h3>
-        <div className="btn-div">
+      <div
+        style={{
+          marginTop: "60px",
+          display: "flex",
+          height: "55px",
+          borderBottom: "3px solid #00b2b2",
+        }}
+      >
+        <h3 style={{ width: "51.5vw", textAlign: "left", lineHeight: "55px" }}>
+          펀딩 승인/반려
+        </h3>
+        <div
+          style={{
+            display: "inline-block",
+            textAlign: "right",
+            lineHeight: "55px",
+          }}
+        >
           <Button
-            className="btn-approve"
             size="tiny"
             onClick={() => approveBtn(fundingDetail.fundingNum)}
           >
             승인
           </Button>
           <Button
-            className="btn-reject"
             size="tiny"
             onClick={() => rejectBtn(fundingDetail.fundingNum)}
           >
@@ -162,11 +169,26 @@ const AdminFundingDetail = () => {
           </Button>
         </div>
       </div>
-      <div className="file-div">
-        <h3 className="file-h3">사업자 파일</h3>
-        <div className="fileList">{viewFlist}</div>
+      <div
+        style={{
+          display: "flex",
+          height: "55px",
+          borderBottom: "3px solid #00b2b2",
+        }}
+      >
+        <h3 style={{ width: "53vw", textAlign: "left", lineHeight: "55px" }}>
+          사업자 파일
+        </h3>
+        <div
+          style={{
+            display: "inline-block",
+            textAlign: "right",
+            lineHeight: "55px",
+          }}
+        >
+          {viewFlist[0]}
+        </div>
       </div>
-      <Container>{/* 사업자 증빙 자료 다운로드 받는 부분 */}</Container>
       <Container>
         <FundingDetail></FundingDetail>
       </Container>

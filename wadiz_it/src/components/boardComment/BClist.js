@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BCdetail from "./BCdetail";
-import "./BClist.scss";
 
 const BClist = () => {
   const boardNum = localStorage.getItem("boardNum");
@@ -22,8 +21,10 @@ const BClist = () => {
   let boardCommentList = null;
   if (bcItem.length === 0) {
     boardCommentList = (
-      <div key={0}>
-        <h4>댓글이 없습니다.</h4>
+      <div style={{ paddingTop: "60px" }} key={0}>
+        <h4 style={{ textAlign: "center", color: "#00b2b2" }}>
+          댓글이 없습니다.
+        </h4>
       </div>
     );
   } else {
@@ -31,6 +32,7 @@ const BClist = () => {
       <div key={index}>
         <BCdetail
           bcNum={item.boardComNum}
+          bcDate={item.date}
           writer={item.memberNum.nickname}
           content={item.content}
         />
@@ -40,7 +42,7 @@ const BClist = () => {
 
   return (
     <div>
-      <div className="bcList">{boardCommentList}</div>
+      <div style={{ paddingBottom: "90px" }}>{boardCommentList}</div>
     </div>
   );
 };

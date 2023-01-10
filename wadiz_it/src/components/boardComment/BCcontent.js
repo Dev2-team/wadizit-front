@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import BCcontentUb from "./BCcontentUp";
-import "./BCcontent.scss";
 
 const BCcontent = ({ bcNum, writer, content }) => {
   const nickname = sessionStorage.getItem("nickName");
@@ -32,13 +31,56 @@ const BCcontent = ({ bcNum, writer, content }) => {
       {viewUpdate ? (
         <BCcontentUb bcNum={bcNum} content={content} />
       ) : (
-        <div className="ct-div">
-          <div className="content">{content}</div>
-          <div className="ct-btn-div">
-            <button className="ct-update-btn" onClick={() => bcUpdate()}>
+        <div
+          style={{
+            height: "75px",
+            width: "100%",
+            borderBottom: "1px solid #e8e8e8",
+          }}
+        >
+          <div
+            style={{
+              margin: "5px 0px 20px 20px",
+              fontSize: "13px",
+              textAlign: "left",
+            }}
+          >
+            {content}
+          </div>
+          <div
+            style={{
+              textAlign: "right",
+              marginRight: "22px",
+            }}
+          >
+            <button
+              className="ct-update-btn"
+              style={{
+                padding: "0",
+                width: "31px",
+                border: "none",
+                fontSize: "12px",
+                color: "rgba(111, 111, 111, 0.69)",
+                backgroundColor: "white",
+                cursor: "pointer",
+              }}
+              onClick={() => bcUpdate()}
+            >
               수정
             </button>
-            <button className="ct-delete-btn" onClick={() => bcDelete(bcNum)}>
+            <button
+              className="ct-delete-btn"
+              style={{
+                padding: "0",
+                width: "31px",
+                border: "none",
+                fontSize: "12px",
+                color: "rgba(111, 111, 111, 0.69)",
+                backgroundColor: "white",
+                cursor: "pointer",
+              }}
+              onClick={() => bcDelete(bcNum)}
+            >
               삭제
             </button>
           </div>

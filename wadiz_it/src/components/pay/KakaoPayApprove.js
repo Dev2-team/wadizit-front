@@ -3,7 +3,6 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "semantic-ui-react";
-import "./KakaoPayApprove.scss";
 
 const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
 const orderDate = (date) => moment(date).format("YYYYMMDDHHmmss");
@@ -48,19 +47,20 @@ const KakaoPayApprove = () => {
       .then((res) => {})
       .catch((err) => console.log(err));
 
-    // 결제 내역 저장
     let approveDate = new Date(df(resApprove.approved_at));
 
     console.log("orderNum : " + "wadizit" + orderDate(resApprove.approved_at));
     console.log("orderName : " + localStorage.getItem("itemName"));
+    console.log("approve_at : " + resApprove.approved_at);
     console.log("approveDate : " + approveDate);
 
+    // 결제 내역 db에 저장
     axios
       .post("/payment", {
         params: {
           oNum: "wadizit" + orderDate(resApprove.approved_at),
           oName: localStorage.getItem("itemName"),
-          date: approveDate,
+          date: resApprove.approved_at,
         },
       })
       .then((res) => {})
@@ -68,18 +68,69 @@ const KakaoPayApprove = () => {
   }, []);
 
   return (
-    <div className="approve-div">
+    <div
+      style={{
+        width: "60vw",
+        display: "inline-block",
+        borderRadius: "20px",
+        margin: "80px 0",
+        backgroundColor: "#effafa",
+      }}
+    >
       <div>
-        <img className="check-img" src="/asset/check-img.png" />
+        <img
+          style={{
+            marginTop: "60px",
+            width: "110px",
+            height: "110px",
+            float: "center",
+          }}
+          src="/asset/check-img.png"
+        />
         <h2>구매가 완료되었습니다.</h2>
       </div>
-      <div className="approve-info">
-        <h4 className="approve-item">결제 상품</h4>
-        <h4 className="approve-item-res">{resApprove.item_name}</h4>
-        <h4 className="approve-date">결제 시간</h4>
-        <h4 className="approve-date-res">{df(resApprove.approved_at)}</h4>
+      <div style={{ margin: "90px 0 60px 0" }}>
+        <h4
+          style={{
+            margin: "0 auto",
+            width: "250px",
+            textAlign: "left",
+            color: "#00b2b2",
+          }}
+        >
+          결제 상품
+        </h4>
+        <h4
+          style={{
+            margin: "0 auto",
+            width: "250px",
+            textAlign: "left",
+            marginBottom: "30px",
+          }}
+        >
+          {resApprove.item_name}
+        </h4>
+        <h4
+          style={{
+            margin: "0 auto",
+            width: "250px",
+            textAlign: "left",
+            color: "#00b2b2",
+          }}
+        >
+          결제 시간
+        </h4>
+        <h4
+          style={{
+            margin: "0 auto",
+            width: "245px",
+            textAlign: "left",
+          }}
+        >
+          {df(resApprove.approved_at)}
+        </h4>
       </div>
-      <div className="goMain-div">
+      <div style={{ marginBottom: "60px" }}>
         <Link to="/main">
           <Button>홈으로 돌아가기</Button>
         </Link>

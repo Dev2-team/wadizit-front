@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { Button } from "semantic-ui-react";
-import "./BCwrite.scss";
 
 const BCwrite = () => {
   const boardNum = localStorage.getItem("boardNum");
@@ -35,9 +34,27 @@ const BCwrite = () => {
 
   return (
     <div className="bcWrite-div">
-      <fieldset>
+      <fieldset
+        style={{
+          height: "180px",
+          padding: "20px",
+          border: "none",
+          borderTop: "1px solid #e8e8e8",
+          borderBottom: "1px solid #e8e8e8",
+          backgroundColor: "#fafafa",
+        }}
+      >
         <textarea
-          className="bcWrite-ta"
+          style={{
+            width: "100%",
+            height: "100px",
+            resize: "none",
+            position: "relative",
+            padding: "12px 12px",
+            border: "1px solid #e8e8e8",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           name="content"
           value={content}
           onChange={onChange}
