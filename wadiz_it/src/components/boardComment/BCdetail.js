@@ -1,14 +1,10 @@
 import moment from "moment";
 import React, { useState } from "react";
 import BCcontent from "./BCcontent";
-import BCcontentUb from "./BCcontentUp";
 
 const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
 
-const BCdetail = ({ bcNum, bcDate, writer, content }) => {
-  // 수정 버튼을 눌렀을 때 상태 처리
-  const [viewUpdate, setViewUpdate] = useState(false);
-
+const BCdetail = ({ bcNum, bcDate, writer, content, bcDelete, bcUpdate }) => {
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -25,16 +21,13 @@ const BCdetail = ({ bcNum, bcDate, writer, content }) => {
       </div>
 
       <div>
-        {viewUpdate ? (
-          <BCcontentUb
-            bcNum={bcNum}
-            writer={writer}
-            content={content}
-            viewUpdate={viewUpdate}
-          />
-        ) : (
-          <BCcontent bcNum={bcNum} writer={writer} content={content} />
-        )}
+        <BCcontent
+          bcNum={bcNum}
+          writer={writer}
+          content={content}
+          bcDelete={bcDelete}
+          updateCallback={bcUpdate}
+        />
       </div>
     </div>
   );

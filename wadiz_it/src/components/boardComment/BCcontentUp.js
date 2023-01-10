@@ -2,36 +2,27 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import BCcontent from "./BCcontent";
 
-const BCcontentUb = ({ bcNum, writer, content }) => {
+const BCcontentUb = ({ bcNum, writer, content, bcDelete, updateCallback }) => {
   const [viewUpdate, setViewUpdate] = useState(true);
-
-  // 변경할 내용을 담는 배열
-  const [form, setForm] = useState({
-    ubContent: content,
-  });
-  const { ubContent } = form;
+  const [newContent, setNewContent] = useState("");
 
   // 변경된 내용 반영
   const inputChange = useCallback(
     (e) => {
-      const formObj = {
-        ...form,
-        [e.target.name]: e.target.value,
-      };
-      setForm(formObj);
+      setNewContent(e.target.value);
     },
-    [form]
+    [newContent]
   );
 
   // 수정 버튼 처리
-  const bcUpdate = (bcNum) => {
-    axios
-      .put("/board/comment", form, { params: { boardComNum: bcNum } })
-      .then((res) => {
-        alert(res.data);
-      });
-    setViewUpdate(false);
-  };
+  const bcUpdate = useCallback(() => {
+    console.log("newContent", newContent);
+    console.log("writer", writer);
+    updateCallback(bcNum, writer, newContent, () => {
+      setViewUpdate(false);
+      setNewContent("");
+    });
+  }, [bcNum, writer, newContent, updateCallback]);
 
   return (
     <div>
@@ -56,7 +47,7 @@ const BCcontentUb = ({ bcNum, writer, content }) => {
               outline: "none",
             }}
             name="content"
-            defaultValue={ubContent}
+            defaultValue={content}
             onChange={inputChange}
           />
           <div style={{ textAlign: "right", marginRight: "22px" }}>
@@ -84,14 +75,20 @@ const BCcontentUb = ({ bcNum, writer, content }) => {
                 backgroundColor: "white",
                 cursor: "pointer",
               }}
-              onClick={() => bcUpdate(bcNum)}
+              onClick={() => bcUpdate()}
             >
               확인
             </button>
           </div>
         </div>
       ) : (
-        <BCcontent bcNum={bcNum} writer={writer} content={content} />
+        <BCcontent
+          bcNum={bcNum}
+          writer={writer}
+          content={content}
+          bcDelete={bcDelete}
+          updateCallback={updateCallback}
+        />
       )}
     </div>
   );
