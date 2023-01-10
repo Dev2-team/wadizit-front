@@ -90,7 +90,7 @@ const AdminPage = () => {
       // 보여질 펀딩 글의 번호를 localStorage에 저장
       localStorage.setItem("fundingNum", fundingNum);
       // 해당 링크로 이동
-      nav("/adminPage/FundingDetail");
+      nav("/admin/fundingDetail");
     },
     [nav]
   );
