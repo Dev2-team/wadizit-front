@@ -27,6 +27,8 @@ import axios from "axios";
 import SimpleSlider from "./components/SimpleSlider";
 // import KakaoPayApprove from "./components/KakaoPayApprove";
 import Footer from "./components/Footer";
+import AdminPage from "./components/ex/AdminPage1";
+import AdminFundingDetail from "./components/admin/AdminFundingDetail";
 
 function App() {
   const nav = useNavigate();
@@ -151,7 +153,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/fundingList" element={<FundingList />} />
         <Route path="/fundingDetail" element={<FundingDetail />} />
-        {/* <Route path="/adminPage" element={<AdminPage />} /> */}
+        <Route path="/adminPage" element={<AdminPage />} />
+        <Route path="/admin/fundingDetail" element={<AdminFundingDetail />} />
         <Route path="/adminPage1" element={<AdminPage1 />} />
         <Route path="/simpleSlider" element={<SimpleSlider />} />
         {/* <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} /> */}
@@ -165,7 +168,7 @@ function App() {
         <Route path="/fundingTerms" element={<FundingTerms />} />
         <Route path="/tokenTransaction" element={<TokenTransaction />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
