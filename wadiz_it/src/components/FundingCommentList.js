@@ -9,7 +9,9 @@ const FundingCommentList = (props) => {
 
   if (fundingCommentList.length !== 0) {
     fundComList = Object.values(fundingCommentList).map((fundComItem) => (
-      <div className="commentArea" key={fundComItem.fundingComNum}>
+      <div className="commentArea" key={fundComItem.fundingComNum} style={{
+        margin: "30px 30px 30px 30px", borderBottom: "1px solid rgba(34, 36, 38, 0.15)" ,
+      height:"120px"}}>
         <FundingCommentDetail
           deleteComment={props.deleteComment}
           modifyComment={props.modifyComment}
@@ -37,12 +39,13 @@ const FundingCommentList = (props) => {
   }
 
   return (
-    <div className="fundingCommentList" style={{ marginTop: "30px" }}>
-      <div className="fundComNum" style={{ display: "inline-block" }}>
+    <div className="fundingCommentList" style={{ marginTop: "40px" }}>
+      <div className="fundComNum" style={{ display: "inline-block", marginLeft:"30px" }}>
         <p className="fundCom" style={{ fontSize: "17px", display: "inline" }}>
           등록된 응원이&nbsp;&nbsp;
         </p>
-        <p style={{ display: "inline", fontSize: "17px", fontWeight: 700 }}>
+        <p style={{
+          display: "inline", fontSize: "17px", fontWeight: 700, color:"#00b2b2"}}>
           {fundingCommentList.length}개&nbsp;&nbsp;
         </p>
         <p style={{ display: "inline", fontSize: "17px" }}>있습니다.</p>
@@ -50,8 +53,9 @@ const FundingCommentList = (props) => {
       <div
         style={{
           borderTop: "1.5px solid rgba(34,36,38,.15)",
+          margin:"30px",
           marginBottom: "20px",
-          marginTop: "18px",
+          marginTop: "10px",
         }}
       ></div>
       <div className="fundingComList">{fundComList}</div>
