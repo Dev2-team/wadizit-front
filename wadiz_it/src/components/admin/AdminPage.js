@@ -73,7 +73,11 @@ const AdminPage = () => {
   //////////////////// Funding /////////////////////
   // 출력할 펀딩 목록 작성
   let fundingList = Object.values(fundingItem).map((item) => (
-    <Table.Row key={item.fundingNum} textAlign="center">
+    <Table.Row
+      style={{ height: "47.43px" }}
+      key={item.fundingNum}
+      textAlign="center"
+    >
       <Table.Cell>{item.fundingNum}</Table.Cell>
       <Table.Cell>{item.memberNum.name}</Table.Cell>
       <Table.Cell>

@@ -219,7 +219,7 @@ const Pay = () => {
           </Table.Row>
         </Table.Body>
       </Table>
-      <div style={{ height: "100px" }}>
+      <div style={{ height: "15px" }}>
         <KakaoPayReady price={readyPay} />
       </div>
     </Container>
