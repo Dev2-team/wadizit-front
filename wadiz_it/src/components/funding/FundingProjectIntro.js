@@ -11,7 +11,7 @@ const FundingProjectIntro = () => {
   useEffect(() => {
     let imgList = [];
     axios
-      .get("funding/file/list", { params: { fundingNum: fundingNum } })
+      .get("/funding/file/list", { params: { fundingNum: fundingNum } })
       .then((res) => {
         for (let i = 0; i < res.data.length; i++) {
           if (res.data[i].fileType === 2) {

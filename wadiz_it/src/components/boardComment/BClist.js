@@ -11,7 +11,7 @@ const BClist = () => {
   useEffect(() => {
     // 댓글 리스트 가져오기
     axios
-      .get("board/comment/list", { params: { boardNum: boardNum } })
+      .get("/board/comment/list", { params: { boardNum: boardNum } })
       .then((res) => {
         console.log(res.data);
         setBcList(res.data);
@@ -22,7 +22,7 @@ const BClist = () => {
   // 댓글 쓰기 처리
   const writeComment = (data, boardNum) => {
     axios
-      .post("board/comment", data, { params: { boardNum: boardNum } })
+      .post("/board/comment", data, { params: { boardNum: boardNum } })
       .then((res) => {
         console.log("write", data);
         setBcList([...bcList, res.data]);

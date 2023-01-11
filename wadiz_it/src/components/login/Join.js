@@ -62,7 +62,7 @@ const Join = () => {
         setIsReg(false);
       } else {
         setIsReg(true);
-        axios.get(`member/checkId?id=${e.target.value}`).then((result) => {
+        axios.get(`/member/checkId?id=${e.target.value}`).then((result) => {
           if (result.data === 0) {
             setValidMessage("사용가능한 아이디 입니다.");
             setIsId(true);
@@ -80,7 +80,7 @@ const Join = () => {
   const sendJoin = (e) => {
     e.preventDefault();
     axios
-      .post("member/join", form)
+      .post("/member/join", form)
       .then((result) => {
         if (result.data === true) {
           alert("가입 성공");
@@ -143,7 +143,7 @@ const Join = () => {
         setnRegMessage("올바른 형식입니다.");
         setnIsReg(true);
         axios
-          .get(`member/checkNickname?nickname=${e.target.value}`)
+          .get(`/member/checkNickname?nickname=${e.target.value}`)
           .then((result) => {
             if (result.data === 0) {
               setnValidMessage("사용가능한 닉네임입니다.");
