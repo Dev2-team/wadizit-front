@@ -11,7 +11,7 @@ const Header = ({ logState, onLogout, onMypage }) => {
   const { logNick, flink } = logState;
   // const { logNick } = logState;
   //로고 클릭(로그인 후 main, 로그인 전 home)
-  const homeLink = logNick === "" ? "/" : "/";
+  const homeLink = "/";
 
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
@@ -47,22 +47,26 @@ const Header = ({ logState, onLogout, onMypage }) => {
           <div className="nav-item">
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test
+                글자수테스트
               </Link>
             </div>
             <div className="nav-div">
               <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test
+              글자수테스트
               </Link>
             </div>
             <div className="nav-div">
-              <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test3
+              <Link to="/pay" className="nav-links" onClick={closeMobileMenu}>
+                포인트
               </Link>
             </div>
             <div className="nav-div">
-              <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                test4
+              <Link
+                to="/board/list"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                자유게시판
               </Link>
             </div>
           </div>{" "}
@@ -84,15 +88,15 @@ const Header = ({ logState, onLogout, onMypage }) => {
               {button && logNick !== "" ? (
                 <span onClick={onLogout}>Logout</span>
               ) : (
-                <Link to="/join">Join</Link>
+                <Link to="/login/join">Join</Link>
               )}
             </div>
-          </div>{" "}
+          </div>
           {/* log-item end  */}
-        </div>{" "}
+        </div>
         {/* nav-menu end  */}
-      </div>{" "}
-      {/* Content end  */}
+      </div>
+      {/* h-content end  */}
     </div>
   );
 };

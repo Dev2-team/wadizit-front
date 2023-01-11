@@ -99,12 +99,6 @@ const FundingList = () => {
 
   // progress
   const getCompleteRate = (item) => {
-    console.log("currentAmount :>> ", item.currentAmount);
-    console.log("targetAmount :>> ", item.targetAmount);
-    console.log(
-      "percent:>> ",
-      (parseFloat(item.currentAmount) / parseFloat(item.targetAmount)) * 100
-    );
     return (
       (parseFloat(item.currentAmount) / parseFloat(item.targetAmount)) * 100
     );
@@ -116,6 +110,11 @@ const FundingList = () => {
     var endDateFormat = new Date(item.endDate);
     var diff = endDateFormat - today;
     return Math.floor(diff / (1000 * 60 * 60 * 24));
+  };
+
+  //금액 쉼표 표시
+  const currentAmtFormat = (item) => {
+    return item.currentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   const FundingCard = () => {
@@ -138,11 +137,24 @@ const FundingList = () => {
             <Card.Content>
               <Card.Header style={{ height: "80px" }}>{item.title}</Card.Header>
               <ProgressBar completed={getCompleteRate(item)} />
-              <Card.Header style={{ color: "#00b2b2" }}>
-                {item.targetAmount}원
-              </Card.Header>
-              <Card.Meta>{item.currentAmount}원</Card.Meta>
-              <Card.Meta>{getDiffDate(item)}일 남음</Card.Meta>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div style={{ display: "flex" }}>
+                  {/* 달성률 */}
+                  <Card.Header style={{ color: "#00b2b2", fontSize: "17px" }}>
+                    <b>{getCompleteRate(item)}%</b>
+                  </Card.Header>
+                  {/* 현재 모금액 */}
+                  <Card.Meta style={{ marginLeft: "10px", color: "#495057" }}>
+                    <b>{currentAmtFormat(item)}원</b>
+                  </Card.Meta>
+                </div>
+                <div>
+                  {/* 잔여 기한 */}
+                  <Card.Meta style={{ color: "#495057" }}>
+                    <b>{getDiffDate(item)}일 남음</b>
+                  </Card.Meta>
+                </div>
+              </div>
             </Card.Content>
           </Card>
         </Grid.Column>
