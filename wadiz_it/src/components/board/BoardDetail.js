@@ -4,8 +4,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BoardDetail.scss";
 import { Button, Container, Header } from "semantic-ui-react";
-import BoardComment from "./boardComment/BClist";
-import BClist from "./boardComment/BClist";
+import BoardComment from "../boardComment/BClist";
+import BClist from "../boardComment/BClist";
 
 const dateFormat = (date) => moment(date).format("YYYY월 MM월 DD일");
 
@@ -21,14 +21,14 @@ const BoardDetail = () => {
 
   const nav = useNavigate();
   const boardList = () => {
-    nav("/boardList");
+    nav("/board/list");
   };
 
   const boardUpdate = () => {
     if (loginPerson === boardWriter) {
       let result = window.confirm("글을 수정하시겠습니까?");
       if (result === true) {
-        nav("/boardUpdate");
+        nav("/board/update");
       } else {
       }
     } else {
@@ -133,8 +133,13 @@ const BoardDetail = () => {
   const viewFlist = bfList.map((v, i) => {
     // console.log("파일 이름 : " + v.originName);
     return (
-        <div className="fileDown" key={i} onClick={() => onDown(v)}>
-            <img src="asset/clipIcon.png" alt="사진없음" style={{width:"13px", height:"auto"}}></img>{v.originName}
+      <div className="fileDown" key={i} onClick={() => onDown(v)}>
+        <img
+          src="asset/clipIcon.png"
+          alt="사진없음"
+          style={{ width: "13px", height: "auto" }}
+        ></img>
+        {v.originName}
       </div>
     );
   });
@@ -176,7 +181,7 @@ const BoardDetail = () => {
       .then((res) => {
         if (res.data === "삭제 성공") {
           alert("게시물이 삭제되었습니다.");
-          nav("/boardList");
+          nav("/board/list");
         } else {
           alert("게시물 삭제 실패");
         }

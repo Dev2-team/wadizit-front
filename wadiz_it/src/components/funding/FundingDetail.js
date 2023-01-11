@@ -10,13 +10,13 @@ import {
   Header,
   Segment,
 } from "semantic-ui-react";
-import FundingComment from "./FundingComment";
+import FundingComment from "../fundingComment/FundingComment";
 import FundingProjectIntro from "./FundingProjectIntro";
-import TokenTransaction from "./TokenTransaction";
-import ProgressBar from "./ProgressBar";
-import Button from "./Button";
+import TokenTransaction from "../token/TokenTransaction";
+import ProgressBar from "../common/ProgressBar";
+import Button from "../common/Button";
 import FundingModal from "./FundingModal";
-// import GoodsList from "./GoodsList";
+import GoodsList from "./GoodsList";
 
 const panes = [
   {
@@ -33,10 +33,10 @@ const panes = [
     menuItem: "토큰 거래",
     render: () => <Tab.Pane attached={false}>{<TokenTransaction />}</Tab.Pane>,
   },
-  // {
-  //   menuItem: "굿즈",
-  //   render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
-  // },
+  {
+    menuItem: "굿즈",
+    render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
+  },
 ];
 
 const TabMenu = () => (
@@ -90,9 +90,7 @@ const FundingDetail = () => {
 
   //펀딩 상세정보 출력
   useEffect(() => {
-    axios
-      .get("funding/file/list", { params: { fundingNum: fundingNum } })
-      .then(
+    axios.get("funding/file/list", { params: { fundingNum: fundingNum } }).then(
       (res) => {
         for (let i = 0; i < res.data.length; i++) {
           if (res.data[i].fileType === 1) {
@@ -108,8 +106,6 @@ const FundingDetail = () => {
       [thumbNail]
     );
 
-    
-
     axios
       .get("funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
@@ -121,8 +117,6 @@ const FundingDetail = () => {
     setTimeout(() => setCompleteRate(achieveRate), 1000);
     console.log("달성률: " + achieveRate);
   }, [achieveRate]);
-
-
 
   //대표이미지 출력
   let fundingFileImage = null;
@@ -153,19 +147,16 @@ const FundingDetail = () => {
     ));
   }
 
-
   //펀딩 모달창 띄위기
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setModalOpen(false);
-  }
-
-
+  };
 
   return (
     <Container>
@@ -336,9 +327,20 @@ const FundingDetail = () => {
           </Segment>
 
           <Segment vertical>
-            <FundingModal open={modalOpen} close={closeModal} header="후원하기"
-              fundingTitle={fundData.title} loginPerson={loginPerson}></FundingModal>
-            <Button fluid style={{ marginLeft: "10px", width: "100%" }} onClick={openModal}>후원하기</Button>
+            <FundingModal
+              open={modalOpen}
+              close={closeModal}
+              header="후원하기"
+              fundingTitle={fundData.title}
+              loginPerson={loginPerson}
+            ></FundingModal>
+            <Button
+              fluid
+              style={{ marginLeft: "10px", width: "100%" }}
+              onClick={openModal}
+            >
+              후원하기
+            </Button>
           </Segment>
         </Grid.Column>
       </Grid>

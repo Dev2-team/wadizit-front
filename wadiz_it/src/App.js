@@ -1,30 +1,30 @@
 import "semantic-ui-css/semantic.min.css";
 import "./App.scss";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Login from "./components/Login";
-import Test from "./components/Test";
-import Join from "./components/Join";
+import Login from "./components/login/Login";
+import Join from "./components/login/Join";
 import { useCallback, useEffect, useState } from "react";
 import Header from "./components/Header";
 import Main from "./components/Main";
-import FundingList from "./components/FundingList";
-import AdminPage from "./components/AdminPage";
-import BoardDetail from "./components/BoardDetail";
-import BoardList from "./components/BoardList";
-import FundingForm from "./components/FundingForm";
-import FundingDetail from "./components/FundingDetail";
-import MyPage from "./components/MyPage";
-import FundingTerms from "./components/FundingTerms";
-import TokenTransaction from "./components/TokenTransaction";
+import FundingList from "./components/funding/FundingList";
+import AdminPage from "./components/admin/AdminPage";
+import BoardDetail from "./components/board/BoardDetail";
+import BoardList from "./components/board/BoardList";
+import FundingForm from "./components/funding/FundingForm";
+import FundingDetail from "./components/funding/FundingDetail";
+import MyPage from "./components/login/MyPage";
+import FundingTerms from "./components/funding/FundingTerms";
+import TokenTransaction from "./components/token/TokenTransaction";
 
-import BoardWrite from "./components/BoardWrite";
-import BoardUpdate from "./components/BoardUpdate";
-import KakaoButton from "./components/KakaoButton";
-import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
+import BoardWrite from "./components/board/BoardWrite";
+import BoardUpdate from "./components/board/BoardUpdate";
+import KakaoButton from "./components/login/KakaoButton";
+import KakaoRedirectHandler from "./components/login/KakaoRedirectHandler";
 import axios from "axios";
-import SimpleSlider from "./components/SimpleSlider";
-import KakaoPayApprove from "./components/KakaoPayApprove";
-import FundingComment from "./components/FundingComment";
+import SimpleSlider from "./components/common/SimpleSlider";
+import KakaoPayApprove from "./components/pay/KakaoPayApprove";
+import Footer from "./components/Footer";
+import AdminFundingDetail from "./components/admin/AdminFundingDetail";
 
 function App() {
   const nav = useNavigate();
@@ -44,7 +44,7 @@ function App() {
     if (nickName !== null) {
       const newState = {
         logNick: nickName,
-        flink: "/main",
+        flink: "/",
       };
       setLogState(newState);
     }
@@ -59,7 +59,7 @@ function App() {
 
     const newState = {
       logNick: data.nickName,
-      flink: "/main",
+      flink: "/",
     };
     setLogState(newState);
   }, []);
@@ -114,10 +114,10 @@ function App() {
       sessionStorage.setItem("access_token", data.access_token);
       const newState = {
         logNick: data.nickname,
-        flink: "/main",
+        flink: "/",
       };
       setLogState(newState);
-      nav("/main");
+      nav("/");
     },
     [nav]
   );
@@ -136,46 +136,43 @@ function App() {
     } else {
       const newState = {
         logNick: nickName,
-        flink: "/myPage",
+        flink: "/login/myPage",
       };
       setLogState(newState);
-      nav("/myPage");
+      nav("/login/myPage");
     }
-
   };
 
   return (
     <div className="App">
       <Header logState={logState} onLogout={onLogout} onMypage={onMypage} />
       <Routes>
-        <Route path="/KakaoButton" element={<KakaoButton />} />
+        <Route path="/login/KakaoButton" element={<KakaoButton />} />
         <Route
           path="/oauth/callback/kakao"
           element={<KakaoRedirectHandler setKakaoData={setKakaoData} />}
         />
-        {/* <Route path="/" element={<Join />} /> */}
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/fundingList" element={<FundingList />} />
-        <Route path="/fundingDetail" element={<FundingDetail />} />
+        <Route path="/login/join" element={<Join />} />
+        <Route path="/funding/list" element={<FundingList />} />
+        <Route path="/funding/detail" element={<FundingDetail />} />
         <Route path="/adminPage" element={<AdminPage />} />
-        <Route path="/simpleSlider" element={<SimpleSlider />} />
-        <Route path="/KakaoPayApprove" element={<KakaoPayApprove />} />
-
-
-        <Route path="/myPage" element={<MyPage />} />
-        <Route path="/boardWrite" element={<BoardWrite />} />
-        <Route path="/boardDetail" element={<BoardDetail />} />
-        <Route path="/boardUpdate" element={<BoardUpdate />} />
-        <Route path="/boardList" element={<BoardList />} />
-        <Route path="/fundingForm" element={<FundingForm />} />
-        <Route path="/fundingTerms" element={<FundingTerms />} />
-        <Route path="/tokenTransaction" element={<TokenTransaction />} />
+        <Route
+          path="/adminPage/fundingDetail"
+          element={<AdminFundingDetail />}
+        />
+        <Route path="/pay/KakaoPayApprove" element={<KakaoPayApprove />} />
+        <Route path="/login/myPage" element={<MyPage />} />
+        <Route path="/board/write" element={<BoardWrite />} />
+        <Route path="/board/detail" element={<BoardDetail />} />
+        <Route path="/board/update" element={<BoardUpdate />} />
+        <Route path="/board/list" element={<BoardList />} />
+        <Route path="/funding/form" element={<FundingForm />} />
+        <Route path="/funding/terms" element={<FundingTerms />} />
+        <Route path="/token/transaction" element={<TokenTransaction />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

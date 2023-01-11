@@ -9,8 +9,8 @@ import {
   Header,
   Segment,
 } from "semantic-ui-react";
-import FundingProjectIntro from "../FundingProjectIntro";
-import ProgressBar from "../ProgressBar";
+import FundingProjectIntro from "../funding/FundingProjectIntro";
+import ProgressBar from "../common/ProgressBar";
 
 const panes = [
   {
