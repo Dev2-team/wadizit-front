@@ -3,12 +3,21 @@ import { Segment, Container } from "semantic-ui-react";
 import "./Footer.scss";
 
 const Footer = () => {
+  if (window.location.pathname === "/login") return null;
+  if (window.location.pathname === "/login/join") return null;
   return (
-    <Segment style={{ padding: 0, marginTop: 100 }} attached="bottom">
+    <Segment
+      style={{
+        padding: 0,
+        marginTop: 100,
+        borderRadius: 0,
+        borderTop: "1px solid rgb(220, 220, 220)",
+      }}
+    >
       <div>
         <Container
           style={{
-            padding: "20px 0",
+            padding: "10px 0",
             display: "flex",
             flexWrap: "wrap",
             placeContent: "flex-start",
@@ -23,36 +32,31 @@ const Footer = () => {
               flexWrap: "wrap",
             }}
           >
-            <div className="ft-info-div">
-              <strong>회사</strong>
-              <span>WadizIT(주)</span>
+            <div style={{ marginTop: "12px", width: "100%", height: "13px" }}>
+              <div className="ft-info-div">
+                <strong>프로젝트명</strong>
+                <span>WadizIT</span>
+              </div>
             </div>
             <div className="ft-info-div">
-              <strong>주소</strong>
-              <span>인천 미추홀구 서초대로 398, 4층 (서초동, BNK디지털)</span>
+              <strong>신동</strong>
+              <span>dong@naver.com</span>
             </div>
             <div className="ft-info-div">
-              <strong>대표</strong>
-              <span>최아람</span>
+              <strong>aram</strong>
+              <span>chldkfka1@gmail.com</span>
             </div>
             <div className="ft-info-div">
-              <strong>사업자등록번호</strong>
-              <span>105-33-22222</span>
+              <strong>고구마</strong>
+              <span>qq@naver.com</span>
             </div>
             <div className="ft-info-div">
-              <strong>통신판매업 신고번호</strong>
-              <span>2022-인천미추홀구-0352</span>
+              <strong>염아름</strong>
+              <span>dongsu@naver.com</span>
             </div>
             <div className="ft-info-div">
-              <strong>대표번호</strong>
-              <span>032-0000-7777</span>
-            </div>
-            <div className="ft-info-div">
-              <strong>고객 지원</strong>
-              <span>
-                평일 9:00 ~ 17:00 (12:00 ~14:00 제외) <b>010-3333-2222</b>에
-                문의하세요.
-              </span>
+              <strong>삼색이</strong>
+              <span>samsaek@gmail.com</span>
             </div>
           </div>
           <div style={{ marginLeft: "auto" }}>

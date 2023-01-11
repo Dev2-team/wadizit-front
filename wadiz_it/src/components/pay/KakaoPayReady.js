@@ -41,9 +41,7 @@ const KakaoPayReady = ({ price }) => {
         <button
           style={{
             background: "url(/asset/kakaopay-btn.png) no-repeat",
-            marginTop: "20px",
-            marginBottom: "60px",
-            height: "130px",
+            height: "40px",
             width: "201px",
             border: "0",
             float: "right",

@@ -1,7 +1,10 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Tab, Header, Table, Button } from "semantic-ui-react";
+
+const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
 
 const AdminPage = () => {
   const nav = useNavigate();
@@ -9,8 +12,6 @@ const AdminPage = () => {
   const [memberItem, setMemberItem] = useState([]);
   const [fundingItem, setFundingItem] = useState([]);
   const [boardItem, setBoardItem] = useState([]);
-
-  const memberNum = sessionStorage.getItem("memberNum");
 
   useEffect(() => {
     // 서버로부터 회원 목록 가져오기
@@ -25,6 +26,14 @@ const AdminPage = () => {
     axios
       .get("/funding/list")
       .then((res) => {
+        // console.log(res.data);
+        // console.log(res.data[0].status);
+        // console.log(res.data.length);
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].status === "0") {
+            res.data[i].status = "대기";
+          }
+        }
         setFundingItem(res.data);
       })
       .catch((err) => console.log(err));
@@ -48,7 +57,15 @@ const AdminPage = () => {
       <Table.Cell>{item.email}</Table.Cell>
       <Table.Cell>{item.phone}</Table.Cell>
       <Table.Cell>
-        <Button size="small" onClick={() => delMember(item.memberNum)}>
+        <Button
+          style={{
+            border: "1px solid #ff6666",
+            backgroundColor: "#ffffff",
+            color: "#ff6666",
+          }}
+          size="small"
+          onClick={() => delMember(item.memberNum)}
+        >
           삭제
         </Button>
       </Table.Cell>
@@ -58,7 +75,7 @@ const AdminPage = () => {
   // 회원 삭제
   const delMember = (memberNum) => {
     axios
-      .delete("/member/delete", { params: { MemberNum: memberNum } })
+      .delete("/member/delete?MemberNum=" + memberNum)
       .then((res) => {
         const result = res.data;
         if (result === true) {
@@ -106,9 +123,17 @@ const AdminPage = () => {
       <Table.Cell>{item.boardNum}</Table.Cell>
       <Table.Cell>{item.memberNum.name}</Table.Cell>
       <Table.Cell>{item.title}</Table.Cell>
-      <Table.Cell>{item.date}</Table.Cell>
+      <Table.Cell>{df(item.date)}</Table.Cell>
       <Table.Cell>
-        <Button size="small" onClick={() => delBoard(item.boardNum, memberNum)}>
+        <Button
+          style={{
+            border: "1px solid #ff6666",
+            backgroundColor: "#ffffff",
+            color: "#ff6666",
+          }}
+          size="small"
+          onClick={() => delBoard(item.boardNum)}
+        >
           삭제
         </Button>
       </Table.Cell>
@@ -116,11 +141,9 @@ const AdminPage = () => {
   ));
 
   // 게시글 삭제 처리
-  const delBoard = (boardNum, memberNum) => {
+  const delBoard = (boardNum) => {
     axios
-      .delete("/board/delete", {
-        params: { boardNum: boardNum, memberNum: memberNum },
-      })
+      .delete("/board?boardNum=" + boardNum)
       .then((res) => {
         alert(res.data);
       })
@@ -150,7 +173,6 @@ const AdminPage = () => {
               <Table.HeaderCell></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-
           <Table.Body>{memberList}</Table.Body>
         </Table>
       </Container>
@@ -236,7 +258,21 @@ const AdminPage = () => {
 
   return (
     <Container textAlign="left">
-      <Header as="h2">관리자 페이지</Header>
+      <Header as="h3">
+        <div
+          style={{
+            backgroundColor: "#00b2b2",
+            color: "#fff",
+            marginTop: "7.5px",
+            paddingLeft: "20px",
+            height: "40px",
+            lineHeight: "40px",
+            textAlign: "left",
+          }}
+        >
+          관리자 페이지
+        </div>
+      </Header>
       {TabMenu()}
     </Container>
   );
