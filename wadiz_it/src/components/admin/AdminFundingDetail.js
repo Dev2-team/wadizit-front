@@ -167,6 +167,7 @@ const AdminFundingDetail = () => {
               backgroundColor: "#ffffff",
               color: "#00b2b2",
               width: "5vw",
+              lineHeight: "0",
             }}
             onClick={() => approveBtn(fundingDetail.fundingNum)}
           >
@@ -179,6 +180,7 @@ const AdminFundingDetail = () => {
               color: "#ff6666",
               width: "5vw",
               marginLeft: "5px",
+              lineHeight: "0",
             }}
             onClick={() => rejectBtn(fundingDetail.fundingNum)}
           >
