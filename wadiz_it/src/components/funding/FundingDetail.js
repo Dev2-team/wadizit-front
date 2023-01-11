@@ -90,24 +90,26 @@ const FundingDetail = () => {
 
   //펀딩 상세정보 출력
   useEffect(() => {
-    axios.get("funding/file/list", { params: { fundingNum: fundingNum } }).then(
-      (res) => {
-        for (let i = 0; i < res.data.length; i++) {
-          if (res.data[i].fileType === 1) {
-            let newFileList = [];
-            const newFile = {
-              imageRoute: "upload/" + res.data[i].sysName,
-            };
-            newFileList.push(newFile);
-            setThumbNail(newFileList);
+    axios
+      .get("/funding/file/list", { params: { fundingNum: fundingNum } })
+      .then(
+        (res) => {
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].fileType === 1) {
+              let newFileList = [];
+              const newFile = {
+                imageRoute: "upload/" + res.data[i].sysName,
+              };
+              newFileList.push(newFile);
+              setThumbNail(newFileList);
+            }
           }
-        }
-      },
-      [thumbNail]
-    );
+        },
+        [thumbNail]
+      );
 
     axios
-      .get("funding", { params: { fundingNum: fundingNum } })
+      .get("/funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
         console.log(res.data);
         setFundData(res.data);
