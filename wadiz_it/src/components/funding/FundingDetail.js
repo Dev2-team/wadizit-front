@@ -1,4 +1,3 @@
-import { right } from "@popperjs/core";
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
@@ -16,7 +15,7 @@ import TokenTransaction from "../token/TokenTransaction";
 import ProgressBar from "../common/ProgressBar";
 import Button from "../common/Button";
 import FundingModal from "./FundingModal";
-import GoodsList from "./GoodsList";
+import Goods from "../goods/Goods";
 
 const panes = [
   {
@@ -35,7 +34,7 @@ const panes = [
   },
   {
     menuItem: "굿즈",
-    render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
+    render: () => <Tab.Pane attached={false}>{<Goods />}</Tab.Pane>,
   },
 ];
 

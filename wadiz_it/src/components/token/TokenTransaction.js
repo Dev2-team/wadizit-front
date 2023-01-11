@@ -5,13 +5,12 @@ import TokenOrderBook from "./TokenOrderBook";
 import TokenOpenOrderList from "./TokenOpenOrderList";
 import SockJS from "sockjs-client";
 import * as StompJs from "@stomp/stompjs";
-import { useSearchParams } from "react-router-dom";
 
 const TokenTransaction = () => {
-  const [searchParams] = useSearchParams();
+  console.log(localStorage.getItem("fundingNum"));
   const [data, setData] = useState({
     memberNum: Number(sessionStorage.getItem("memberNum")),
-    tokenNum: searchParams.get("token"),
+    tokenNum: localStorage.getItem("fundingNum"),
     currentPrice: 0,
     listingPrice: 0,
     maxPrice: 1,
@@ -292,7 +291,6 @@ const TokenTransaction = () => {
 
   return (
     <Container textAlign="left">
-      <Header as={"h3"}>후원 토큰 거래소</Header>
       <Grid stackable centered style={{ margin: 0, padding: 0 }}>
         <Grid.Row style={{ margin: 0, padding: 0 }}>
           <Grid.Column

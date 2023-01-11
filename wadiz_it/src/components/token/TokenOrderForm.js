@@ -118,7 +118,7 @@ const TokenSellOrder = (props) => {
               매도 가능 토큰
             </Header>
             <Header color="red" style={{ margin: 0 }} size="small">
-              {props.availableToken} TK
+              {props.availableToken} 토큰
             </Header>
           </Container>
           <br></br>

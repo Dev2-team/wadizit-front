@@ -23,6 +23,7 @@ const FundingForm = () => {
   const [data, setData] = useState({
     title: "",
     membernum: { memberNum: memberNum },
+    tokenName: "",
     tokenPrice: "",
     tokenAmount: "",
     targetAmount: "",
@@ -67,6 +68,15 @@ const FundingForm = () => {
         .post("/funding", sendData)
         .then((res) => {
           if (res.data !== 0) {
+            axios.post("/token", {
+              tokenNum: res.data,
+              name: sendData.tokenName,
+              amount: sendData.tokenAmount,
+              parValue: 100,
+              currentPrice: sendData.tokenPrice,
+              listingPrice: sendData.tokenPrice,
+            });
+
             let keys = fileList.keys();
             let i = 0;
             for (const key of keys) {
@@ -88,11 +98,11 @@ const FundingForm = () => {
                 )
                 .then((res) => {
                   alert("작성 성공");
-                  nav("/funding/list");
+                  nav("/");
                 });
             } else {
               alert("작성 성공");
-              nav("/funding/list");
+              nav("/");
             }
           } else {
             alert("게시글 등록 실패");
@@ -171,6 +181,18 @@ const FundingForm = () => {
           label="제목"
           placeholder="제목을 입력하세요"
           value={title}
+          onChange={onChange}
+        />
+      </Form>
+      <Divider></Divider>
+      <Form>
+        <Form.Input
+          name="tokenName"
+          required={true}
+          fluid
+          label="토큰 이름"
+          placeholder="토큰 이름"
+          value={data.tokenName}
           onChange={onChange}
         />
       </Form>

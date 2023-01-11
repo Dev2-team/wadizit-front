@@ -30,7 +30,7 @@ const TokenOpenOrderElement = (props) => {
               style={{ margin: 0, marginLeft: 5, padding: 0 }}
             >
               {/* 수량 */}
-              {props.orderRemainAmount} TK
+              {props.orderRemainAmount} 토큰
             </Header>
           </Grid.Column>
           <Grid.Column
