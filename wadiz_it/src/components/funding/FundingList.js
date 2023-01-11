@@ -63,10 +63,10 @@ const FundingList = () => {
   }, [page, fundingItem]);
 
   useEffect(() => {
-    if (nickName === null) {
-      nav("/", { replace: true });
-      return;
-    }
+    // if (nickName === null) {
+    //   nav("/", { replace: true });
+    //   return;
+    // }
     getList();
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
