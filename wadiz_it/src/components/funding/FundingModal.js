@@ -14,7 +14,7 @@ const FundingModal = (props) => {
   //로그인한 사람의 포인트 출력
   useEffect(() => {
     axios
-      .get("member/get", { params: { MemberNum: props.loginPerson } })
+      .get("/member/get", { params: { MemberNum: props.loginPerson } })
       .then((res) => {
         setMemberData(res.data);
       })

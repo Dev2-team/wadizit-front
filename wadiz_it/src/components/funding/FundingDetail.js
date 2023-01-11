@@ -98,7 +98,7 @@ const FundingDetail = () => {
             if (res.data[i].fileType === 1) {
               let newFileList = [];
               const newFile = {
-                imageRoute: "upload/" + res.data[i].sysName,
+                imageRoute: "/upload/" + res.data[i].sysName,
               };
               newFileList.push(newFile);
               setThumbNail(newFileList);

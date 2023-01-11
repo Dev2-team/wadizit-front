@@ -48,7 +48,7 @@ const FundingList = () => {
         fffList.map((x) => {
           delete x.funding.memberNum;
           if (x.fundingFileList.length !== 0) {
-            x.funding.fileName = "upload/" + x.fundingFileList[1].sysName;
+            x.funding.fileName = "/upload/" + x.fundingFileList[1].sysName;
           }
           arr.push(x.funding);
           return x;
