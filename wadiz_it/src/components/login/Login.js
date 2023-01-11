@@ -17,7 +17,7 @@ const Login = ({ sucLogin }) => {
     e.preventDefault();
 
     axios
-      .post("member/login", form)
+      .post("/member/login", form)
       .then((result) => {
         if (result.data.success === true) {
           sucLogin(result.data);

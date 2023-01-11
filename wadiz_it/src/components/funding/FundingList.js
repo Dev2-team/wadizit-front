@@ -30,7 +30,7 @@ const FundingList = () => {
   const getList = useCallback(() => {
     setLoading(true);
     axios
-      .get("funding/page", { params: { pageNum: page } })
+      .get("/funding/page", { params: { pageNum: page } })
       .then((res) => {
         const { fffList, pageNum, end } = res.data;
         if (end) {
