@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Container } from "semantic-ui-react";
-import FundingDetail from "../FundingDetail";
+import FundingDetail from "../funding/FundingDetail";
 import Afunding from "./Afunding";
 
 const AdminFundingDetail = () => {

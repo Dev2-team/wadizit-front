@@ -124,7 +124,7 @@ const KakaoPayApprove = () => {
         </h4>
       </div>
       <div style={{ marginBottom: "60px" }}>
-        <Link to="/main">
+        <Link to="/">
           <Button>홈으로 돌아가기</Button>
         </Link>
       </div>

@@ -4,7 +4,6 @@ import { Button, Container, Header } from "semantic-ui-react";
 import BoardListTable from "./BoardListTable";
 
 const BoardList = () => {
-
   const nav = useNavigate();
   const loginPerson = sessionStorage.getItem("memberNum");
   console.log("로그인한 사람 : " + loginPerson);
@@ -15,11 +14,9 @@ const BoardList = () => {
       alert("로그인을 하셔야 글 작성이 가능합니다.");
       nav("/login");
     } else {
-      nav("/boardWrite");
+      nav("/board/write");
     }
-        
-  }
-  
+  };
 
   return (
     <Container>
@@ -31,10 +28,20 @@ const BoardList = () => {
         }}
       >
         </Container> */}
-      <Header as="h1" style={{marginTop:"50px", textAlign:"left", marginBottom:"30px"}}>자유게시판</Header>
-        <Button size="tiny" onClick={boardWrite} style={{float:"right", marginBottom:"25px"}}>작성</Button>
-        <BoardListTable></BoardListTable>
-        
+      <Header
+        as="h1"
+        style={{ marginTop: "50px", textAlign: "left", marginBottom: "30px" }}
+      >
+        자유게시판
+      </Header>
+      <Button
+        size="tiny"
+        onClick={boardWrite}
+        style={{ float: "right", marginBottom: "25px" }}
+      >
+        작성
+      </Button>
+      <BoardListTable></BoardListTable>
     </Container>
   );
 };

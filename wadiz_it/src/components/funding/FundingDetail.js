@@ -1,3 +1,4 @@
+import { right } from "@popperjs/core";
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
@@ -9,8 +10,13 @@ import {
   Header,
   Segment,
 } from "semantic-ui-react";
-import FundingProjectIntro from "../funding/FundingProjectIntro";
+import FundingComment from "../fundingComment/FundingComment";
+import FundingProjectIntro from "./FundingProjectIntro";
+import TokenTransaction from "../token/TokenTransaction";
 import ProgressBar from "../common/ProgressBar";
+import Button from "../common/Button";
+import FundingModal from "./FundingModal";
+import GoodsList from "./GoodsList";
 
 const panes = [
   {
@@ -18,6 +24,18 @@ const panes = [
     render: () => (
       <Tab.Pane attached={false}>{<FundingProjectIntro />}</Tab.Pane>
     ),
+  },
+  {
+    menuItem: "커뮤니티",
+    render: () => <Tab.Pane attached={false}>{<FundingComment />}</Tab.Pane>,
+  },
+  {
+    menuItem: "토큰 거래",
+    render: () => <Tab.Pane attached={false}>{<TokenTransaction />}</Tab.Pane>,
+  },
+  {
+    menuItem: "굿즈",
+    render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
   },
 ];
 
@@ -27,8 +45,8 @@ const TabMenu = () => (
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
-const Afunding = ({ fundingNum }) => {
-  fundingNum = localStorage.getItem("fundingNum");
+const FundingDetail = () => {
+  const fundingNum = localStorage.getItem("fundingNum");
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,
@@ -67,30 +85,29 @@ const Afunding = ({ fundingNum }) => {
     },
   ]);
 
-  //펀딩 상세정보 대표이미지 출력
+  //로그인한 사람의 정보
+  const loginPerson = sessionStorage.getItem("memberNum");
 
   //펀딩 상세정보 출력
   useEffect(() => {
-    axios
-      .get("/funding/file/list", { params: { fundingNum: fundingNum } })
-      .then(
-        (res) => {
-          for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].fileType === 1) {
-              let newFileList = [];
-              const newFile = {
-                imageRoute: "/upload/" + res.data[i].sysName,
-              };
-              newFileList.push(newFile);
-              setThumbNail(newFileList);
-            }
+    axios.get("funding/file/list", { params: { fundingNum: fundingNum } }).then(
+      (res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].fileType === 1) {
+            let newFileList = [];
+            const newFile = {
+              imageRoute: "upload/" + res.data[i].sysName,
+            };
+            newFileList.push(newFile);
+            setThumbNail(newFileList);
           }
-        },
-        [thumbNail]
-      );
+        }
+      },
+      [thumbNail]
+    );
 
     axios
-      .get("/funding", { params: { fundingNum: fundingNum } })
+      .get("funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
         console.log(res.data);
         setFundData(res.data);
@@ -129,6 +146,17 @@ const Afunding = ({ fundingNum }) => {
       />
     ));
   }
+
+  //펀딩 모달창 띄위기
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <Container>
@@ -299,7 +327,20 @@ const Afunding = ({ fundingNum }) => {
           </Segment>
 
           <Segment vertical>
-            {/* <Button fluid style={{marginLeft:"10px", width:"100%"}}>후원하기</Button> */}
+            <FundingModal
+              open={modalOpen}
+              close={closeModal}
+              header="후원하기"
+              fundingTitle={fundData.title}
+              loginPerson={loginPerson}
+            ></FundingModal>
+            <Button
+              fluid
+              style={{ marginLeft: "10px", width: "100%" }}
+              onClick={openModal}
+            >
+              후원하기
+            </Button>
           </Segment>
         </Grid.Column>
       </Grid>
@@ -310,4 +351,4 @@ const Afunding = ({ fundingNum }) => {
   );
 };
 
-export default Afunding;
+export default FundingDetail;

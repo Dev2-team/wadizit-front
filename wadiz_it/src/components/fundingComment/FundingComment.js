@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Header, Comment, Form } from "semantic-ui-react";
-import Button from "./Button";
+import Button from "../common/Button";
 import FundingCommentList from "./FundingCommentList";
 
 const FundingComment = () => {
@@ -62,6 +62,7 @@ const FundingComment = () => {
           .delete("/funding/comment", { params: { fundingComNum: comNum } })
           .then((res) => {
             if (res.data === "댓글 삭제 성공") {
+              alert("댓글이 삭제되었습니다.");
               const newCommentList = fundComData.filter(
                 (comment) => comment.fundingComNum !== comNum
               );
@@ -121,29 +122,37 @@ const FundingComment = () => {
   return (
     <Container textAlign="left">
       <Comment.Group style={{ maxWidth: "100%" }}>
-        <Header as="h3" dividing>
-          커뮤니티
-        </Header>
-
-        <Form reply onSubmit={fundComWrite}>
-          {/* <div className="fundComWrArea" style={{display:"inline-block", width:"700px"}}> */}
-
-          <Form.Group>
+        <Form
+          reply
+          onSubmit={fundComWrite}
+          style={{
+            height: "200px",
+            padding: "30px 30px 30px 30px",
+            backgroundColor: "rgb(245, 245, 245)",
+          }}
+        >
+          <h3>창작자에게 응원의 한마디</h3>
+          <h7>응원글은 펀딩 종료 전까지 작성 가능합니다.</h7>
+          <Form.Group style={{ marginTop: "20px" }}>
             <Form.Input
               id="fundingComText"
-              width={15}
-              // style={{resize: "none", height: "100px", width: "600px", display: "inline", fontSize:"15px"}}
               name="content"
               value={fundCom.content}
               onChange={onChange}
               placeholder="응원의 한마디 부탁드립니다!"
               required
+              style={{
+                marginLeft: "40px",
+                width: "45vw",
+                marginRight: "20px",
+                fontSize: "1.1rem",
+              }}
             />
             <Button
-              width={1}
               // labelPosition="left"
               icon="edit"
               // primary style={{fontSize:"15px"}}
+              style={{ width: "9vw", height: "2.9rem", marginRight: "0.8em" }}
             >
               등록하기
             </Button>

@@ -41,7 +41,7 @@ Wadiz-IT 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감
   };
   const nav = useNavigate();
   const moveFundingForm = () => {
-    nav("/FundingForm");
+    nav("/funding/form");
   };
 
   const isAllChecked = checkedButtons.length === 2;

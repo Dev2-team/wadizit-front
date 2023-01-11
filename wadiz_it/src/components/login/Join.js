@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import Button from "../common/Button";
 import "./Join.scss";
-import "./Input.scss";
-import "./Button.scss";
+import "../common/Input.scss";
+import "../common/Button.scss";
 
 const Join = () => {
   const nav = useNavigate();
@@ -25,10 +25,10 @@ const Join = () => {
   const [pwdMessage, setPwdMessage] = useState("");
   const [nameMessage, setNameMessage] = useState("");
   const [nickMessage, setNickMessage] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
-  const [nregMessage, setnRegMessage] = useState("");
-  const [nvalidMessage, setnValidMessage] = useState("");
-
+  const [nRegMessage, setnRegMessage] = useState("");
+  const [nValidMessage, setnValidMessage] = useState("");
 
   // 유효성 검사
   const [isId, setIsId] = useState(false);
@@ -36,6 +36,7 @@ const Join = () => {
   const [isPwd, setIsPwd] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isNick, setIsNick] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
   const [nIsReg, setnIsReg] = useState(false);
 
@@ -89,17 +90,6 @@ const Join = () => {
       .catch((error) => console.log(error));
   };
 
-  const onChange = useCallback(
-    (e) => {
-      const formObj = {
-        ...form,
-        [e.target.name]: e.target.value,
-      };
-      setForm(formObj);
-    },
-    [form]
-  );
-
   const ocPwd = useCallback(
     (e) => {
       const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
@@ -128,7 +118,7 @@ const Join = () => {
         [e.target.name]: e.target.value,
       };
       if (e.target.value.length < 2 || e.target.value.length > 5) {
-        setNameMessage("2글자 이상 5글자 미만으로 입력해주세요.");
+        setNameMessage("2글자 이상 5글자 이하로 입력해주세요.");
         setIsName(false);
       } else {
         setNameMessage("올바른 이름 형식입니다.");
@@ -153,16 +143,35 @@ const Join = () => {
         setnRegMessage("올바른 형식입니다.");
         setnIsReg(true);
         axios
-        .get(`member/checkNickname?nickname=${e.target.value}`)
-        .then((result) => {
-          if (result.data === 0) {
-            setnValidMessage("사용가능한 닉네임입니다.");
-            setIsNick(true);
-          } else {
-            setNickMessage("사용 중인 닉네임입니다.");
-            setIsNick(false);
-          }
-        });
+          .get(`member/checkNickname?nickname=${e.target.value}`)
+          .then((result) => {
+            if (result.data === 0) {
+              setnValidMessage("사용가능한 닉네임입니다.");
+              setIsNick(true);
+            } else {
+              setNickMessage("사용 중인 닉네임입니다.");
+              setIsNick(false);
+            }
+          });
+      }
+      setForm(formObj);
+    },
+    [form]
+  );
+
+  const onPhone = useCallback(
+    (e) => {
+      const phoneRegex = /^[0-9]+$/;
+      const formObj = {
+        ...form,
+        [e.target.name]: e.target.value,
+      };
+      if (!phoneRegex.test(e.target.value)) {
+        setPhoneMessage("숫자만 입력해주세요");
+        setIsPhone(false);
+      } else {
+        setPhoneMessage("사용가능합니다.");
+        setIsPhone(true);
       }
       setForm(formObj);
     },
@@ -242,10 +251,10 @@ const Join = () => {
           <span className={`message error`}>{nickMessage}</span>
         )}
         {nickname.length > 0 && !nIsReg && (
-          <span className={`message error`}>{nregMessage}</span>
+          <span className={`message error`}>{nRegMessage}</span>
         )}
         {nickname.length > 0 && getValidNick() && (
-          <span className={`message success`}>{nvalidMessage}</span>
+          <span className={`message success`}>{nValidMessage}</span>
         )}
 
         <input
@@ -267,8 +276,13 @@ const Join = () => {
           name="phone"
           value={phone}
           placeholder="연락처"
-          onChange={onChange}
+          onChange={onPhone}
         />
+        {phone.length > 0 && (
+          <span className={`message ${isPhone ? "success" : "error"}`}>
+            {phoneMessage}
+          </span>
+        )}
 
         <input
           className="Input"

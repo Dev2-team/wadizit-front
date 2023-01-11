@@ -292,7 +292,7 @@ const TokenTransaction = () => {
 
   return (
     <Container textAlign="left">
-      <Header as={"h2"}>후원 토큰 거래소</Header>
+      <Header as={"h3"}>후원 토큰 거래소</Header>
       <Grid stackable centered style={{ margin: 0, padding: 0 }}>
         <Grid.Row style={{ margin: 0, padding: 0 }}>
           <Grid.Column
