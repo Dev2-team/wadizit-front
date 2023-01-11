@@ -40,7 +40,7 @@ const AdminFundingDetail = () => {
             localStorage.setItem("fileName" + i, res.data[i].originName);
             const newFile = {
               ...res.data[i],
-              image: "upload/" + res.data[i].sysName,
+              image: "/upload/" + res.data[i].sysName,
             };
             newFileList.push(newFile);
           }

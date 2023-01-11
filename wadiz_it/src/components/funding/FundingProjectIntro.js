@@ -16,8 +16,8 @@ const FundingProjectIntro = () => {
         for (let i = 0; i < res.data.length; i++) {
           if (res.data[i].fileType === 2) {
             console.log("소개 파일");
-            console.log("upload/" + res.data[i].sysName);
-            imgList.push("upload/" + res.data[i].sysName);
+            console.log("/upload/" + res.data[i].sysName);
+            imgList.push("/upload/" + res.data[i].sysName);
           }
         }
 
