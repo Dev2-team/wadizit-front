@@ -11,7 +11,7 @@ const Header = ({ logState, onLogout, onMypage }) => {
   const { logNick, flink } = logState;
   // const { logNick } = logState;
   //로고 클릭(로그인 후 main, 로그인 전 home)
-  const homeLink = logNick === "" ? "/" : "/main";
+  const homeLink = logNick === "" ? "/" : "/";
 
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);

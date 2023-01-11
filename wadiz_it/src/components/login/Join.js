@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import Button from "../common/Button";
 import "./Join.scss";
-import "./Input.scss";
-import "./Button.scss";
+import "../common/Input.scss";
+import "../common/Button.scss";
 
 const Join = () => {
   const nav = useNavigate();
@@ -29,7 +29,6 @@ const Join = () => {
   const [emailMessage, setEmailMessage] = useState("");
   const [nRegMessage, setnRegMessage] = useState("");
   const [nValidMessage, setnValidMessage] = useState("");
-
 
   // 유효성 검사
   const [isId, setIsId] = useState(false);
@@ -144,16 +143,16 @@ const Join = () => {
         setnRegMessage("올바른 형식입니다.");
         setnIsReg(true);
         axios
-        .get(`member/checkNickname?nickname=${e.target.value}`)
-        .then((result) => {
-          if (result.data === 0) {
-            setnValidMessage("사용가능한 닉네임입니다.");
-            setIsNick(true);
-          } else {
-            setNickMessage("사용 중인 닉네임입니다.");
-            setIsNick(false);
-          }
-        });
+          .get(`member/checkNickname?nickname=${e.target.value}`)
+          .then((result) => {
+            if (result.data === 0) {
+              setnValidMessage("사용가능한 닉네임입니다.");
+              setIsNick(true);
+            } else {
+              setNickMessage("사용 중인 닉네임입니다.");
+              setIsNick(false);
+            }
+          });
       }
       setForm(formObj);
     },
@@ -162,7 +161,7 @@ const Join = () => {
 
   const onPhone = useCallback(
     (e) => {
-      const phoneRegex = /^[0-9]+$/; 
+      const phoneRegex = /^[0-9]+$/;
       const formObj = {
         ...form,
         [e.target.name]: e.target.value,

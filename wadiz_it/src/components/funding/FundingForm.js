@@ -3,8 +3,8 @@
 import React, { useCallback, useState } from "react";
 import { Container, Form, Header, Divider, Input } from "semantic-ui-react";
 import Calendar from "react-calendar";
-import Modal from "./Modal";
-import "./MyCalendar.scss";
+import Modal from "../common/Modal";
+import "../common/MyCalendar.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment/moment";
@@ -88,11 +88,11 @@ const FundingForm = () => {
                 )
                 .then((res) => {
                   alert("작성 성공");
-                  nav("/fundinglist");
+                  nav("/funding/list");
                 });
             } else {
               alert("작성 성공");
-              nav("/fundinglist");
+              nav("/funding/list");
             }
           } else {
             alert("게시글 등록 실패");

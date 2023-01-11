@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import Button from "../common/Button";
 import KakaoButton from "./KakaoButton";
 import "./Login.scss";
-
 
 const Login = ({ sucLogin }) => {
   const nav = useNavigate();
@@ -12,28 +11,25 @@ const Login = ({ sucLogin }) => {
     id: "",
     pwd: "",
   });
-  const {id, pwd} = form;
+  const { id, pwd } = form;
 
   const sendLogin = (e) => {
     e.preventDefault();
-    
+
     axios
       .post("member/login", form)
       .then((result) => {
         if (result.data.success === true) {
           sucLogin(result.data);
-          
-          // nav("/fundingList");
-          nav("/main")
+          nav("/");
         } else {
           alert("아이디나 비밀번호가 틀립니다.");
         }
-          const formObj = {
-            id: "",
-            pwd: "",
-          };
-          setForm(formObj);
-        
+        const formObj = {
+          id: "",
+          pwd: "",
+        };
+        setForm(formObj);
       })
       .catch((err) => console.log(err));
   };
@@ -42,7 +38,7 @@ const Login = ({ sucLogin }) => {
     (e) => {
       const formObj = {
         ...form,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       };
       setForm(formObj);
     },
@@ -53,15 +49,31 @@ const Login = ({ sucLogin }) => {
     <div className="Login">
       <form className="Content" onSubmit={sendLogin}>
         <h2>로그인</h2>
-        <input className="Input" name="id" value={id} placeholder="아이디" onChange={onChange} autoFocus required/>
-        <input type="password" className="Input" name="pwd" value={pwd} placeholder="비밀번호" onChange={onChange} required/>
-        <Button type="submit" disabled={!(id && pwd)}>로그인</Button>
+        <input
+          className="Input"
+          name="id"
+          value={id}
+          placeholder="아이디"
+          onChange={onChange}
+          autoFocus
+          required
+        />
+        <input
+          type="password"
+          className="Input"
+          name="pwd"
+          value={pwd}
+          placeholder="비밀번호"
+          onChange={onChange}
+          required
+        />
+        <Button type="submit" disabled={!(id && pwd)}>
+          로그인
+        </Button>
       </form>
-      <KakaoButton/>
+      <KakaoButton />
     </div>
   );
 };
-
-
 
 export default Login;
