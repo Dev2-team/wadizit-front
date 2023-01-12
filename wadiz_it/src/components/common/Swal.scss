@@ -35,16 +35,24 @@
 .swal2-styled.swal2-confirm {
   border: 0;
   border-radius: 0.25em;
-  //background: initial;
-  background-color: #00b2b2 !important;
+  background: initial;
+  background-color: #00b2b2;
   color: #fff;
   font-size: 1em;
 }
 .swal2-styled.swal2-deny {
   border: 0;
   border-radius: 0.25em;
-  //background: initial;
-  background-color: #e94e58 !important;
+  background: initial;
+  background-color: #e94e58;
+  color: #fff;
+  font-size: 1em;
+}
+.swal2-styled.swal2-cancel {
+  border: 0;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: #e94e58;
   color: #fff;
   font-size: 1em;
 }
