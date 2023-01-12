@@ -46,7 +46,7 @@ const FundingList = () => {
           });
         }
         fffList.map((x) => {
-          delete x.funding.memberNum;
+          // delete x.funding.memberNum;
           if (x.fundingFileList.length !== 0) {
             x.funding.fileName = "/upload/" + x.fundingFileList[1].sysName;
           }
@@ -89,9 +89,10 @@ const FundingList = () => {
 
   //펀딩 카드 클릭하면 해당 펀딩 상세로 이동함
   const getFundingDetail = useCallback(
-    (fundingNum) => {
-      // 보여질 펀딩 글의 번호를 localStorage에 저장
+    (fundingNum, fundingOwner) => {
+      // 보여질 펀딩 글의 번호, 펀딩 소유자 번호를 localStorage에 저장
       localStorage.setItem("fundingNum", fundingNum);
+      localStorage.setItem("fundingOwner", fundingOwner);
       nav("/funding/detail");
     },
     [nav]
@@ -122,7 +123,13 @@ const FundingList = () => {
     return Object.values(fundingItem).map((item) => {
       return (
         <Grid.Column key={item.fundingNum}>
-          <Card fluid onClick={() => getFundingDetail(item.fundingNum)}>
+          <Card
+            fluid
+            onClick={() => {
+              console.log("item", item);
+              getFundingDetail(item.fundingNum, item.memberNum.memberNum);
+            }}
+          >
             {item.fileName ? (
               <Image
                 style={{ height: 300, objectFit: "cover" }}

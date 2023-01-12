@@ -72,7 +72,6 @@ const FundingForm = () => {
               tokenNum: res.data,
               name: sendData.tokenName,
               amount: sendData.tokenAmount,
-              parValue: 100,
               currentPrice: sendData.tokenPrice,
               listingPrice: sendData.tokenPrice,
             });

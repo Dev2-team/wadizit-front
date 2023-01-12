@@ -1,44 +1,140 @@
-import React from "react";
-import { Modal, Button, Image, Header } from "semantic-ui-react";
+import axios from "axios";
+import React, { useCallback, useState } from "react";
+import {
+  Modal,
+  Button,
+  Form,
+  Container,
+  Divider,
+  Confirm,
+  Segment,
+} from "semantic-ui-react";
 
-const GoodsAddModal = () => {
-  const [open, setOpen] = React.useState(false);
+const GoodsAddModal = (props) => {
+  const [open, setOpen] = useState(true);
+
+  const [data, setData] = useState({
+    fundingNum: { fundingNum: localStorage.getItem("fundingNum") },
+    title: "",
+    price: "",
+    desc1: "",
+    desc2: "",
+    desc3: "",
+    imageFileName: "",
+  });
+  const onChange = useCallback(
+    (e) => {
+      const dataObj = {
+        ...data,
+        [e.target.name]: e.target.value,
+      };
+      setData(dataObj);
+    },
+    [data]
+  );
+
+  const [file, setFile] = useState({});
+  const onFileChange = useCallback(
+    (e) => {
+      const files = e.target.files;
+      if (files.length > 0) setFile(files[0]);
+    },
+    [file]
+  );
+
+  const cancel = () => {
+    setOpen(false);
+    props.toggleOpen();
+  };
+
+  const add = () => {
+    // 파일 form 생성
+    let form = new FormData();
+    form.append("files", file);
+    props.addGoods(data, form, cancel);
+  };
+
   return (
-    <Modal
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      trigger={<Button>Show Modal</Button>}
-    >
-      <Modal.Header>Select a Photo</Modal.Header>
-      <Modal.Content image>
-        <Image
-          size="medium"
-          src="https://react.semantic-ui.com/images/avatar/large/rachel.png"
-          wrapped
-        />
-        <Modal.Description>
-          <Header>Default Profile Image</Header>
-          <p>
-            We've found the following gravatar image associated with your e-mail
-            address.
-          </p>
-          <p>Is it okay to use this photo?</p>
-        </Modal.Description>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button color="black" onClick={() => setOpen(false)}>
-          Nope
-        </Button>
-        <Button
-          content="Yep, that's me"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={() => setOpen(false)}
-          positive
-        />
-      </Modal.Actions>
-    </Modal>
+    <Container>
+      <Modal
+        style={{}}
+        onClose={() => {
+          setOpen(false);
+          props.toggleOpen();
+        }}
+        onOpen={() => setOpen(true)}
+        open={open}
+        size={"tiny"}
+      >
+        <Modal.Header>굿즈 추가</Modal.Header>
+        <Modal.Content>
+          <Container onSubmit={add}>
+            <Form>
+              <Form.Input
+                name="title"
+                label={"굿즈 이름"}
+                placeholder={"굿즈 이름"}
+                required={true}
+                onChange={onChange}
+              ></Form.Input>
+              <Form.Input
+                name="price"
+                type="number"
+                label={"판매 토큰"}
+                placeholder={"판매 토큰"}
+                required={true}
+                onChange={onChange}
+              ></Form.Input>
+              <Form.Input
+                name="desc1"
+                label={"설명"}
+                placeholder={"설명"}
+                required={true}
+                onChange={onChange}
+              ></Form.Input>
+              <Form.Input
+                name="desc2"
+                label={"설명"}
+                placeholder={"설명"}
+                required={true}
+                onChange={onChange}
+              ></Form.Input>
+              <Form.Input
+                name="image"
+                type="file"
+                label={"이미지 파일 첨부"}
+                required={true}
+                onChange={onFileChange}
+              ></Form.Input>
+              <Divider></Divider>
+              <Form.Group style={{ float: "right" }}>
+                <Form.Button
+                  type="submit"
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    cancel();
+                  }}
+                >
+                  취소
+                </Form.Button>
+                <Form.Button
+                  type="submit"
+                  style={{
+                    backgroundColor: "#00b2b2",
+                    color: "white",
+                  }}
+                >
+                  추가
+                </Form.Button>
+              </Form.Group>
+            </Form>
+          </Container>
+        </Modal.Content>
+      </Modal>
+    </Container>
   );
 };
 
