@@ -13,10 +13,14 @@ const TokenOrderBookElement = (props) => {
             width={5}
           >
             <Header
-              color={props.color}
               as={"h4"}
               textAlign={"left"}
-              style={{ margin: 0, marginLeft: 5, padding: 0 }}
+              style={{
+                margin: 0,
+                marginLeft: 5,
+                padding: 0,
+                color: props.color,
+              }}
             >
               {/* 매수 주문 잔량 */}
               {props.buyVolume}
@@ -29,10 +33,14 @@ const TokenOrderBookElement = (props) => {
             width={6}
           >
             <Header
-              color={props.color}
               as={"h4"}
               textAlign={"center"}
-              style={{ margin: 0, marginLeft: 5, padding: 0 }}
+              style={{
+                margin: 0,
+                marginLeft: 5,
+                padding: 0,
+                color: props.color,
+              }}
             >
               {/* 가격 */}
               {props.price}
@@ -45,10 +53,14 @@ const TokenOrderBookElement = (props) => {
             width={5}
           >
             <Header
-              color={props.color}
               as={"h4"}
               textAlign={"right"}
-              style={{ margin: 0, marginLeft: 5, padding: 0 }}
+              style={{
+                margin: 0,
+                marginLeft: 5,
+                padding: 0,
+                color: props.color,
+              }}
             >
               {/* 매도 주문 잔량 */}
               {props.sellVolume}
