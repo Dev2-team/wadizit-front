@@ -93,13 +93,6 @@ const GoodsAddModal = (props) => {
                 onChange={onChange}
               ></Form.Input>
               <Form.Input
-                name="desc2"
-                label={"설명"}
-                placeholder={"설명"}
-                required={true}
-                onChange={onChange}
-              ></Form.Input>
-              <Form.Input
                 name="image"
                 type="file"
                 label={"이미지 파일 첨부"}

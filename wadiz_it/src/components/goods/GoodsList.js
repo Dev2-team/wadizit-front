@@ -26,46 +26,61 @@ const GoodsList = () => {
     makeGoodsElem();
   }, []);
 
-  const addGoods = (data, fileForm, callback) => {
-    // 굿즈 생성 요청
-    axios
-      .post("/funding/goods", data)
-      .then((res) => {
-        if (res.data === null) {
-          return;
-        }
-        let goods = res.data;
+  const addGoods = useCallback(
+    (data, fileForm, callback) => {
+      // 굿즈 생성 요청
+      axios
+        .post("/funding/goods", data)
+        .then((res) => {
+          if (res.data === null) {
+            return;
+          }
+          let goods = res.data;
 
-        // 파일 업로드
-        axios
-          .post("/funding/goods/image", fileForm, {
-            params: { goodsNum: goods.goodsNum },
-            headers: { "Content-Type": "multipart/form-data" },
-          })
-          .then((res) => {
-            if (res.data !== "") {
-              goods.imageFileName = res.data;
-              setGoodsList((prev) => [...prev, goods]);
-            }
-            callback();
-          })
-          .catch((err) => callback());
-      })
-      .catch((err) => callback());
+          // 파일 업로드
+          axios
+            .post("/funding/goods/image", fileForm, {
+              params: { goodsNum: goods.goodsNum },
+              headers: { "Content-Type": "multipart/form-data" },
+            })
+            .then((res) => {
+              if (res.data !== "") {
+                goods.imageFileName = res.data;
+                setGoodsList((prev) => [...prev, goods]);
+              }
+              callback();
+            })
+            .catch((err) => callback());
+        })
+        .catch((err) => callback());
+    },
+    [goodsList]
+  );
+
+  const purchaseOrDelete = (item) => {
+    console.log("pod");
+    if (memberNum === fundingOwner) {
+      // 삭제
+      axios.delete("/funding/goods?goodsNum=" + item.goodsNum).then((res) => {
+        const newGoodsList = goodsList.filter(
+          (goods) => goods.goodsNum !== item.goodsNum
+        );
+        setGoodsList(newGoodsList);
+      });
+    } else {
+      // 구매
+    }
   };
-
-  const purchase = () => {};
 
   const makeGoodsElem = () => {
     return Object.values(goodsList).map((item) => (
-      <Card onClick={purchase}>
+      <Card onClick={() => purchaseOrDelete(item)}>
         <Image wrapped src={item.imageFileName} ui={false} />
         <Card.Content>
-          <Card.Header as={"h4"}>{item.price} 코인</Card.Header>
+          <Card.Header as={"h4"}>{item.title}</Card.Header>
           <Divider></Divider>
-          <Card.Description as={"b"}>{item.desc1}</Card.Description>
-          <Card.Description>{item.desc2}</Card.Description>
-          <Divider></Divider>
+          <Card.Description as={"b"}>{item.price} 토큰</Card.Description>
+          <Card.Description>{item.desc1}</Card.Description>
         </Card.Content>
       </Card>
     ));
