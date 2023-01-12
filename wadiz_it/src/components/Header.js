@@ -84,7 +84,7 @@ const Header = ({ logState, onLogout, onMypage }) => {
               {button && logNick !== "" ? (
                 <span onClick={onLogout}>Logout</span>
               ) : (
-                <Link to="/join">Join</Link>
+                <Link to="/login/join">Join</Link>
               )}
             </div>
           </div>{" "}

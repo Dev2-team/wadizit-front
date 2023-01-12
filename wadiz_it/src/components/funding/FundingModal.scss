@@ -20,13 +20,14 @@
 
 .modal > .modalSection{
     width: 90%;
-    max-width: 450px;
+    max-width: 32vw;
     margin: 0 auto;
     border-radius: 0.3rem;
     background-color: #fff;
     /* 팝업이 열릴때 스르륵 열리는 효과 */
     animation: modal-show 0.3s;
     overflow: hidden;
+
 }
 
 .modal > .modalSection > .modalHeader {
@@ -52,21 +53,14 @@
 }
 
 .modal > .modalSection > .modalMain {
-    padding: 16px;
-    // border-bottom: 1px solid #dee2e6;
-    // border-top: 1px solid #dee2e6;
-    height: 700px;
+    padding: 40px;
+    font-size: 15px;
+    height: 68vh;
   }
   .modal > .modalSection > .modalFooter {
     text-align: center;
+    height: 10vh;
   }
-//   .modal > .modalSection > .modalFooter button {
-//     padding: 6px 12px;
-//     color: #fff;
-//     background-color: #6c757d;
-//     border-radius: 5px;
-//     font-size: 13px;
-//   }
 
 .modal.openModal{
     display: flex;
@@ -78,5 +72,70 @@
 //모달창 세부 css 
 
 .modalSection{
-    height: 800px;
+    height: 80vh;
+}
+
+.fundingProduct, .fundingPerson, .pointUse{
+    border: 2px solid rgba(34, 36, 38, 0.15);
+    padding: 25px 30px 25px 30px;
+    margin-bottom: 20px;
+    background-color: #fff;
+
+}
+
+.fundingProdInfo, .fundingPersonInfo,.fundingPoint{
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+#totalAmountPoint {
+    font-size: 20px;
+    color:#00b2b2;
+}
+
+.fundingPayPointInfo{
+    display: inline-block;
+    float: right;
+}
+
+.fundingPayPoint {
+    display: inline;
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+#totalAmountPoint{
+    display: inline;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.pointUse{
+    padding-bottom: 50px;
+}
+
+.modalMain{
+    background-color: #fff;
+}
+
+#pointAlert{
+    color: #e94e58;
+}
+
+.holdPoint, .expectedPoint, .afterPointInfo{
+    margin-bottom: 10px;
+}
+
+#pointAlert{
+    margin-bottom: 10px;
+}
+
+.afterPointInfo{
+    margin-bottom: 18px;
+}
+
+.fundingPersonName{
+    margin-bottom: 5px;
 }

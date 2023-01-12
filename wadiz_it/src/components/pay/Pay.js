@@ -38,8 +38,8 @@ const Pay = () => {
       total_amount: 5000,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/pay/approve",
-      fail_url: "http://localhost:3000/pay/approve",
+      approval_url: "http://localhost:3000/pay/KakaoPayApprove",
+      fail_url: "http://localhost:3000/pay/KakaoPayApprove",
       cancel_url: "http://localhost:3000/pay",
     },
   };
@@ -57,8 +57,8 @@ const Pay = () => {
       total_amount: 10000,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/pay/approve",
-      fail_url: "http://localhost:3000/pay/approve",
+      approval_url: "http://localhost:3000/pay/KakaoPayApprove",
+      fail_url: "http://localhost:3000/pay/KakaoPayApprove",
       cancel_url: "http://localhost:3000/pay",
     },
   };
@@ -76,8 +76,8 @@ const Pay = () => {
       total_amount: 20000,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/pay/approve",
-      fail_url: "http://localhost:3000/pay",
+      approval_url: "http://localhost:3000/pay/KakaoPayApprove",
+      fail_url: "http://localhost:3000/KakaoPayApprove",
       cancel_url: "http://localhost:3000/pay",
     },
   };

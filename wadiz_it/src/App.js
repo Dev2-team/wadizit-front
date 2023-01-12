@@ -25,6 +25,7 @@ import SimpleSlider from "./components/common/SimpleSlider";
 import KakaoPayApprove from "./components/pay/KakaoPayApprove";
 import Footer from "./components/Footer";
 import AdminFundingDetail from "./components/admin/AdminFundingDetail";
+import Pay from "./components/pay/Pay";
 
 function App() {
   const nav = useNavigate();
@@ -162,6 +163,7 @@ function App() {
           path="/adminPage/fundingDetail"
           element={<AdminFundingDetail />}
         />
+        <Route path="/pay" element={<Pay/>}/>
         <Route path="/pay/KakaoPayApprove" element={<KakaoPayApprove />} />
         <Route path="/login/myPage" element={<MyPage />} />
         <Route path="/board/write" element={<BoardWrite />} />
