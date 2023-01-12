@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Container, Grid, Header, Segment } from "semantic-ui-react";
 import TokenOrderForm from "./TokenOrderForm";
 import TokenOrderBook from "./TokenOrderBook";
 import TokenOpenOrderList from "./TokenOpenOrderList";
 import SockJS from "sockjs-client";
 import * as StompJs from "@stomp/stompjs";
+import { useResolvedPath } from "react-router-dom";
 
 const TokenTransaction = () => {
-  console.log(localStorage.getItem("fundingNum"));
   const [data, setData] = useState({
     memberNum: Number(sessionStorage.getItem("memberNum")),
     tokenNum: localStorage.getItem("fundingNum"),
@@ -19,7 +19,12 @@ const TokenTransaction = () => {
     availableToken: 0,
     orderList: [],
     myOrderList: [],
+    endDate: "",
   });
+
+  const [msg, setMsg] = useState("...");
+  const [initReadyFlag, setInitReadyFlag] = useState(false);
+  const [tradeReadyFlag, setTradeReadyFlag] = useState(false);
 
   const client = useRef({});
   useEffect(() => {
@@ -55,7 +60,6 @@ const TokenTransaction = () => {
 
   const initReq = () => {
     if (data.memberNum === null) {
-      console.log("로그인 필요");
       return;
     }
     // 데이터 초기화 요청
@@ -68,9 +72,7 @@ const TokenTransaction = () => {
 
   const initCallback = (body) => {
     const initData = JSON.parse(body);
-    console.log(body);
     if (initData.retCode !== 200) {
-      console.log(initData.errorMsg);
       return;
     }
     const dataObj = {
@@ -82,7 +84,13 @@ const TokenTransaction = () => {
       availableToken: initData.availableToken,
       orderList: initData.tokenOrderList,
       myOrderList: initData.myOrderList,
+      endDate: initData.endDate,
     };
+    setInitReadyFlag(true);
+    setMsg("아직 개장 전입니다");
+    if (initData.endDate < new Date()) {
+      setTradeReadyFlag(true);
+    }
     setData(dataObj);
   };
 
@@ -90,7 +98,6 @@ const TokenTransaction = () => {
     console.log("order callback", body);
     const res = JSON.parse(body);
     if (res.retCode !== 200) {
-      console.log(res.errorMsg);
       return;
     }
     console.log("order res", res.txList);
@@ -102,7 +109,6 @@ const TokenTransaction = () => {
         let newOrderList = [];
         // 주문 타입에 따른 주문 얻기
         const newOrder = tx.sellOrder === null ? tx.buyOrder : tx.sellOrder;
-        console.log("neworder", newOrder);
 
         // 체결된 경우
         if (tx.buyOrder !== null && tx.sellOrder !== null) {
@@ -132,7 +138,6 @@ const TokenTransaction = () => {
             orderList: [...prev.orderList, newOrder],
           };
         }
-        console.log(prev.memberNum, tx.ordererMemberNum);
 
         // 내 주문 리스트 업데이트
         if (
@@ -148,9 +153,7 @@ const TokenTransaction = () => {
           }
           // 체결된 경우: 내 주문 리스트에 존재하는 내 주문 찾기
           else {
-            console.log(prev.memberNum);
             newOrderList.forEach((order) => console.log(order));
-
             const newMyOrderList = newOrderList.filter(
               (order) => prev.memberNum === order.memberNum
             );
@@ -174,9 +177,6 @@ const TokenTransaction = () => {
             availablePoint: tx.sellerPoint,
           };
         }
-
-        console.log("prev", prev);
-        console.log("sum", { ...prev, ...newData });
         return { ...prev, ...newData };
       });
     }
@@ -188,7 +188,6 @@ const TokenTransaction = () => {
       console.log(res.errorMsg);
       return;
     }
-    console.log("cancel res", res);
     const tx = res.txList[0];
 
     // 저장할 데이터 처리
@@ -197,7 +196,6 @@ const TokenTransaction = () => {
 
       // 내가 주문한 경우의 보유 포인트 및 토큰 업데이트
       if (prev.memberNum === tx.buyerMemberNum) {
-        console.log("myorder!", tx.cancelOrder);
         // 포인트 및 보유 토큰 업데이트
         newData = {
           ...newData,
@@ -223,8 +221,6 @@ const TokenTransaction = () => {
         orderList: [...newOrderList],
       };
 
-      console.log("prev", prev);
-      console.log("sum", { ...prev, ...newData });
       return { ...prev, ...newData };
     });
   };
@@ -254,7 +250,6 @@ const TokenTransaction = () => {
       price: price,
       amount: amount,
     };
-    console.log("buy", JSON.stringify(newOrder));
     client.current.publish({
       destination: "/token/order/" + data.tokenNum,
       body: JSON.stringify(newOrder),
@@ -269,7 +264,6 @@ const TokenTransaction = () => {
       price: price,
       amount: amount,
     };
-    console.log("sell", JSON.stringify(newOrder));
     client.current.publish({
       destination: "/token/order/" + data.tokenNum,
       body: JSON.stringify(newOrder),
@@ -282,14 +276,13 @@ const TokenTransaction = () => {
       tokenOrderNum: orderNum,
       type: 3,
     };
-    console.log("cancel", JSON.stringify(newOrder));
     client.current.publish({
       destination: "/token/cancel/" + data.tokenNum,
       body: JSON.stringify(newOrder),
     });
   };
 
-  return (
+  return initReadyFlag && tradeReadyFlag ? (
     <Container textAlign="left">
       <Grid stackable centered style={{ margin: 0, padding: 0 }}>
         <Grid.Row style={{ margin: 0, padding: 0 }}>
@@ -375,6 +368,10 @@ const TokenTransaction = () => {
           justifyContent: "center",
         }}
       ></Container>
+    </Container>
+  ) : (
+    <Container textAlign="center" style={{ marginTop: 30, marginBottom: 30 }}>
+      <Header>{msg}</Header>
     </Container>
   );
 };
