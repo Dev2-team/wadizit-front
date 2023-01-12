@@ -70,6 +70,34 @@ const TokenTransaction = () => {
     });
   };
 
+  function dateFormat(date) {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    month = month >= 10 ? month : "0" + month;
+    day = day >= 10 ? day : "0" + day;
+    hour = hour >= 10 ? hour : "0" + hour;
+    minute = minute >= 10 ? minute : "0" + minute;
+    second = second >= 10 ? second : "0" + second;
+
+    return (
+      date.getFullYear() +
+      "-" +
+      month +
+      "-" +
+      day +
+      "T" +
+      hour +
+      ":" +
+      minute +
+      ":" +
+      second
+    );
+  }
+
   const initCallback = (body) => {
     const initData = JSON.parse(body);
     if (initData.retCode !== 200) {
@@ -87,9 +115,14 @@ const TokenTransaction = () => {
       endDate: initData.endDate,
     };
     setInitReadyFlag(true);
-    setMsg("아직 개장 전입니다");
-    if (initData.endDate < new Date()) {
+    const currentDate = dateFormat(new Date());
+
+    console.log(initData.endDate, "vs", currentDate);
+
+    if (initData.endDate < currentDate) {
       setTradeReadyFlag(true);
+    } else {
+      setMsg("아직 개장 전입니다");
     }
     setData(dataObj);
   };
