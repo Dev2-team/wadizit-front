@@ -15,7 +15,7 @@ const MyPage = () => {
   // 데이터
   const [memberItem, setMemberItem] = useState([]);
   const [myFundingItem, setMyFundingItem] = useState([]);
-  // const [myDonateItem, setMyDonateItem] = useState([]);
+  const [myDonateItem, setMyDonateItem] = useState([]);
 
   // 유효성 검사
   const [pwdError, setPwdError] = useState(false);
@@ -56,6 +56,14 @@ const MyPage = () => {
     //       setMyDonateItem(res.data);
     //     })
     //     .catch((err) => console.log(err));
+    // 내 결제 내역 가져오기
+    axios
+      .get(`/donate/dlist`)
+      .then((res) => {
+        console.log(res.data);
+        setMyDonateItem(res.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   // pwd 유효성 검사
@@ -615,7 +623,7 @@ const MyPage = () => {
   const manageFunding = () => {
     return (
       <Container>
-        <Table celled compact definition collapsing={false}>
+        <Table basic="very" celled compact definition collapsing={false}>
           <Table.Header fullWidth>
             <Table.Row>
               <Table.HeaderCell>제목</Table.HeaderCell>
@@ -634,26 +642,34 @@ const MyPage = () => {
     );
   };
 
-  // tab 2
-  const manageDonate = () => {
-    return Object.values().map((item) => {
+  // 내가 후원한 후원 내역
+  const DonateTable = () => {
+    return Object.values(myDonateItem).map((item) => {
       return (
-        <Container>
-          <Table celled compact definition collapsing={false}>
-            <Table.Header fullWidth>
-              <Table.Row>
-                <Table.HeaderCell>제목</Table.HeaderCell>
-                <Table.HeaderCell>작성자</Table.HeaderCell>
-                <Table.HeaderCell>시작일</Table.HeaderCell>
-                <Table.HeaderCell>종료일</Table.HeaderCell>
-                <Table.HeaderCell>목표금액</Table.HeaderCell>
-                <Table.HeaderCell>현재금액</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-          </Table>
-        </Container>
+        <Table.Row key={item.donateNum}>
+          <Table.Cell>{item.fundingTitle}</Table.Cell>
+          <Table.Cell>{item.donateAmount} 포인트</Table.Cell>
+        </Table.Row>
       );
     });
+  };
+  // tab 2
+  const manageDonate = () => {
+    return (
+      <Container>
+        <Table basic="very" celled compact definition collapsing={false}>
+          <Table.Header fullWidth>
+            <Table.Row>
+              <Table.HeaderCell>펀딩 제목</Table.HeaderCell>
+              <Table.HeaderCell>후원 금액</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <DonateTable />
+          </Table.Body>
+        </Table>
+      </Container>
+    );
   };
 
   const panes = [
@@ -671,7 +687,7 @@ const MyPage = () => {
     },
     {
       menuItem: "결제 내역",
-      render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
+      render: () => <Tab.Pane attached={false}>{manageDonate()}</Tab.Pane>,
     },
   ];
 
