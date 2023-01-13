@@ -1,15 +1,7 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Form,
-  Tab,
-  Header,
-  Table,
-  Divider,
-  Button,
-  Message,
-} from "semantic-ui-react";
+import React from "react";
+import { Container, Tab, Header } from "semantic-ui-react";
+import MyPageFunding from "./MyPageFunding";
+import MyPageMember from "./MyPageMember";
 
 const MyPage = () => {
   // 데이터
@@ -675,19 +667,20 @@ const MyPage = () => {
   const panes = [
     {
       menuItem: "회원 정보",
-      render: () => <Tab.Pane attached={false}>{manageMember()}</Tab.Pane>,
+      render: () => <Tab.Pane attached={false}>{<MyPageMember />}</Tab.Pane>,
     },
     {
       menuItem: "펀딩 생성 내역",
-      render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
+      render: () => <Tab.Pane attached={false}>{<MyPageFunding />}</Tab.Pane>,
     },
     {
       menuItem: "보유 코인 내역",
-      render: () => <Tab.Pane attached={false}>{manageFunding()}</Tab.Pane>,
+      render: () => <Tab.Pane attached={false}>{}</Tab.Pane>,
     },
     {
       menuItem: "결제 내역",
       render: () => <Tab.Pane attached={false}>{manageDonate()}</Tab.Pane>,
+
     },
   ];
 

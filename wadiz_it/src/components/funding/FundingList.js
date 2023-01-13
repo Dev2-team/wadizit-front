@@ -13,7 +13,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import SimpleSlider from "../common/SimpleSlider";
 import Loading from "../common/Loading";
-import ProgressBar from "../common/ProgressBar";
+import FundingProgressBar from "./FundingProgressBar";
 import { Link } from "react-router-dom";
 
 const FundingList = () => {
@@ -113,11 +113,15 @@ const FundingList = () => {
     var endDateFormat = new Date(item.endDate);
     var diff = endDateFormat - today;
     const dDay = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+
     if (dDay > 0) {
+      // dDay.css("color", "#90949c");
       return dDay + "일 남음";
     } else if (dDay === 0) {
+      // dDay.css("color", "#00b2b2");
       return "마감 임박";
     } else {
+      // dDay.css("color", "#e94e58");
       return "종료";
     }
   };
@@ -162,7 +166,7 @@ const FundingList = () => {
 
             <Card.Content>
               <Card.Header style={{ height: "80px" }}>{item.title}</Card.Header>
-              <ProgressBar completed={getCompleteRate(item)} />
+              <FundingProgressBar completed={getCompleteRate(item)} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ display: "flex" }}>
                   {/* 달성률 */}
