@@ -1,7 +1,7 @@
-import { right } from "@popperjs/core";
-import axios, { formToJSON } from "axios";
+
+import axios from "axios";
 import moment from "moment/moment";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Image,
@@ -155,7 +155,7 @@ const FundingDetail = () => {
           console.log(donator);
           console.log(loginPerson);
           for (let i = 0; i < donator.length; i++) {
-            if (parseInt(loginPerson) === parseInt(donator[i])) {
+            if (parseInt(loginPerson) == parseInt(donator[i])) {
               // console.log("맞다");
               setIsDonator(true);
               break;

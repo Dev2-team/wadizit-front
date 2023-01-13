@@ -6,7 +6,7 @@ import { Form } from "semantic-ui-react";
 
 const FundingModal = (props) => {
 
-  const { open, close, header, fundingTitle, force } = props;
+  const { open, close, header, fundingTitle } = props;
 
   //로그인한 사람의 정보
   const [memberData, setMemberData] = useState({
