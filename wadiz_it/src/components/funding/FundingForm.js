@@ -322,6 +322,7 @@ const FundingForm = () => {
           fluid
           label="펀딩 대표이미지 추가"
           name="files"
+          accept="image/*"
           onChange={onFileChange}
           //multiple
         />
@@ -331,6 +332,7 @@ const FundingForm = () => {
           fluid
           label="펀딩 상세정보 이미지 추가"
           name="files"
+          accept="image/*"
           onChange={onFileChange}
           multiple
         />
