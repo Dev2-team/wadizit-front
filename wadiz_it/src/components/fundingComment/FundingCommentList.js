@@ -5,7 +5,7 @@ const FundingCommentList = (props) => {
   const fundingCommentList = props.fundingCommentList;
 
   let fundComList = null;
-  console.log("갯수:" + fundingCommentList.length);
+  // console.log("갯수:" + fundingCommentList.length);
 
   if (fundingCommentList.length !== 0) {
     fundComList = Object.values(fundingCommentList).map((fundComItem) => (

@@ -44,7 +44,7 @@ const TokenBuyOrder = (props) => {
             <Header style={{ margin: 0 }} size="small">
               매수 가능 금액
             </Header>
-            <Header color="green" style={{ margin: 0 }} size="small">
+            <Header style={{ margin: 0, color: "#00b2b2" }} size="small">
               {props.availablePoint} 원
             </Header>
           </Container>
@@ -74,7 +74,11 @@ const TokenBuyOrder = (props) => {
             </Grid>
           </Container>
           <Divider></Divider>
-          <Button fluid color="green" onClick={sendBuyOrder}>
+          <Button
+            fluid
+            style={{ backgroundColor: "#00b2b2", color: "white" }}
+            onClick={sendBuyOrder}
+          >
             매수
           </Button>
         </Card.Description>
@@ -118,7 +122,7 @@ const TokenSellOrder = (props) => {
               매도 가능 토큰
             </Header>
             <Header color="red" style={{ margin: 0 }} size="small">
-              {props.availableToken} TK
+              {props.availableToken} 토큰
             </Header>
           </Container>
           <br></br>

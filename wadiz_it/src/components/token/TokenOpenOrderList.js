@@ -10,7 +10,7 @@ const makeTokenOpenOrderList = (orderList, cancel) => {
     const order = orderList[i];
     let color = "red";
     if (order.type === 1) {
-      color = "green";
+      color = "#00b2b2";
     }
     result.push(
       <TokenOpenOrderElement

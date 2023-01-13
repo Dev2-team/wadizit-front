@@ -135,7 +135,7 @@ const BoardDetail = () => {
     return (
       <div className="fileDown" key={i} onClick={() => onDown(v)}>
         <img
-          src="asset/clipIcon.png"
+          src="../asset/clipIcon.png"
           alt="사진없음"
           style={{ width: "13px", height: "auto" }}
         ></img>

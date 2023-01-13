@@ -30,6 +30,7 @@ import Pay from "./components/pay/Pay";
 import KakaoPayApprove from "./components/pay/KakaoPayApprove";
 import TokenTransaction from "./components/token/TokenTransaction";
 
+
 function App() {
   const nav = useNavigate();
 
@@ -169,6 +170,7 @@ function App() {
         <Route path="/funding/detail" element={<FundingDetail />} />
         <Route path="/funding/form" element={<FundingForm />} />
         <Route path="/funding/terms" element={<FundingTerms />} />
+
         <Route path="/board/write" element={<BoardWrite />} />
         <Route path="/board/detail" element={<BoardDetail />} />
         <Route path="/board/update" element={<BoardUpdate />} />

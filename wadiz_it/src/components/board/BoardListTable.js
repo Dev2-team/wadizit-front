@@ -41,9 +41,11 @@ const BoardListTable = () => {
         <Table.Cell
           colspan="5"
           style={{
-            height: "180px",
-            fontSize: "15px",
-            fontWeight: 600,
+            height: "200px",
+            lineHeight:"200px",
+            fontSize: "17px",
+            color: "#90949c",
+            fontWeight:400
           }}
         >
           게시글이 아직 존재하지 않습니다.

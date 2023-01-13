@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { Container, Divider, Form, Segment, Header } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import "../common/Swal.scss";
+
 const FundingTerms = () => {
   const terms_1 = `1. 이용 목적
 
@@ -41,7 +44,23 @@ Wadiz-IT 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감
   };
   const nav = useNavigate();
   const moveFundingForm = () => {
-    nav("/funding/form");
+    Swal.fire({
+      title: "모든 약관에 동의하셨습니다.",
+      text: "펀딩 작성 페이지로 이동하시겠습니까?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "네 바로 이동할게요",
+      cancelButtonText: "아니오 한번 더 확인할게요",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "이동!",
+          "펀딩 작성을 진행해주세요",
+          "success",
+          nav("/funding/form")
+        );
+      }
+    });
   };
 
   const isAllChecked = checkedButtons.length === 2;
