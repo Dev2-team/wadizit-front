@@ -17,7 +17,6 @@ import TokenTransaction from "../token/TokenTransaction";
 import ProgressBar from "../common/ProgressBar";
 import Button from "../common/Button";
 import FundingModal from "./FundingModal";
-import GoodsList from "./GoodsList";
 import { useNavigate } from "react-router-dom";
 import Goods from "../goods/Goods";
 
