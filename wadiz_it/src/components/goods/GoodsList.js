@@ -5,9 +5,16 @@ import Swal from "sweetalert2";
 import GoodsAddModal from "./GoodsAddModal";
 
 const GoodsList = () => {
+  const [tokenAmount, setTokenAmount] = useState(
+    sessionStorage.getItem("currentTokenAmount")
+  );
+  console.log(
+    "보유 토큰",
+    tokenAmount,
+    sessionStorage.getItem("currentTokenAmount")
+  );
   const memberNum = sessionStorage.getItem("memberNum");
   const fundingOwner = localStorage.getItem("fundingOwner");
-  console.log(memberNum, fundingOwner);
   const fundingNum = localStorage.getItem("fundingNum");
   const [goodsList, setGoodsList] = useState([]);
   const [open, setOpen] = useState(false);
@@ -47,7 +54,7 @@ const GoodsList = () => {
             .then((res) => {
               if (res.data !== "") {
                 goods.imageFileName = res.data;
-                setGoodsList((prev) => [...prev, goods]);
+                setGoodsList((prev) => [...goodsList, goods]);
               }
               callback();
             })
@@ -81,10 +88,10 @@ const GoodsList = () => {
     });
   };
 
-  const purchaseGoodsArlet = (item) => {
+  const purchaseGoodsArlet = (item, amount) => {
     Swal.fire({
       title: "굿즈 구매",
-      text: "굿즈를 구매하시겠습니까?",
+      text: "굿즈를 구매하시겠습니까? [" + amount + " 토큰 보유]",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -98,8 +105,9 @@ const GoodsList = () => {
           .then((res) => {
             if (res.data === "success") {
               Swal.fire("구매 성공!", "", "success");
+              setTokenAmount(tokenAmount - item.price);
             } else {
-              Swal.fire("구매 실패!", "", "fail");
+              Swal.fire("구매 실패!", res.data, "fail");
             }
           })
           .catch((err) => {
@@ -110,13 +118,12 @@ const GoodsList = () => {
   };
 
   const purchaseOrDelete = (item) => {
-    console.log("pod");
     if (memberNum === fundingOwner) {
       // 삭제
       deleteGoodsArlet(item);
     } else {
       // 구매
-      purchaseGoodsArlet(item);
+      purchaseGoodsArlet(item, tokenAmount);
     }
   };
 
