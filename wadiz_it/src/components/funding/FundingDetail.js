@@ -1,4 +1,3 @@
-
 import { right } from "@popperjs/core";
 import axios, { formToJSON } from "axios";
 import moment from "moment/moment";
@@ -20,7 +19,6 @@ import FundingModal from "./FundingModal";
 import { useNavigate } from "react-router-dom";
 import Goods from "../goods/Goods";
 
-
 const panes = [
   {
     menuItem: "프로젝트 소개",
@@ -30,7 +28,7 @@ const panes = [
   },
   {
     menuItem: "커뮤니티",
-    render: () => <Tab.Pane attached={false} >{<FundingComment />}</Tab.Pane>,
+    render: () => <Tab.Pane attached={false}>{<FundingComment />}</Tab.Pane>,
   },
   {
     menuItem: "토큰 거래",
@@ -43,13 +41,12 @@ const panes = [
 ];
 
 const TabMenu = () => (
-  <Tab menu={{ secondary: true, pointing: true }} panes={panes}/>
+  <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
 );
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const FundingDetail = () => {
-  
   const nav = useNavigate();
 
   const fundingNum = localStorage.getItem("fundingNum");
@@ -67,24 +64,21 @@ const FundingDetail = () => {
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
-  const diffDay = (Math.floor(diff / (1000 * 60 * 60 * 24))) + 1;
-
+  const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 
   //달성률 % (소수점 처리)
   let achieveRate =
-    ((parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) *
-      100);
-  // console.log("달성률" + achieveRate);  
+    (parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) *
+    100;
+  // console.log("달성률" + achieveRate);
 
-    if (achieveRate === 0) {
-      achieveRate = 0;
-    } else if (achieveRate < 1) {
-      achieveRate = achieveRate.toFixed(1);
-    } else if (achieveRate >= 1) {
-      achieveRate = achieveRate.toFixed(0);
-    }
-
-
+  if (achieveRate === 0) {
+    achieveRate = 0;
+  } else if (achieveRate < 1) {
+    achieveRate = achieveRate.toFixed(1);
+  } else if (achieveRate >= 1) {
+    achieveRate = achieveRate.toFixed(0);
+  }
 
   //금액 쉼표 표시
   let currentAmtFormat = fundData.currentAmount
@@ -94,7 +88,6 @@ const FundingDetail = () => {
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-  
   //progress bar 애니메이션
   const [completeRate, setCompleteRate] = useState(0);
 
@@ -109,16 +102,15 @@ const FundingDetail = () => {
 
   //펀딩 후원자 정보 데이터
   const [donator, setDonator] = useState([]);
-  
+
   //펀딩 후원자 판단
   const [isDonator, setIsDonator] = useState(false);
 
-    //펀딩 모달창 띄위기
-    const [modalOpen, setModalOpen] = useState(false);
+  //펀딩 모달창 띄위기
+  const [modalOpen, setModalOpen] = useState(false);
 
   //펀딩 상세정보 출력
   useEffect(() => {
-
     //펀딩 이미지 출력
     axios
       .get("/funding/file/list", { params: { fundingNum: fundingNum } })
@@ -138,7 +130,6 @@ const FundingDetail = () => {
         [thumbNail]
       );
 
-    
     //펀딩 상세정보 출력
     axios
       .get("/funding", { params: { fundingNum: fundingNum } })
@@ -150,40 +141,39 @@ const FundingDetail = () => {
 
     setTimeout(() => setCompleteRate(achieveRate), 1000);
 
-
     //펀딩 후원자 정보 출력
     axios
       .get("/donate/getFundingPerson", { params: { fundingNum: fundingNum } })
       .then((res) => {
-
         let donatorList = [];
         for (let i = 0; i < res.data.length; i++) {
-
           donatorList.push(res.data[i]);
           setDonator(donatorList);
         }
 
         if (donator.length > 0) {
           console.log(donator);
-          console.log(loginPerson)
-          for (let i = 0; i < donator.length; i++){
+          console.log(loginPerson);
+          for (let i = 0; i < donator.length; i++) {
             if (parseInt(loginPerson) === parseInt(donator[i])) {
               // console.log("맞다");
-              setIsDonator(true); 
+              setIsDonator(true);
               break;
             }
-            
           }
         }
 
         localStorage.setItem("isDonator", isDonator);
-
       })
       .catch((err) => console.log(err));
 
+    axios
+      .get("/token/amount", { params: { tokenNum: fundingNum } })
+      .then((res) => {
+        console.log("보유 토큰 : ", res.data);
+        sessionStorage.setItem("currentTokenAmount", res.data);
+      });
   }, [achieveRate, isDonator]);
-
-
 
   //대표이미지 출력
   let fundingFileImage = null;
@@ -217,7 +207,6 @@ const FundingDetail = () => {
   //펀딩 후원자 수 출력
   const donatorAmount = donator.length;
 
-
   const openModal = () => {
     if (loginPerson !== null) {
       setModalOpen(true);
@@ -225,7 +214,6 @@ const FundingDetail = () => {
       alert("로그인 이후 이용 가능합니다.");
       nav("/login");
     }
-    
   };
 
   const closeModal = () => {
@@ -319,7 +307,7 @@ const FundingDetail = () => {
                 fontSize: "14px",
                 padding: "30px",
                 paddingLeft: "40px",
-                backgroundColor: "rgb(245, 245, 245)"
+                backgroundColor: "rgb(245, 245, 245)",
               }}
             >
               <div>
@@ -413,7 +401,7 @@ const FundingDetail = () => {
             <Button
               fluid
               style={{ marginLeft: "10px", width: "100%" }}
-              onClick={openModal} 
+              onClick={openModal}
             >
               후원하기
             </Button>
