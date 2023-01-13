@@ -65,7 +65,7 @@ const FundingDetail = () => {
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
-  const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const diffDay = (Math.floor(diff / (1000 * 60 * 60 * 24))) + 1;
 
 
   //달성률 % (소수점 처리)

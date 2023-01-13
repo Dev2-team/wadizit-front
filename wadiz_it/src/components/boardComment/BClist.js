@@ -82,7 +82,7 @@ const BClist = () => {
   let boardCommentList = null;
   if (bcList.length === 0) {
     boardCommentList = (
-      <div style={{ paddingTop: "60px" }} key={0}>
+      <div style={{ paddingTop: "70px" }} key={0}>
         <h4 style={{ textAlign: "center", color: "#00b2b2" }}>
           댓글이 없습니다.
         </h4>
