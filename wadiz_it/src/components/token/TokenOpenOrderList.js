@@ -8,7 +8,7 @@ const makeTokenOpenOrderList = (orderList, cancel) => {
   // result.push(<Header style={{ margin: 0, padding: 0 }}>주문 내역</Header>);
   for (let i = 0; i < orderList.length; i++) {
     const order = orderList[i];
-    let color = "red";
+    let color = "#db2828";
     if (order.type === 1) {
       color = "#00b2b2";
     }
