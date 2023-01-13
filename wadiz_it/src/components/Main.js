@@ -1,6 +1,5 @@
 import React from "react";
 import FundingList from "./funding/FundingList";
-import "./Main.scss";
 
 const Main = () => {
   return (

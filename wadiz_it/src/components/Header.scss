@@ -2,14 +2,14 @@
   background: white;
   color: black;
   // padding: 10px;
+  // width: 75vw;
   margin: 0;
   height: 80px;
-  line-height: 50px;
+  // line-height: 50px;
   box-sizing: content-box;
 }
 
 .h-content {
-  width: 60vw;
   height: 80px;
   padding: 0px 20vw 0px 20vw;
   display: flex;
@@ -27,7 +27,7 @@
 
 .nav-menu {
   display: flex;
-  width: 80vw;
+  width: 60vw;
   justify-content: space-between;
 }
 
@@ -99,6 +99,9 @@
 
 // 반응형
 @media screen and (max-width: 960px) {
+  .Header {
+    line-height: 70px;
+  }
   .logo-dummy {
     width: 5vw;
     height: 80px;

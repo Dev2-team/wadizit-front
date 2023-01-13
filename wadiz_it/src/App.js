@@ -1,30 +1,35 @@
 import "semantic-ui-css/semantic.min.css";
 import "./App.scss";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Login from "./components/login/Login";
-import Join from "./components/login/Join";
 import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
 import Header from "./components/Header";
 import Main from "./components/Main";
-import FundingList from "./components/funding/FundingList";
-import AdminPage from "./components/admin/AdminPage";
-import BoardDetail from "./components/board/BoardDetail";
-import BoardList from "./components/board/BoardList";
-import FundingForm from "./components/funding/FundingForm";
-import FundingDetail from "./components/funding/FundingDetail";
-import MyPage from "./components/login/MyPage";
-import FundingTerms from "./components/funding/FundingTerms";
-import TokenTransaction from "./components/token/TokenTransaction";
+import Footer from "./components/Footer";
 
-import BoardWrite from "./components/board/BoardWrite";
-import BoardUpdate from "./components/board/BoardUpdate";
+import Login from "./components/login/Login";
+import Join from "./components/login/Join";
+import MyPage from "./components/login/MyPage";
 import KakaoButton from "./components/login/KakaoButton";
 import KakaoRedirectHandler from "./components/login/KakaoRedirectHandler";
-import axios from "axios";
-import KakaoPayApprove from "./components/pay/KakaoPayApprove";
-import Footer from "./components/Footer";
+
+import AdminPage from "./components/admin/AdminPage";
 import AdminFundingDetail from "./components/admin/AdminFundingDetail";
+
+import FundingList from "./components/funding/FundingList";
+import FundingForm from "./components/funding/FundingForm";
+import FundingDetail from "./components/funding/FundingDetail";
+import FundingTerms from "./components/funding/FundingTerms";
+
+import BoardDetail from "./components/board/BoardDetail";
+import BoardList from "./components/board/BoardList";
+import BoardWrite from "./components/board/BoardWrite";
+import BoardUpdate from "./components/board/BoardUpdate";
+
 import Pay from "./components/pay/Pay";
+import KakaoPayApprove from "./components/pay/KakaoPayApprove";
+import TokenTransaction from "./components/token/TokenTransaction";
+
 
 function App() {
   const nav = useNavigate();
@@ -147,7 +152,7 @@ function App() {
     <div className="App">
       <Header logState={logState} onLogout={onLogout} onMypage={onMypage} />
       <Routes>
-        <Route path="/login/KakaoButton" element={<KakaoButton />} />
+        <Route path="/login/kakaoButton" element={<KakaoButton />} />
         <Route
           path="/oauth/callback/kakao"
           element={<KakaoRedirectHandler setKakaoData={setKakaoData} />}
@@ -155,22 +160,23 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
         <Route path="/login/join" element={<Join />} />
-        <Route path="/funding/list" element={<FundingList />} />
-        <Route path="/funding/detail" element={<FundingDetail />} />
+        <Route path="/login/myPage" element={<MyPage />} />
         <Route path="/adminPage" element={<AdminPage />} />
         <Route
           path="/adminPage/fundingDetail"
           element={<AdminFundingDetail />}
         />
-        <Route path="/pay" element={<Pay/>}/>
-        <Route path="/pay/KakaoPayApprove" element={<KakaoPayApprove />} />
-        <Route path="/login/myPage" element={<MyPage />} />
+        <Route path="/funding/list" element={<FundingList />} />
+        <Route path="/funding/detail" element={<FundingDetail />} />
+        <Route path="/funding/form" element={<FundingForm />} />
+        <Route path="/funding/terms" element={<FundingTerms />} />
+
         <Route path="/board/write" element={<BoardWrite />} />
         <Route path="/board/detail" element={<BoardDetail />} />
         <Route path="/board/update" element={<BoardUpdate />} />
         <Route path="/board/list" element={<BoardList />} />
-        <Route path="/funding/form" element={<FundingForm />} />
-        <Route path="/funding/terms" element={<FundingTerms />} />
+        <Route path="/pay/kakaoPayApprove" element={<KakaoPayApprove />} />
+        <Route path="/pay" element={<Pay />} />
         <Route path="/token/transaction" element={<TokenTransaction />} />
       </Routes>
       <Footer />
