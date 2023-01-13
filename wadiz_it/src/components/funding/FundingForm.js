@@ -8,6 +8,7 @@ import "../common/MyCalendar.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment/moment";
+import Swal from "sweetalert2";
 
 const FundingForm = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
@@ -23,6 +24,7 @@ const FundingForm = () => {
   const [data, setData] = useState({
     title: "",
     membernum: { memberNum: memberNum },
+    tokenName: "",
     tokenPrice: "",
     tokenAmount: "",
     targetAmount: "",
@@ -67,6 +69,14 @@ const FundingForm = () => {
         .post("/funding", sendData)
         .then((res) => {
           if (res.data !== 0) {
+            axios.post("/token", {
+              tokenNum: res.data,
+              name: sendData.tokenName,
+              amount: sendData.tokenAmount,
+              currentPrice: sendData.tokenPrice,
+              listingPrice: sendData.tokenPrice,
+            });
+
             let keys = fileList.keys();
             let i = 0;
             for (const key of keys) {
@@ -87,15 +97,34 @@ const FundingForm = () => {
                   }
                 )
                 .then((res) => {
-                  alert("작성 성공");
-                  nav("/funding/list");
+                  Swal.fire({
+                    icon: "success",
+                    title: "펀딩 생성이 완료되었습니다!",
+                    text: "생성하신 펀딩은 내부심사를 거쳐 등록됩니다.",
+                    showConfirmButton: true,
+                    // timer: 3000,
+                  });
+                  // alert("작성 성공");
+                  nav("/");
                 });
             } else {
-              alert("작성 성공");
-              nav("/funding/list");
+              Swal.fire({
+                icon: "success",
+                title: "펀딩 생성이 완료되었습니다!",
+                text: "생성하신 펀딩은 내부심사를 거쳐 등록됩니다.",
+                showConfirmButton: true,
+              });
+              // alert("작성 성공");
+              nav("/");
             }
           } else {
-            alert("게시글 등록 실패");
+            Swal.fire({
+              icon: "error",
+              title: "펀딩 생성이 실패하였습니다!",
+              text: "관리자에게 문의해 주세요.",
+              showConfirmButton: true,
+            });
+            //alert("게시글 등록 실패");
           }
         })
         .catch((error) => console.log(error));
@@ -171,6 +200,18 @@ const FundingForm = () => {
           label="제목"
           placeholder="제목을 입력하세요"
           value={title}
+          onChange={onChange}
+        />
+      </Form>
+      <Divider></Divider>
+      <Form>
+        <Form.Input
+          name="tokenName"
+          required={true}
+          fluid
+          label="토큰 이름"
+          placeholder="토큰 이름"
+          value={data.tokenName}
           onChange={onChange}
         />
       </Form>

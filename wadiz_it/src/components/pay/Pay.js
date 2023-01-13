@@ -39,6 +39,7 @@ const Pay = () => {
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/KakaoPayApprove",
+
       fail_url: "http://localhost:3000/pay/KakaoPayApprove",
       cancel_url: "http://localhost:3000/pay",
     },
@@ -77,8 +78,11 @@ const Pay = () => {
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/KakaoPayApprove",
+
       fail_url: "http://localhost:3000/KakaoPayApprove",
-      cancel_url: "http://localhost:3000/pay",
+
+      fail_url: "http://localhost:3000/pay",
+
     },
   };
 
@@ -108,6 +112,7 @@ const Pay = () => {
           style={{
             backgroundColor: "#00b2b2",
             color: "#fff",
+            marginTop: "7.5px",
             paddingLeft: "20px",
             height: "40px",
             lineHeight: "40px",
@@ -193,7 +198,7 @@ const Pay = () => {
           </Table.Row>
         </Table.Body>
       </Table>
-      <Table style={{ marginTop: "10%" }}>
+      <Table style={{ marginTop: "25px", marginBottom: "5px" }}>
         <Table.Header style={{ height: "60px" }} fullWidth>
           <Table.Row textAlign="center">
             <Table.HeaderCell>현재 보유 포인트</Table.HeaderCell>
@@ -219,9 +224,9 @@ const Pay = () => {
           </Table.Row>
         </Table.Body>
       </Table>
-      <div style={{ height: "15px" }}>
+      <Container style={{ height: "40px" }}>
         <KakaoPayReady price={readyPay} />
-      </div>
+      </Container>
     </Container>
   );
 };

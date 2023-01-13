@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Button } from "semantic-ui-react";
+import Button from "../common/Button";
 
 const BCwrite = (props) => {
   const boardNum = localStorage.getItem("boardNum");
@@ -51,7 +51,12 @@ const BCwrite = (props) => {
           placeholder="댓글을 작성해주세요."
         ></textarea>
         <Button
-          style={{ float: "right", marginTop: "10px" }}
+          style={{
+            float: "right",
+            marginTop: "4px",
+            width: "7vw",
+            height: "2.9rem",
+          }}
           onClick={() => props.writeComment(data, boardNum)}
         >
           작성

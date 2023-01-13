@@ -46,7 +46,7 @@ const makeOrderBook = (orderList) => {
     );
   }
   // 매수 주문 출력
-  c = "green";
+  c = "#00b2b2";
   for (let i = 0; i < 7; i++) {
     result.push(
       <TokenOrderBookElement

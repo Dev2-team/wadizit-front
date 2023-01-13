@@ -21,7 +21,6 @@ import BoardUpdate from "./components/board/BoardUpdate";
 import KakaoButton from "./components/login/KakaoButton";
 import KakaoRedirectHandler from "./components/login/KakaoRedirectHandler";
 import axios from "axios";
-import SimpleSlider from "./components/common/SimpleSlider";
 import KakaoPayApprove from "./components/pay/KakaoPayApprove";
 import Footer from "./components/Footer";
 import AdminFundingDetail from "./components/admin/AdminFundingDetail";
