@@ -33,7 +33,7 @@ const makeOrderBook = (orderList) => {
   let id = 0;
   const result = [];
   // 매도 주문 출력
-  let c = "red";
+  let c = "#db2828";
   for (let i = 6; i >= 0; i--) {
     result.push(
       <TokenOrderBookElement
