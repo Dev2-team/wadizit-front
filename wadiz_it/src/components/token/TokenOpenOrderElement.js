@@ -62,7 +62,7 @@ const TokenOpenOrderElement = (props) => {
                 }}
               >
                 {/* 주문 가격 */}
-                {props.orderPrice} 원
+                {props.orderPrice} 포인트
               </Header>
             </Container>
           </Grid.Column>
