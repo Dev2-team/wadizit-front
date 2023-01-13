@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Header, Comment, Form } from "semantic-ui-react";
+import { Container, Comment, Form } from "semantic-ui-react";
 import Button from "../common/Button";
 import FundingCommentList from "./FundingCommentList";
 
 const FundingComment = () => {
+
   const fundingNum = localStorage.getItem("fundingNum");
   const nav = useNavigate();
   const [fundCom, setFundCom] = useState({
@@ -15,8 +16,11 @@ const FundingComment = () => {
   const memberNum = sessionStorage.getItem("memberNum");
   const [fundComData, setFundComData] = useState([]);
 
+  let isDonator = localStorage.getItem("isDonator");
+
   // 펀딩 댓글 리스트 얻기
   useEffect(() => {
+
     axios
       .get("/funding/comment/list", { params: { fundingNum: fundingNum } })
       .then((res) => {
@@ -24,7 +28,10 @@ const FundingComment = () => {
         localStorage.setItem("fundAmount", res.data.length);
       })
       .catch((error) => console.log(error));
+    
   }, []);
+
+  
 
   //댓글 입력 기능
   const fundComWrite = useCallback(() => {
@@ -133,7 +140,8 @@ const FundingComment = () => {
         >
           <h3>창작자에게 응원의 한마디</h3>
           <h7>응원글은 펀딩 종료 전까지 작성 가능합니다.</h7>
-          <Form.Group style={{ marginTop: "20px" }}>
+          {isDonator ==="true" ?
+            <Form.Group style={{ marginTop: "20px" }}>
             <Form.Input
               id="fundingComText"
               name="content"
@@ -149,15 +157,36 @@ const FundingComment = () => {
               }}
             />
             <Button
-              // labelPosition="left"
               icon="edit"
-              // primary style={{fontSize:"15px"}}
               style={{ width: "9vw", height: "2.9rem", marginRight: "0.8em" }}
             >
               등록하기
             </Button>
-          </Form.Group>
-          {/* </div> */}
+            </Form.Group>
+            :
+            <Form.Group style={{ marginTop: "20px" }}>
+            <Form.Input
+              id="fundingComText"
+              name="content"
+              value="후원자만 댓글 작성 가능합니다." 
+              style={{
+                marginLeft: "40px",
+                width: "45vw",
+                marginRight: "20px",
+                fontSize: "1.1rem",
+                }}
+                disabled
+            />
+            <Button
+              icon="edit"
+              style={{ width: "9vw", height: "2.9rem", marginRight: "0.8em" }} disabled
+            >
+              등록하기
+            </Button>
+            </Form.Group>
+          
+        }
+          
         </Form>
         <FundingCommentList
           fundingCommentList={fundComData}
