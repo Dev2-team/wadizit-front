@@ -24,7 +24,7 @@ const AdminFunding = () => {
   // 서버로부터 펀딩 목록 가져오기
   const getFundingList = (fpNum) => {
     axios
-      .get("/funding/page", { params: { pageNum: fpNum } })
+      .get("/funding/admin/page", { params: { pageNum: fpNum } })
       .then((res) => {
         const { totalPage, pageNum, fList } = res.data;
 
