@@ -45,7 +45,7 @@ const TokenBuyOrder = (props) => {
               매수 가능 금액
             </Header>
             <Header style={{ margin: 0, color: "#00b2b2" }} size="small">
-              {props.availablePoint} 원
+              {props.availablePoint} 포인트
             </Header>
           </Container>
           <br></br>

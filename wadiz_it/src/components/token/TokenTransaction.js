@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container, Grid, Header, Segment } from "semantic-ui-react";
 import TokenOrderForm from "./TokenOrderForm";
 import TokenOrderBook from "./TokenOrderBook";
 import TokenOpenOrderList from "./TokenOpenOrderList";
 import SockJS from "sockjs-client";
 import * as StompJs from "@stomp/stompjs";
-import { useResolvedPath } from "react-router-dom";
 
 const TokenTransaction = () => {
+  const memberNum = Number(sessionStorage.getItem("memberNum"))
+  const tokenNum = localStorage.getItem("fundingNum");
   const [data, setData] = useState({
-    memberNum: Number(sessionStorage.getItem("memberNum")),
-    tokenNum: localStorage.getItem("fundingNum"),
     currentPrice: 0,
     listingPrice: 0,
     maxPrice: 1,
@@ -59,13 +58,13 @@ const TokenTransaction = () => {
   };
 
   const initReq = () => {
-    if (data.memberNum === null) {
+    if (memberNum === null) {
       return;
     }
     // 데이터 초기화 요청
-    const newMessage = { memberNum: data.memberNum, tokenNum: data.tokenNum };
+    const newMessage = { memberNum: memberNum, tokenNum: tokenNum };
     client.current.publish({
-      destination: "/token/init/" + data.memberNum,
+      destination: "/token/init/" + memberNum,
       body: JSON.stringify(newMessage),
     });
   };
@@ -143,6 +142,7 @@ const TokenTransaction = () => {
         // 주문 타입에 따른 주문 얻기
         const newOrder = tx.sellOrder === null ? tx.buyOrder : tx.sellOrder;
 
+
         // 체결된 경우
         if (tx.buyOrder !== null && tx.sellOrder !== null) {
           // 주문 리스트 갱신
@@ -174,8 +174,8 @@ const TokenTransaction = () => {
 
         // 내 주문 리스트 업데이트
         if (
-          prev.memberNum === tx.buyerMemberNum ||
-          prev.memberNum === tx.sellerMemberNum
+          memberNum === tx.buyerMemberNum ||
+          memberNum === tx.sellerMemberNum
         ) {
           // 체결되지 않은 경우: 내 주문 리스트에 주문 추가
           if (tx.buyOrder === null || tx.sellOrder === null) {
@@ -188,7 +188,7 @@ const TokenTransaction = () => {
           else {
             newOrderList.forEach((order) => console.log(order));
             const newMyOrderList = newOrderList.filter(
-              (order) => prev.memberNum === order.memberNum
+              (order) => memberNum === order.memberNum
             );
             newData = {
               ...newData,
@@ -197,13 +197,13 @@ const TokenTransaction = () => {
           }
         }
         // 내 주문이 처리된 경우의 보유 포인트 및 토큰 업데이트
-        if (prev.memberNum === tx.buyerMemberNum) {
+        if (memberNum === tx.buyerMemberNum) {
           newData = {
             ...newData,
             availableToken: tx.buyerTokenAmount,
             availablePoint: tx.buyerPoint,
           };
-        } else if (prev.memberNum === tx.sellerMemberNum) {
+        } else if (memberNum === tx.sellerMemberNum) {
           newData = {
             ...newData,
             availableToken: tx.sellerTokenAmount,
@@ -228,7 +228,7 @@ const TokenTransaction = () => {
       let newData = { ...prev };
 
       // 내가 주문한 경우의 보유 포인트 및 토큰 업데이트
-      if (prev.memberNum === tx.buyerMemberNum) {
+      if (memberNum === tx.buyerMemberNum) {
         // 포인트 및 보유 토큰 업데이트
         newData = {
           ...newData,
@@ -260,17 +260,17 @@ const TokenTransaction = () => {
 
   const subscribe = () => {
     // 초기화 요청에 대한 응답 구독
-    client.current.subscribe("/queue/init-" + data.memberNum, ({ body }) =>
+    client.current.subscribe("/queue/init-" + memberNum, ({ body }) =>
       initCallback(body)
     );
 
     // 주문 요청에 대한 응답 구독
-    client.current.subscribe("/topic/order/" + data.tokenNum, ({ body }) => {
+    client.current.subscribe("/topic/order/" + tokenNum, ({ body }) => {
       orderCallBack(body);
     });
 
     // 주문 취소 요청에 대한 응답 구독
-    client.current.subscribe("/topic/cancel/" + data.tokenNum, ({ body }) => {
+    client.current.subscribe("/topic/cancel/" + tokenNum, ({ body }) => {
       cancelCallBack(body);
     });
   };
@@ -284,7 +284,7 @@ const TokenTransaction = () => {
       amount: amount,
     };
     client.current.publish({
-      destination: "/token/order/" + data.tokenNum,
+      destination: "/token/order/" + tokenNum,
       body: JSON.stringify(newOrder),
     });
   };
@@ -298,7 +298,7 @@ const TokenTransaction = () => {
       amount: amount,
     };
     client.current.publish({
-      destination: "/token/order/" + data.tokenNum,
+      destination: "/token/order/" + tokenNum,
       body: JSON.stringify(newOrder),
     });
   };
@@ -310,7 +310,7 @@ const TokenTransaction = () => {
       type: 3,
     };
     client.current.publish({
-      destination: "/token/cancel/" + data.tokenNum,
+      destination: "/token/cancel/" + tokenNum,
       body: JSON.stringify(newOrder),
     });
   };
