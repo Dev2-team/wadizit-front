@@ -79,7 +79,7 @@ const Pay = () => {
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/kakaoPayApprove",
       fail_url: "http://localhost:3000/pay",
-
+      cancel_url: "http://localhost:3000/pay",
     },
   };
 
