@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BoardDetail.scss";
 import { Button, Container, Header } from "semantic-ui-react";
-import BoardComment from "../boardComment/BClist";
 import BClist from "../boardComment/BClist";
 
 const dateFormat = (date) => moment(date).format("YYYY월 MM월 DD일");

@@ -1,9 +1,7 @@
-import axios from "axios";
 import React, { useCallback, useState } from "react";
 
 const FundingCommentUpd = (props) => {
   const [content, setContent] = useState(props.content);
-  const fundingComNum = props.fundingComNum;
 
   const onChange = useCallback(
     (e) => {

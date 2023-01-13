@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Container, Divider, Form, Segment, Header } from "semantic-ui-react";
+import { Container, Form, Segment, Header } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../common/Swal.scss";

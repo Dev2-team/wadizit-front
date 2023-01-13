@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Form, Header } from "semantic-ui-react";
-import ButtonScss from "../common/Button.scss";
+import { Button, Container, Header } from "semantic-ui-react";
+
 
 import "./BoardWrite.scss";
 

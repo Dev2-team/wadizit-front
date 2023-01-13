@@ -14,7 +14,7 @@ import axios from "axios";
 import SimpleSlider from "../common/SimpleSlider";
 import Loading from "../common/Loading";
 import FundingProgressBar from "./FundingProgressBar";
-import { Link } from "react-router-dom";
+
 
 const FundingList = () => {
   const nav = useNavigate();
