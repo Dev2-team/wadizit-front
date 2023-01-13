@@ -7,6 +7,7 @@ import {
   Grid,
   Image,
   Segment,
+  Select,
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { useNavigate } from "react-router";
@@ -141,6 +142,43 @@ const FundingList = () => {
     }
   };
 
+  // select box option
+  const OPTIONS = [
+    { value: "0", name: "최근등록순" },
+    { value: "1", name: "마감임박순" },
+    { value: "2", name: "목표금액 달성" },
+  ];
+
+  // select box
+  const SelectBox = (props) => {
+    const handleChange = (e) => {
+      // event handler
+      console.log(e.target.value);
+    };
+
+    return (
+      <select onChange={handleChange}>
+        {props.options.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+            defaultValue={props.defaultValue === option.value}
+          >
+            {option.name}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  // const option = [
+  //   { value: "0", label: "최근등록순" },
+  //   { value: "1", label: "마감임박순" },
+  //   { value: "2", label: "목표금액 달성" },
+  // ];
+
+  // const [SelectOption, setSelectOption] = useState(option[0]);
+
   const FundingCard = () => {
     return Object.values(fundingItem).map((item) => {
       return (
@@ -206,11 +244,12 @@ const FundingList = () => {
           margin: "10px 0 10px 0",
         }}
       >
-        <div
-          style={{ width: "50px", height: "50px", border: "1px solid black" }}
-        >
-          정렬
-        </div>
+        {/* <Select
+          options={option}
+          onChange={setSelectOption}
+          defaultValue={option[0]}
+        /> */}
+        <SelectBox options={OPTIONS} defaultValue="recent" />
         <Button
           onClick={fundingWrite}
           style={{
