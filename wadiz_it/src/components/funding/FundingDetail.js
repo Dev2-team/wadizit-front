@@ -233,12 +233,13 @@ const FundingDetail = () => {
             display: "flex",
             "flex-direction": "column",
             justifyContent: "space-between",
-            marginTop: "30px",
+            marginTop: "10px",
+            
           }}
         >
           <Container style={{ height: 10 }}></Container>
 
-          <Segment vertical style={{ border: "none", marginLeft: "15px" }}>
+          <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
             <div className="subTitle" style={{ fontSize: "17px" }}>
               모인 금액
             </div>
@@ -254,19 +255,18 @@ const FundingDetail = () => {
               <div className="aimAmount" style={{ display: "inline-block" }}>
                 <div
                   className="currentAmt"
-                  style={{ display: "inline", marginRight: "20px" }}
+                  style={{ display: "inline", marginRight: "38px" }}
                 >
                   {currentAmtFormat}원
                 </div>
-                <ProgressBar completed={completeRate} />
-                {/* <Pyrogress.Bar progress={achieveRate} width={200}/> */}
-                {/* <progress className="achieveRate" style={{ display: "inline" }} value={achieveRate} max="100"></progress> */}
-                {/* <div className="achieveRate" style={{display:"inline", fontSize:"15px" }}>{achieveRate}%</div> */}
+                <div style={{width:"13vw", display:"inline-block"}}>
+                  <ProgressBar completed={completeRate}/>
+                </div>
               </div>
             </Header>
           </Segment>
 
-          <Segment vertical style={{ border: "none", marginLeft: "15px" }}>
+          <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
             <div className="subTitle" style={{ fontSize: "17px" }}>
               남은 시간
             </div>
@@ -282,7 +282,7 @@ const FundingDetail = () => {
               {diffDay}일
             </Header>
           </Segment>
-          <Segment vertical style={{ border: "none", marginLeft: "15px" }}>
+          <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
             <div className="subTitle" style={{ fontSize: "17px" }}>
               후원자
             </div>
@@ -313,7 +313,7 @@ const FundingDetail = () => {
               <div>
                 <div
                   className="targetAmtArea"
-                  style={{ display: "inline-block", marginBottom: "5px" }}
+                  style={{ display: "inline-block", height: "26px" }}
                 >
                   <div
                     className="targetAmt"
@@ -348,7 +348,7 @@ const FundingDetail = () => {
                   </div>
                   <div
                     className="fundPeriodData"
-                    style={{ display: "inline", marginRight: "10px" }}
+                    style={{ display: "inline", marginRight: "12px" }}
                   >
                     {dateFormat(fundData.startDate)} ~{" "}
                     {dateFormat(fundData.endDate)}
@@ -377,13 +377,13 @@ const FundingDetail = () => {
                   style={{
                     display: "inline",
                     fontWeight: "700",
-                    marginRight: "48px",
+                    marginRight: "18px",
                   }}
                 >
-                  결제
+                  토큰 거래
                 </div>
                 <div className="payAccountData" style={{ display: "inline" }}>
-                  목표금액 달성시 결제가 진행됩니다.
+                  목표금액 달성 시 토큰 거래가 진행됩니다.
                 </div>
               </div>
             </div>

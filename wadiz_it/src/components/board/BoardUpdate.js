@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Container, Header } from "semantic-ui-react";
+import { Button, Container, Header } from "semantic-ui-react";
 import "./BoardUpdate.scss";
 
 const BoardUpdate = () => {
@@ -164,13 +164,37 @@ const BoardUpdate = () => {
             <div className="buFileList">{viewFlist}</div>
           </div>
           <div className="btn">
-            <div className="upBtnArea">
-              <button type="button" className="backBtn" onClick={boardList}>
-                돌아가기
-              </button>
-              <button type="submit" className="writeBtn">
-                수정하기
-              </button>
+            <div className="upBtnArea" style={{width:"60vw"}}>
+            <Button
+          type="button" className="backBtn"
+          onClick={boardList}
+          style={{
+            alignItems: "center",
+            margin: "0px",
+            border: "1px solid #00b2b2",
+            backgroundColor: "#ffffff",
+            color: "#00b2b2",
+            float:"left",
+            display:"inline-block"
+          }}
+        >
+          돌아가기
+              </Button>
+              <Button
+          type="button" className="writeBtn"
+          onClick={onUpdate}
+          style={{
+            alignItems: "center",
+            margin: "0px",
+            border: "1px solid #00b2b2",
+            backgroundColor: "#ffffff",
+            color: "#00b2b2",
+            display:"inline-block"
+          }}
+        >
+          수정하기
+              </Button>
+
             </div>
           </div>
         </form>

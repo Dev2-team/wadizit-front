@@ -37,7 +37,7 @@ const BoardList = () => {
       <Button
         size="tiny"
         onClick={boardWrite}
-        style={{ float: "right", marginBottom: "25px" }}
+        style={{ float: "right", marginBottom: "25px", backgroundColor:"#00b2b2", color:"#fff" }}
       >
         작성
       </Button>

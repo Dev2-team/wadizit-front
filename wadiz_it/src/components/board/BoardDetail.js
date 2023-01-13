@@ -62,11 +62,13 @@ const BoardDetail = () => {
         sessionStorage.setItem("boardWriter", res.data.memberNum.memberNum);
       })
       .catch((err) => console.log(err));
+    
 
     axios
       .get("/board/file/list", { params: { boardNum: bNum } })
       .then((res) => {
         console.log("파일 : " + res.data.length);
+
         if (res.data.length > 0) {
           let newFileList = [];
           for (let i = 0; i < res.data.length; i++) {
@@ -172,12 +174,12 @@ const BoardDetail = () => {
     }
   });
 
+
   //게시글 삭제 함수
   const boardDelete = () => {
-    const boardNum = localStorage.getItem("boardNum");
 
     axios
-      .delete("/board", { params: { boardNum: boardNum } })
+      .delete("/board", { params: { boardNum: bNum } })
       .then((res) => {
         if (res.data === "삭제 성공") {
           alert("게시물이 삭제되었습니다.");
@@ -192,35 +194,59 @@ const BoardDetail = () => {
       }, []);
   };
 
-  //게시글 삭제 (boardFile + board)
-  const boardFileDelete = (v) => {
-    const boardNum = localStorage.getItem("boardNum");
+
+  //게시글 삭제 (boardComment + boardFile + board)
+  const boardFileDelete = () => {
+
     if (loginPerson === boardWriter) {
       let result = window.confirm("정말로 삭제하시겠습니까?");
       if (result === true) {
-        if (v.originName !== "파일없음") {
+        console.log("길이" + bfList.length);
+
+        if (bfList[0].originName !== "파일없음") {
+
+          //게시글 삭제
           axios
-            .delete("/board/file/deleteAll", { params: { boardNum: boardNum } })
+            .delete("/board/file/deleteAll", { params: { boardNum: bNum } })
             .then((res) => {
               if (res.data === "파일 삭제 완료") {
-                boardDelete();
-              } else {
-                alert("게시물 삭제 실패");
+                axios
+                  .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+                  .then((res) => {
+                    if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
+                      boardDelete();
+                    }
+                    else {
+                      alert("댓글 삭제 실패하였습니다.");
+                    }
+                  })
+                  .catch((err) => console.log(err));
               }
-            });
+            })
+            .catch((err) => console.log(err)); 
+
         } else {
-          boardDelete();
+          axios
+          .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+          .then((res) => {
+            if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
+              boardDelete();
+            } else {
+              alert("댓글 삭제 실패하였습니다.");
+            }
+          })
+          .catch((err) => console.log(err));
+        } 
+        } else {
+          alert("글 작성자만 삭제 가능합니다.");
         }
       }
-    } else {
-      alert("글 작성자만 삭제 가능합니다.");
     }
-  };
+
 
   //상세페이지 내용 localStorage에 저장
   localStorage.setItem("title", bitem.title);
   localStorage.setItem("writer", bitem.memberNum.nickname);
-  // localStorage.setItem("date", dateFormat(bitem.date));
   localStorage.setItem("content", bitem.content);
 
   return (
@@ -251,20 +277,45 @@ const BoardDetail = () => {
       </div>
 
       <div className="bdBtn">
-        <Button type="button" className="bdBackBtn" onClick={boardList}>
+        <Button
+          type="button" className="bdBackBtn"
+          onClick={boardList}
+          style={{
+            alignItems: "center",
+            margin: "0px",
+            border: "1px solid #00b2b2",
+            backgroundColor: "#ffffff",
+            color: "#00b2b2",
+          }}
+        >
           돌아가기
         </Button>
         {!(loginPerson === boardWriter) ? null : (
           <div className="bdBtnArea">
-            <Button type="button" className="bdUpdateBtn" onClick={boardUpdate}>
-              수정
-            </Button>
-            <Button
-              type="button"
-              className="bdDeleteBtn"
-              onClick={boardFileDelete}
-            >
-              삭제
+
+            <Button type="button" className="bdUpdateBtn" onClick={boardUpdate}
+            style={{
+              alignItems: "center",
+              margin: "0px",
+              border: "1px solid #00b2b2",
+              backgroundColor: "#ffffff",
+              color: "#00b2b2",
+            }}
+          >
+            수정
+              </Button>
+
+              <Button type="button" className="bdDeleteBtn" onClick={boardFileDelete}
+            style={{
+              alignItems: "center",
+              margin: "0px",
+              marginLeft:"10px",
+              border: "1px solid #00b2b2",
+              backgroundColor: "#ffffff",
+              color: "#00b2b2",
+            }}
+          >
+            삭제
             </Button>
           </div>
         )}

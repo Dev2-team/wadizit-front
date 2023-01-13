@@ -126,18 +126,31 @@ const BoardWrite = () => {
           </div>
           <div className="btn">
             <div className="btnArea">
-              <Button
-                type="button"
-                className="backBtn"
-                style={{ fontSize: "0.8rem" }}
+
+              <Button type="button" className="backBtn"
                 onClick={boardList}
+                style={{
+                  alignItems: "center",
+                  margin: "0px",
+                  fontSize:"0.9rem",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+                  color: "#00b2b2",
+                }}
               >
                 돌아가기
               </Button>
-              <Button
-                type="submit"
-                className="writeBtn"
-                style={{ marginRight: "0px", fontSize: "0.8rem" }}
+
+              <Button type="button" className="writeBtn"
+                onClick={onWrite}
+                style={{
+                  alignItems: "center",
+                  margin: "0px",
+                  fontSize:"0.9rem",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+                  color: "#00b2b2",
+                }}
               >
                 글쓰기
               </Button>

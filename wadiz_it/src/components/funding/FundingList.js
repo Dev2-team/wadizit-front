@@ -137,7 +137,7 @@ const FundingList = () => {
       alert("로그인을 하셔야 프로젝트 생성이 가능합니다.");
       nav("/login");
     } else {
-      nav("/funding/form");
+      nav("/funding/terms");
     }
   };
 
