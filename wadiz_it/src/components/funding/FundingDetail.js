@@ -1,3 +1,4 @@
+
 import { right } from "@popperjs/core";
 import axios, { formToJSON } from "axios";
 import moment from "moment/moment";
@@ -18,6 +19,8 @@ import Button from "../common/Button";
 import FundingModal from "./FundingModal";
 import GoodsList from "./GoodsList";
 import { useNavigate } from "react-router-dom";
+import Goods from "../goods/Goods";
+
 
 const panes = [
   {
@@ -36,7 +39,7 @@ const panes = [
   },
   {
     menuItem: "굿즈",
-    render: () => <Tab.Pane attached={false}>{<GoodsList />}</Tab.Pane>,
+    render: () => <Tab.Pane attached={false}>{<Goods />}</Tab.Pane>,
   },
 ];
 

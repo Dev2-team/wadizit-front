@@ -25,12 +25,16 @@ const TokenOpenOrderElement = (props) => {
           >
             <Header
               as={"h4"}
-              color={props.color}
               textAlign={"left"}
-              style={{ margin: 0, marginLeft: 5, padding: 0 }}
+              style={{
+                margin: 0,
+                marginLeft: 5,
+                padding: 0,
+                color: props.color,
+              }}
             >
               {/* 수량 */}
-              {props.orderRemainAmount} TK
+              {props.orderRemainAmount} 토큰
             </Header>
           </Grid.Column>
           <Grid.Column
@@ -49,8 +53,13 @@ const TokenOpenOrderElement = (props) => {
               <Header
                 as={"h4"}
                 textAlign={"right"}
-                color={props.color}
-                style={{ flex: 1, margin: 0, padding: 0, marginRight: 5 }}
+                style={{
+                  flex: 1,
+                  margin: 0,
+                  padding: 0,
+                  marginRight: 5,
+                  color: props.color,
+                }}
               >
                 {/* 주문 가격 */}
                 {props.orderPrice} 원

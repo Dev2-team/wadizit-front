@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Container } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import FundingDetail from "../funding/FundingDetail";
+import Button from "../common/Button";
 import Afunding from "./Afunding";
 
 const AdminFundingDetail = () => {
@@ -62,7 +63,9 @@ const AdminFundingDetail = () => {
     axios
       .put("/funding", newfd, { params: { fundingNum: fundingNum } })
       .then((res) => {
-        alert(res.data);
+        if (res.data === "수정 성공") {
+          alert("승인되었습니다.");
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -76,7 +79,9 @@ const AdminFundingDetail = () => {
     axios
       .put("/funding", newfd, { params: { fundingNum: fundingNum } })
       .then((res) => {
-        alert(res.data);
+        if (res.data === "수정 성공") {
+          alert("반려되었습니다.");
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -145,24 +150,38 @@ const AdminFundingDetail = () => {
           borderBottom: "3px solid #00b2b2",
         }}
       >
-        <h3 style={{ width: "65vw", textAlign: "left", lineHeight: "55px" }}>
+        <h3 style={{ width: "60%", textAlign: "left", lineHeight: "55px" }}>
           펀딩 승인/반려
         </h3>
         <div
           style={{
+            width: "40%",
             display: "inline-block",
             textAlign: "right",
             lineHeight: "55px",
           }}
         >
           <Button
-            size="tiny"
+            style={{
+              border: "1px solid #00b2b2",
+              backgroundColor: "#ffffff",
+              color: "#00b2b2",
+              width: "5vw",
+              lineHeight: "0",
+            }}
             onClick={() => approveBtn(fundingDetail.fundingNum)}
           >
             승인
           </Button>
           <Button
-            size="tiny"
+            style={{
+              border: "1px solid #ff6666",
+              backgroundColor: "#ffffff",
+              color: "#ff6666",
+              width: "5vw",
+              marginLeft: "5px",
+              lineHeight: "0",
+            }}
             onClick={() => rejectBtn(fundingDetail.fundingNum)}
           >
             반려
@@ -176,11 +195,12 @@ const AdminFundingDetail = () => {
           borderBottom: "3px solid #00b2b2",
         }}
       >
-        <h3 style={{ width: "66vw", textAlign: "left", lineHeight: "55px" }}>
+        <h3 style={{ width: "60%", textAlign: "left", lineHeight: "55px" }}>
           사업자 파일
         </h3>
         <div
           style={{
+            width: "40%",
             display: "inline-block",
             textAlign: "right",
             lineHeight: "55px",
