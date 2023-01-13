@@ -1,6 +1,7 @@
 import axios from "axios";
 import { React, useCallback, useEffect, useState } from "react";
 import { Image, Card, Divider, Container, Header } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import GoodsAddModal from "./GoodsAddModal";
 
 const GoodsList = () => {
@@ -57,18 +58,65 @@ const GoodsList = () => {
     [goodsList]
   );
 
+  const deleteGoodsArlet = (item) => {
+    Swal.fire({
+      title: "굿즈 삭제",
+      text: "굿즈를 삭제하시겠습니까?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("삭제!", "", "success");
+        axios.delete("/funding/goods?goodsNum=" + item.goodsNum).then((res) => {
+          const newGoodsList = goodsList.filter(
+            (goods) => goods.goodsNum !== item.goodsNum
+          );
+          setGoodsList(newGoodsList);
+        });
+      }
+    });
+  };
+
+  const purchaseGoodsArlet = (item) => {
+    Swal.fire({
+      title: "굿즈 구매",
+      text: "굿즈를 구매하시겠습니까?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "구매",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .get("/funding/goods/purchase?goodsNum=" + item.goodsNum)
+          .then((res) => {
+            if (res.data === "success") {
+              Swal.fire("구매 성공!", "", "success");
+            } else {
+              Swal.fire("구매 실패!", "", "fail");
+            }
+          })
+          .catch((err) => {
+            Swal.fire("구매 실패!", "", "fail");
+          });
+      }
+    });
+  };
+
   const purchaseOrDelete = (item) => {
     console.log("pod");
     if (memberNum === fundingOwner) {
       // 삭제
-      axios.delete("/funding/goods?goodsNum=" + item.goodsNum).then((res) => {
-        const newGoodsList = goodsList.filter(
-          (goods) => goods.goodsNum !== item.goodsNum
-        );
-        setGoodsList(newGoodsList);
-      });
+      deleteGoodsArlet(item);
     } else {
       // 구매
+      purchaseGoodsArlet(item);
     }
   };
 
