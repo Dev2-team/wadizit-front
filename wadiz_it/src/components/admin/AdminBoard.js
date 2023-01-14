@@ -2,6 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Container, Header, Table, Button } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import Paging from "../Paging";
 
 const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
@@ -63,7 +64,13 @@ const AdminBoard = () => {
     axios
       .delete("/board?boardNum=" + boardNum)
       .then((res) => {
-        alert(res.data);
+        if (res.data === "삭제 성공") {
+          Swal.fire({
+            icon: "success",
+            title: "게시글 삭제가 완료되었습니다.",
+            showConfirmButton: true,
+          });
+        }
       })
       .catch((err) => console.log(err));
   };

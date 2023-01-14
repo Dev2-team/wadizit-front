@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Header, Table, Button } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import Paging from "../Paging";
 
 const AdminMember = () => {
@@ -63,9 +64,11 @@ const AdminMember = () => {
       .then((res) => {
         const result = res.data;
         if (result === true) {
-          alert("회원 삭제 완료");
-        } else {
-          alert("회원 삭제 실패");
+          Swal.fire({
+            icon: "success",
+            title: "회원 삭제가 완료되었습니다.",
+            showConfirmButton: true,
+          });
         }
       })
       .catch((err) => console.log(err));
