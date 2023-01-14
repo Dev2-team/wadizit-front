@@ -64,6 +64,11 @@ const AdminBoard = () => {
     axios
       .delete("/board?boardNum=" + boardNum)
       .then((res) => {
+        const newBoardList = boardItem.filter(
+          (bList) => bList.boardNum !== boardNum
+        );
+        setBoardItem(newBoardList);
+
         if (res.data === "삭제 성공") {
           Swal.fire({
             icon: "success",

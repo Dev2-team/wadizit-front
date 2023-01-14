@@ -62,8 +62,12 @@ const AdminMember = () => {
     axios
       .delete("/member/delete?MemberNum=" + memberNum)
       .then((res) => {
-        const result = res.data;
-        if (result === true) {
+        const newMemberList = memberItem.filter(
+          (mList) => mList.memberNum !== memberNum
+        );
+        setMemberItem(newMemberList);
+
+        if (res.data === true) {
           Swal.fire({
             icon: "success",
             title: "회원 삭제가 완료되었습니다.",
