@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import Swal from "sweetalert2";
 import BCcontentUb from "./BCcontentUp";
 
 const BCcontent = ({ bcNum, writer, content, bcDelete, updateCallback }) => {
@@ -9,7 +10,11 @@ const BCcontent = ({ bcNum, writer, content, bcDelete, updateCallback }) => {
   // 수정 버튼 처리
   const bcUpdate = useCallback(() => {
     if (!(nickname === writer)) {
-      alert("작성자만 수정할 수 있습니다.");
+      Swal.fire({
+        icon: "error",
+        title: "작성자만 수정할 수 있습니다.",
+        showConfirmButton: true,
+      });
     } else {
       setViewUpdate(true);
     }

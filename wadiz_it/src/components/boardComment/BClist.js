@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import BCdetail from "./BCdetail";
-import BCwrite from "./BCwrite";
+import Button from "../common/Button";
 
 const BClist = () => {
   const nickname = sessionStorage.getItem("nickName");
@@ -19,6 +20,24 @@ const BClist = () => {
       });
   }, []);
 
+  // 저장할 댓글 내용
+  const [data, setData] = useState({
+    content: "",
+  });
+  const { content } = data;
+
+  // 댓글 내용 담기
+  const onChange = useCallback(
+    (e) => {
+      const dataObj = {
+        ...data,
+        [e.target.name]: e.target.value,
+      };
+      setData(dataObj);
+    },
+    [data]
+  );
+
   // 댓글 쓰기 처리
   const writeComment = (data, boardNum) => {
     axios
@@ -26,13 +45,18 @@ const BClist = () => {
       .then((res) => {
         console.log("write", data);
         setBcList([...bcList, res.data]);
+        setData({ ...data, content: "" });
       });
   };
 
   // 삭제 버튼 처리
   const bcDelete = (bcNum, writer) => {
     if (!(nickname === writer)) {
-      alert("작성자만 수정할 수 있습니다.");
+      Swal.fire({
+        icon: "error",
+        title: "작성자만 삭제할 수 있습니다.",
+        showConfirmButton: true,
+      });
       return;
     }
     axios
@@ -42,8 +66,19 @@ const BClist = () => {
           (comment) => comment.boardComNum !== bcNum
         );
         setBcList(newCommentList);
+        Swal.fire({
+          icon: "success",
+          title: "댓글 삭제가 완료되었습니다.",
+          showConfirmButton: true,
+        });
       })
-      .catch((error) => alert("댓글 삭제 실패"));
+      .catch((error) =>
+        Swal.fire({
+          icon: "error",
+          title: "댓글 삭제가 실패되었습니다.",
+          showConfirmButton: true,
+        })
+      );
   };
 
   // 수정 버튼 처리
@@ -51,7 +86,11 @@ const BClist = () => {
     console.log("댓글 수정");
     console.log(bcNum, writer, content);
     if (!(nickname === writer)) {
-      alert("작성자만 수정할 수 있습니다.");
+      Swal.fire({
+        icon: "error",
+        title: "작성자만 수정할 수 있습니다.",
+        showConfirmButton: true,
+      });
       return;
     }
     axios
@@ -74,8 +113,20 @@ const BClist = () => {
         }
         setBcList(newCommentList);
         callbackFunc();
+
+        Swal.fire({
+          icon: "success",
+          title: "댓글 수정이 완료되었습니다.",
+          showConfirmButton: true,
+        });
       })
-      .catch((error) => alert("댓글 수정 실패"));
+      .catch((error) =>
+        Swal.fire({
+          icon: "error",
+          title: "댓글 수정이 실패되었습니다.",
+          showConfirmButton: true,
+        })
+      );
   };
 
   // 댓글 리스트 출력
@@ -105,7 +156,46 @@ const BClist = () => {
 
   return (
     <div>
-      <BCwrite writeComment={writeComment}></BCwrite>
+      <div>
+        <fieldset
+          style={{
+            height: "180px",
+            padding: "20px",
+            border: "none",
+            borderTop: "1px solid #e8e8e8",
+            borderBottom: "1px solid #e8e8e8",
+            backgroundColor: "#fafafa",
+          }}
+        >
+          <textarea
+            style={{
+              width: "100%",
+              height: "100px",
+              resize: "none",
+              position: "relative",
+              padding: "12px 12px",
+              border: "1px solid #e8e8e8",
+              backgroundColor: "#fff",
+              outline: "none",
+            }}
+            name="content"
+            value={content}
+            onChange={onChange}
+            placeholder="댓글을 작성해주세요."
+          ></textarea>
+          <Button
+            style={{
+              float: "right",
+              marginTop: "4px",
+              width: "7vw",
+              height: "2.9rem",
+            }}
+            onClick={() => writeComment(data, boardNum)}
+          >
+            작성
+          </Button>
+        </fieldset>
+      </div>
       <div>{boardCommentList}</div>
     </div>
   );
