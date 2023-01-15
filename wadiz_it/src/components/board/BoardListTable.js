@@ -3,6 +3,7 @@ import moment from "moment/moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Table } from "semantic-ui-react";
+import Paging from "../Paging";
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
@@ -11,16 +12,37 @@ const BoardListTable = () => {
 
   const [boardItem, setBoardItem] = useState([]);
 
-  //리스트 페이지가 화면에 보일 때 서버로부터 게시글 목록을 가져온다.
+  
+
+  //자유게시판 페이징 처리
+  let bpNum = sessionStorage.getItem("bpNum");
+  const [boardPage, setBoardPage] = useState({
+    totalPage: 0,
+    pageNum: 1,
+  });
+
+
+  //자유게시판 페이징 처리
   useEffect(() => {
+    bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
+  }, []);
+  
+
+  //자유게시판 리스트 출력 함수
+  const getBoardList = (bpNum) => {
     axios
-      .get("/board/list")
+      .get("/board/page", { params: { pageNum: bpNum, listCntNum: 15 } })
       .then((res) => {
-        console.log(res.data);
-        setBoardItem(res.data);
+        const { totalPage, pageNum, bList } = res.data;
+        setBoardPage({ totalPage: totalPage, pageNum: pageNum });
+        setBoardItem(bList);
+        sessionStorage.setItem("bpNum", pageNum);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
+
+
+  
 
   const getBoardDetail = useCallback((boardNum) => {
     localStorage.setItem("boardNum", boardNum);
@@ -48,9 +70,9 @@ const BoardListTable = () => {
     );
   } else {
     boardList = Object.values(boardItem).map((bItem) => (
-      <Table.Row key={bItem.boardNum} className="tableCell">
+      <Table.Row key={bItem.boardNum} className="tableCell" style={{height:"40px"}}>
         <Table.Cell>
-          <div onClick={() => getBoardDetail(bItem.boardNum)}>
+          <div onClick={() => getBoardDetail(bItem.boardNum)} style={{cursor:"pointer"}}>
             {bItem.boardNum}
           </div>
         </Table.Cell>
@@ -73,6 +95,7 @@ const BoardListTable = () => {
 
   return (
     <Container>
+      
       <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
           <Table.Row style={{ textAlign: "center" }}>
@@ -88,6 +111,7 @@ const BoardListTable = () => {
 
         <Table.Body style={{ textAlign: "center" }}>{boardList}</Table.Body>
       </Table>
+      <Paging page={boardPage} getList={getBoardList} pageCntNum={15} />
     </Container>
   );
 };
