@@ -4,10 +4,10 @@ import {
   Button,
   Card,
   Container,
+  Dropdown,
   Grid,
   Image,
   Segment,
-  Select,
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { useNavigate } from "react-router";
@@ -15,62 +15,98 @@ import axios from "axios";
 import SimpleSlider from "../common/SimpleSlider";
 import Loading from "../common/Loading";
 import FundingProgressBar from "./FundingProgressBar";
-import { Link } from "react-router-dom";
 
 const FundingList = () => {
   const nav = useNavigate();
-  // const nickName = sessionStorage.getItem("nickName");
   const [fundingItem, setFundingItem] = useState([]);
   const [page, setPage] = useState(1);
   const preventRef = useRef(true);
   const obsRef = useRef(null);
   const endRef = useRef(false);
   const [loading, setLoading] = useState(null);
-  const loginPerson = sessionStorage.getItem("memberNum");
+  // const loginPerson = sessionStorage.getItem("memberNum");
+  const loginKakaoPerson = sessionStorage.getItem("nickName");
+  const [select, setSelect] = useState(0);
+  const [resultSort, setResultSort] = useState(0);
 
-  //게시글 목록을 서버로부터 가져오는 함수
-  const getList = useCallback(() => {
-    setLoading(true);
-    axios
-      .get("/funding/page", { params: { pageNum: page } })
-      .then((res) => {
-        const { fffList, pageNum, end } = res.data;
-        if (end) {
-          //마지막 페이지일 경우
-          endRef.current = true;
-        }
-        console.log(res.data);
-        let arr = [];
-        if (fundingItem.length !== 0) {
-          fundingItem.map((x) => {
-            arr.push(x);
-            return x;
-          });
-        }
-        fffList.map((x) => {
-          // delete x.funding.memberNum;
-          if (x.fundingFileList.length !== 0) {
-            x.funding.fileName = "/upload/" + x.fundingFileList[1].sysName;
+  // 게시글 목록을 서버로부터 가져오는 함수
+  // sort 와 select 값 비교 추가
+  const getList = useCallback(
+    (select) => {
+      setLoading(true);
+      axios
+        .get("/funding/page", {
+          params: { pageNum: page, sort: select },
+        })
+        .then((res) => {
+          console.log(res);
+          const { fffList, pageNum, end, sort } = res.data;
+
+          // 마지막 페이지일 경우
+          if (end) {
+            endRef.current = true;
+          } else {
+            endRef.current = false;
           }
-          arr.push(x.funding);
-          return x;
-        });
-        console.log(arr);
-        setFundingItem(arr);
-        sessionStorage.setItem("pageNum", pageNum);
-        preventRef.current = true;
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  }, [page, fundingItem]);
+
+          // ------- select 0, 1 일 때
+          if (select.toString() !== "2") {
+            let arr = [];
+            if (fundingItem.length !== 0) {
+              if (select.toString() === resultSort.toString()) {
+                fundingItem.map((x) => {
+                  arr.push(x);
+                  return x;
+                });
+              }
+            }
+            fffList.map((x) => {
+              if (x.fundingFileList.length !== 0) {
+                x.funding.fileName = "/upload/" + x.fundingFileList[1].sysName;
+              }
+              arr.push(x.funding);
+              return x;
+            });
+            setResultSort(sort);
+            setFundingItem(arr);
+            sessionStorage.setItem("pageNum", pageNum);
+            preventRef.current = true;
+            setLoading(false);
+          }
+
+          // ------- select 2 일 때 (SQL 쿼리문으로 페이징 처리)
+          else if (select.toString() === "2") {
+            let arr = [];
+            if (fundingItem.length !== 0) {
+              if (select.toString() === resultSort.toString()) {
+                fundingItem.map((x) => {
+                  arr.push(x);
+                  return x;
+                });
+              }
+            }
+            fffList.map((x) => {
+              if (x.fundingFileList.length !== 0) {
+                x.fundingRateInterface.fileName =
+                  "/upload/" + x.fundingFileList[1]?.sysName;
+              }
+              arr.push(x.fundingRateInterface);
+              return x;
+            });
+            setResultSort(sort);
+            setFundingItem(arr);
+            sessionStorage.setItem("pageNum", pageNum);
+            preventRef.current = true;
+            setLoading(false);
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    [page, fundingItem]
+  );
 
   useEffect(() => {
-    // 로그인하지 않았을 때 리스트 미출력
-    // if (nickName === null) {
-    //   nav("/", { replace: true });
-    //   return;
-    // }
-    getList();
+    // getList(select);
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
     return () => {
@@ -79,8 +115,12 @@ const FundingList = () => {
   }, []);
 
   useEffect(() => {
-    if (page !== 1) getList();
+    if (page !== 1) getList(select);
   }, [page]);
+
+  useEffect(() => {
+    getList(select);
+  }, [select]);
 
   const obsHandler = (entries) => {
     const target = entries[0];
@@ -134,51 +174,40 @@ const FundingList = () => {
 
   //로그인을 해야만 펀딩 생성이 가능
   const fundingWrite = () => {
-    if (loginPerson === null) {
+    if (loginKakaoPerson === null) {
       alert("로그인을 하셔야 프로젝트 생성이 가능합니다.");
       nav("/login");
     } else {
-      nav("/funding/form");
+      nav("/funding/terms");
     }
   };
 
-  // select box option
-  const OPTIONS = [
-    { value: "0", name: "최근등록순" },
-    { value: "1", name: "마감임박순" },
-    { value: "2", name: "목표금액 달성" },
+  // select(dropdown option)
+  const selectOptions = [
+    {
+      key: "0",
+      text: "최근등록순",
+      value: "0",
+    },
+    {
+      key: "1",
+      text: "마감임박순",
+      value: "1",
+    },
+    {
+      key: "2",
+      text: "목표금액 달성순",
+      value: "2",
+    },
   ];
 
-  // select box
-  const SelectBox = (props) => {
-    const handleChange = (e) => {
-      // event handler
-      console.log(e.target.value);
-    };
-
-    return (
-      <select onChange={handleChange}>
-        {props.options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            defaultValue={props.defaultValue === option.value}
-          >
-            {option.name}
-          </option>
-        ))}
-      </select>
-    );
+  const onSelectMain = (event, data) => {
+    setPage(1);
+    setSelect(() => data.value);
+    // getList(data.value);
   };
 
-  // const option = [
-  //   { value: "0", label: "최근등록순" },
-  //   { value: "1", label: "마감임박순" },
-  //   { value: "2", label: "목표금액 달성" },
-  // ];
-
-  // const [SelectOption, setSelectOption] = useState(option[0]);
-
+  // 출력될 fundingCard form
   const FundingCard = () => {
     return Object.values(fundingItem).map((item) => {
       return (
@@ -190,6 +219,7 @@ const FundingList = () => {
               getFundingDetail(item.fundingNum, item.memberNum.memberNum);
             }}
           >
+            {/* fileName 없을 경우 대체이미지 출력 */}
             {item.fileName ? (
               <Image
                 style={{ height: 300, objectFit: "cover" }}
@@ -244,12 +274,14 @@ const FundingList = () => {
           margin: "10px 0 10px 0",
         }}
       >
-        {/* <Select
-          options={option}
-          onChange={setSelectOption}
-          defaultValue={option[0]}
-        /> */}
-        <SelectBox options={OPTIONS} defaultValue="recent" />
+        {/* dropdown section */}
+        <Dropdown
+          onChange={onSelectMain}
+          defaultValue="0"
+          selection
+          options={selectOptions}
+        />
+
         <Button
           onClick={fundingWrite}
           style={{
