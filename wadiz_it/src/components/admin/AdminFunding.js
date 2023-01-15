@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Header, Table, Button } from "semantic-ui-react";
+import { Container, Header, Table } from "semantic-ui-react";
 import Paging from "../Paging";
 
 const AdminFunding = () => {

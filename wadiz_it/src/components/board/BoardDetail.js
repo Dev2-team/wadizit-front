@@ -173,6 +173,54 @@ const BoardDetail = () => {
     }
   });
 
+  
+
+  // //게시글 전체 삭제 함수 (게시글 + 파일 + 댓글)
+  // const boardDeleteAll = () => {
+
+  //   console.log("파일이름~~~ : " + bfList[0].originName)
+
+  //   if (loginPerson === boardWriter) {
+  //     let result = window.confirm("정말로 삭제하시겠습니까?");
+  //     if (result === true) {
+  //       axios
+  //         .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+  //         .then((res) => {
+  //           if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
+  //             boardFileDelete(bNum);
+  //             for (var i = 0; i < 1; i++){
+  //               boardDelete(bNum);
+  //             }
+              
+  //           } else {
+  //             alert("댓글 삭제 실패하였습니다.");
+  //           }
+  //         })
+  //         .catch((err) => console.log(err));
+        
+  //     } 
+  //   } else {
+  //     alert("글 작성자만 삭제 가능합니다.");
+  //     }
+  // }
+  
+  // //게시글 파일 삭제 함수
+  // const boardFileDelete = (bNum) => {
+
+  //   if (bfList[0].originName !== "파일없음") {
+  //     axios
+  //     .delete("/board/file/deleteAll", { params: { boardNum: bNum } })
+  //     .then((res) => {
+  //       if (res.data === "파일 삭제 완료") {
+  //         alert("파일 삭제 완료");
+  //       }
+  //       else {
+  //         alert("파일 삭제 실패");
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  //   } 
+  // }
 
   //게시글 삭제 함수
   const boardDelete = () => {
@@ -184,31 +232,29 @@ const BoardDetail = () => {
           alert("게시물이 삭제되었습니다.");
           nav("/board/list");
         } else {
-          alert("게시물 삭제 실패");
+          alert("board 삭제 실패");
         }
       })
-      .catch((err) => {
-        console.log(err);
-        alert("게시물 삭제 실패");
-      }, []);
+      .catch((err) => console.log(err));
   };
 
 
-  //게시글 삭제 (boardComment + boardFile + board)
-  const boardFileDelete = () => {
+  //게시글 전체 삭제 (boardComment + boardFile + board)
+  const boardDeleteAll = () => {
 
     if (loginPerson === boardWriter) {
       let result = window.confirm("정말로 삭제하시겠습니까?");
       if (result === true) {
-        console.log("길이" + bfList.length);
 
         if (bfList[0].originName !== "파일없음") {
 
-          //게시글 삭제
+          //게시글 파일 삭제
           axios
             .delete("/board/file/deleteAll", { params: { boardNum: bNum } })
             .then((res) => {
               if (res.data === "파일 삭제 완료") {
+
+                //게시글 댓글 삭제
                 axios
                   .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
                   .then((res) => {
@@ -304,7 +350,7 @@ const BoardDetail = () => {
             수정
               </Button>
 
-              <Button type="button" className="bdDeleteBtn" onClick={boardFileDelete}
+              <Button type="button" className="bdDeleteBtn" onClick={boardDeleteAll}
             style={{
               alignItems: "center",
               margin: "0px",

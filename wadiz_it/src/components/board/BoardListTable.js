@@ -1,4 +1,3 @@
-import { hover } from "@testing-library/user-event/dist/hover";
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useCallback, useEffect, useState } from "react";
@@ -9,11 +8,6 @@ const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const BoardListTable = () => {
   const nav = useNavigate();
-
-  //마우스 위로 올렸을 경우 배경색 변화
-  const mouseUp = () => {
-    document.getElementsByClassName("tableCell").style.backgroundColor = "red";
-  };
 
   const [boardItem, setBoardItem] = useState([]);
 
@@ -54,7 +48,7 @@ const BoardListTable = () => {
     );
   } else {
     boardList = Object.values(boardItem).map((bItem) => (
-      <Table.Row key={bItem.boardNum} className="tableCell" onMouseUp={mouseUp}>
+      <Table.Row key={bItem.boardNum} className="tableCell">
         <Table.Cell>
           <div onClick={() => getBoardDetail(bItem.boardNum)}>
             {bItem.boardNum}

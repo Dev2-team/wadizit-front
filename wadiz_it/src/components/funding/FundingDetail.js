@@ -47,11 +47,12 @@ const TabMenu = () => (
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const FundingDetail = () => {
+  
   const nav = useNavigate();
 
-  const fundingNum = localStorage.getItem("fundingNum");
+const fundingNum = localStorage.getItem("fundingNum");
 
-  //펀딩 상세정보 데이터
+//펀딩 상세정보 데이터
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,

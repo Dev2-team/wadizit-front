@@ -56,7 +56,7 @@ const FundingComment = () => {
         .catch((error) => console.log(error));
       setFundCom({ ...fundCom, content: "" });
     }
-  }, [fundCom, fundComData, isDonator]);
+  }, [fundCom, fundComData]);
 
   // 댓글 삭제 함수
   const deleteComment = useCallback(
