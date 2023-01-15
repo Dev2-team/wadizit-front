@@ -23,6 +23,7 @@ const BoardListTable = () => {
     totalPage: 0,
     pageNum: 1,
   });
+  const [boardListCount, setBoardListCount] = useState(0);
 
 
   //자유게시판 페이징 처리
@@ -34,9 +35,10 @@ const BoardListTable = () => {
     .then((res) => {
       console.log("게시글 갯수" + res.data.length);
       sessionStorage.setItem("boardListNum", res.data.length);
+      setBoardListCount(res.data.length);
     })
     .catch((err) => console.log(err));
-  }, []);
+  }, [boardListCount]);
   
 
   //자유게시판 리스트 출력 함수
