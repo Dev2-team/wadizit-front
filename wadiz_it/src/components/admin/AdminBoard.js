@@ -20,6 +20,7 @@ const AdminBoard = () => {
   useEffect(() => {
     bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
   }, []);
+  
 
   // 서버로부터 게시글 목록 가져오기
   const getBoardList = (bpNum) => {

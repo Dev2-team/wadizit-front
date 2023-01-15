@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
 
-
 import "./BoardWrite.scss";
 
 const BoardWrite = () => {

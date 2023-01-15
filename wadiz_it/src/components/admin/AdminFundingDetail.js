@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "semantic-ui-react";
-import FundingDetail from "../funding/FundingDetail";
 import Button from "../common/Button";
 import Afunding from "./Afunding";
 
