@@ -11,6 +11,8 @@ const BoardUpdate = () => {
     nav("/board/list");
   };
 
+  let formData = new FormData();
+
   const [fileDeleteList, SetFileDeleteList] = useState([]);
 
   //localStorag에 저장한 내용 불러오기
@@ -87,6 +89,19 @@ const BoardUpdate = () => {
     [fileDeleteList]
   );
 
+  //게시판 파일 추가 리스트
+  const onFileChange = useCallback(
+    (e) => {
+      const files = e.target.files;
+      //console.log(files);
+      formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+    },
+    [formData]
+  );
+
   //자유게시판 수정 기능
 
   const [data, setData] = useState({
@@ -99,10 +114,10 @@ const BoardUpdate = () => {
   const onUpdate = useCallback(
     (e) => {
       e.preventDefault();
-
       axios
         .put("/board", data, { params: { boardNum: bNum } })
         .then((res) => {
+          if (res.data === "수정 성공") {
           // 파일 삭제
           console.log(fileDeleteList);
           for (const v of fileDeleteList) {
@@ -116,19 +131,35 @@ const BoardUpdate = () => {
                 }
               })
               .catch((err) => console.log(err));
-          }
+              }
+            console.log(res.data);
+            
+            //파일 추가 기능
+            let keys = formData.keys();
+            let i = 0;
+            for (const key of keys) {
+              i++;
+              console.log(key);
+            }
 
-          console.log(res.data);
-          if (res.data === "수정 성공") {
-            alert("글이 수정되었습니다.");
-            nav("/board/detail");
+            if (i !== 0) {
+              axios
+                .post("/board/file", formData, { params: { boardNum: bNum } },
+                  {headers: { "Content-Type": "multipart/form-data" },
+                  })
+                .then((res) => {
+                  alert("글이 수정되었습니다.");
+                  nav("/board/detail");
+                })
+              .catch((err) => console.log(err));
+              }
           } else {
             alert("글 수정 실패");
           }
         })
         .catch((error) => console.log(error));
     },
-    [data, fileDeleteList]
+    [data, fileDeleteList, formData]
   );
 
   const onChange = useCallback(
@@ -179,7 +210,7 @@ const BoardUpdate = () => {
             </div>
             <div className="buFileAdd">
               <input id="fileAddBtn"
-                type="file" multiple />
+                type="file" name="files" onChange={onFileChange} multiple />
             </div>
             
           </div>

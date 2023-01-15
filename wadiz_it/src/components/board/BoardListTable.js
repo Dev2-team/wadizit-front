@@ -3,18 +3,20 @@ import moment from "moment/moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Table } from "semantic-ui-react";
+import Loading from "../common/Loading";
 import Paging from "../Paging";
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const BoardListTable = () => {
 
-    //자유게시판 게시물 총 갯수
+  //자유게시판 게시물 총 갯수
   let boardListNum = sessionStorage.getItem("boardListNum");
   
   const nav = useNavigate();
 
   const [boardItem, setBoardItem] = useState([]);
+  const [loading, setLoading] = useState(null);
 
 
   //자유게시판 페이징 처리
@@ -28,14 +30,17 @@ const BoardListTable = () => {
 
   //자유게시판 페이징 처리
   useEffect(() => {
+    setLoading(true);
+
     bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
 
     axios
     .get("/board/list")
     .then((res) => {
-      console.log("게시글 갯수" + res.data.length);
+      // console.log("게시글 갯수" + res.data.length);
       sessionStorage.setItem("boardListNum", res.data.length);
       setBoardListCount(res.data.length);
+      setLoading(false);
     })
     .catch((err) => console.log(err));
   }, [boardListCount]);
@@ -54,8 +59,6 @@ const BoardListTable = () => {
       .catch((err) => console.log(err));
   }
 
-
-  
 
   const getBoardDetail = useCallback((boardNum) => {
     localStorage.setItem("boardNum", boardNum);
@@ -130,6 +133,7 @@ const BoardListTable = () => {
         <Table.Body style={{ textAlign: "center" }}>{boardList}</Table.Body>
       </Table>
       <Paging page={boardPage} getList={getBoardList} pageCntNum={15} />
+      {loading && <Loading/>}
     </Container>
   );
 };

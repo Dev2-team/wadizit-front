@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./BoardDetail.scss";
 import { Button, Container, Header } from "semantic-ui-react";
 import BClist from "../boardComment/BClist";
+import Loading from "../common/Loading";
 
 const dateFormat = (date) => moment(date).format("YYYY월 MM월 DD일");
 
@@ -12,6 +13,7 @@ const BoardDetail = () => {
   //로그인한 사람과 글 작성자에 대한 세션 정보 받기
   const loginPerson = sessionStorage.getItem("memberNum");
   const boardWriter = sessionStorage.getItem("boardWriter");
+  const [loading, setLoading] = useState(null);
 
   // console.log("로그인한 사람 : " + loginPerson);
   // console.log("글 작성자 : " + boardWriter);
@@ -51,6 +53,8 @@ const BoardDetail = () => {
   ]);
 
   useEffect(() => {
+
+    setLoading(true);
     axios
       .get("/board", { params: { boardNum: bNum } })
       .then((res) => {
@@ -81,8 +85,9 @@ const BoardDetail = () => {
             newFileList.push(newFile);
           }
           setBfList(newFileList);
-          // console.log("bfList.originName: " + bfList.originName);
+          
         }
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -326,6 +331,7 @@ const BoardDetail = () => {
           <div className="bdFileList">{viewFlist}</div>
         </div>
       </div>
+      {loading && <Loading/>}
 
       <div className="bdBtn">
         <Button

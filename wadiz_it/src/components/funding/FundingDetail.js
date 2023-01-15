@@ -46,11 +46,13 @@ const TabMenu = () => (
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
+
 const FundingDetail = () => {
+
   
   const nav = useNavigate();
 
-const fundingNum = localStorage.getItem("fundingNum");
+  const fundingNum = localStorage.getItem("fundingNum");
 
 //펀딩 상세정보 데이터
   const [fundData, setFundData] = useState({
@@ -127,6 +129,7 @@ const fundingNum = localStorage.getItem("fundingNum");
 
   //펀딩 상세정보 출력
   useEffect(() => {
+
     //펀딩 이미지 출력
     axios
       .get("/funding/file/list", { params: { fundingNum: fundingNum } })
@@ -179,7 +182,7 @@ const fundingNum = localStorage.getItem("fundingNum");
           }
         }
 
-        localStorage.setItem("isDonator", isDonator);
+        sessionStorage.setItem("isDonator", isDonator);
       })
       .catch((err) => console.log(err));
 
@@ -189,7 +192,7 @@ const fundingNum = localStorage.getItem("fundingNum");
         console.log("보유 토큰 : ", res.data);
         sessionStorage.setItem("currentTokenAmount", res.data);
       });
-  }, [achieveRate, isDonator]);
+  }, [donator.length , achieveRate, isDonator]);
 
   //대표이미지 출력
   let fundingFileImage = null;
