@@ -296,7 +296,13 @@ const BoardDetail = () => {
 
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>
-      <Header as="h2">자유게시판 상세페이지</Header>
+      <Header
+        as="h1"
+        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+      >
+        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
+        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+      </Header>
       <div className="bdBoardForm">
         <div className="bdTitle">{bitem.title}</div>
         <div className="bdInfo">

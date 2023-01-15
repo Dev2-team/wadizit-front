@@ -2,9 +2,9 @@ import React, { useCallback } from "react";
 import "./Paging.scss";
 import classNames from "classnames";
 
-const Paging = ({ page, getList }) => {
+const Paging = ({ page, getList, pageCntNum }) => {
   const { totalPage, pageNum } = page;
-  const pageCnt = 5; // 보여줄 페이지 범위
+  const pageCnt = pageCntNum; // 보여줄 페이지 범위
 
   let curGroup = Math.floor(
     // 현재 페이지

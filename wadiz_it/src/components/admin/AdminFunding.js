@@ -94,7 +94,7 @@ const AdminFunding = () => {
         </Table.Header>
         <Table.Body>{fundingList}</Table.Body>
       </Table>
-      <Paging page={fundingPage} getList={getFundingList} />
+      <Paging page={fundingPage} getList={getFundingList} pageCntNum={5}/>
     </Container>
   );
 };

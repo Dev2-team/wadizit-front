@@ -52,11 +52,11 @@ const BoardUpdate = () => {
       <div className="boardUpdFilesDown" id={v.boardFileNum} key={i}>
         {v.originName} &nbsp;
         {v.originName === "파일없음" ? null : (
-          <input
+          <button
+            type="button"
             className="boardUpdFilesBtn"
-            type="checkbox"
             onClick={(e) => addDeleteFileList(e, v)}
-          ></input>
+          >x</button>
         )}
       </div>
     );
@@ -65,17 +65,24 @@ const BoardUpdate = () => {
   //자유게시판 개별 파일 삭제 기능
   const addDeleteFileList = useCallback(
     (e, v) => {
-      console.log(e.target.checked);
-      if (e.target.checked) {
-        fileDeleteList.push(v.boardFileNum);
-      } else {
-        console.log("filedelete", fileDeleteList);
-        const newList = fileDeleteList.filter(
-          (fileNum) => fileNum !== v.boardFileNum
-        );
-        console.log(newList);
-        SetFileDeleteList(newList);
-      }
+      fileDeleteList.push(v.boardFileNum);
+      let fileDiv = document.getElementById(v.boardFileNum);
+      fileDiv.remove();
+      console.log(fileDeleteList);
+    
+      // if (e.target.checked) {
+      //   fileDeleteList.push(v.boardFileNum);
+      //   let fileDiv = document.getElementById(v.boardFileNum);
+      //   fileDiv.remove();
+
+      // } else {
+      //   console.log("filedelete", fileDeleteList);
+      //   const newList = fileDeleteList.filter(
+      //     (fileNum) => fileNum !== v.boardFileNum
+      //   );
+      //   console.log(newList);
+      //   SetFileDeleteList(newList);
+      // }
     },
     [fileDeleteList]
   );
@@ -137,7 +144,13 @@ const BoardUpdate = () => {
 
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>
-      <Header as="h2">게시글 수정</Header>
+      <Header
+        as="h1"
+        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+      >
+        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
+        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+      </Header>
       <div className="boardForm">
         <form onSubmit={onUpdate}>
           <input
@@ -158,12 +171,20 @@ const BoardUpdate = () => {
           ></textarea>
           <br />
           <div className="buFile">
-            <div className="buFileTitle">
-              첨부파일<button type="button">+</button>
+            <div className="buFileListArea">
+              <div className="buFileTitle">
+                첨부파일
+              </div>
+              <div className="buFileList">{viewFlist}</div>
             </div>
-            <div className="buFileList">{viewFlist}</div>
+            <div className="buFileAdd">
+              <input id="fileAddBtn"
+                type="file" multiple />
+            </div>
+            
           </div>
-          <div className="btn">
+          
+          <div className="btn" style={{marginTop:"0px"}}>
             <div className="upBtnArea" style={{width:"60vw"}}>
             <Button
           type="button" className="backBtn"

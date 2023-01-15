@@ -26,7 +26,7 @@ const AdminBoard = () => {
   // 서버로부터 게시글 목록 가져오기
   const getBoardList = (bpNum) => {
     axios
-      .get("/board/page", { params: { pageNum: bpNum } })
+      .get("/board/page", { params: { pageNum: bpNum, listCntNum : 5 } })
       .then((res) => {
         const { totalPage, pageNum, bList } = res.data;
         setBoardPage({ totalPage: totalPage, pageNum: pageNum });
@@ -104,7 +104,7 @@ const AdminBoard = () => {
         </Table.Header>
         <Table.Body>{boardList}</Table.Body>
       </Table>
-      <Paging page={boardPage} getList={getBoardList} />
+      <Paging page={boardPage} getList={getBoardList} pageCntNum={10} />
     </Container>
   );
 };

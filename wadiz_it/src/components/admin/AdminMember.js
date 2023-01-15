@@ -102,7 +102,7 @@ const AdminMember = () => {
         </Table.Header>
         <Table.Body>{memberList}</Table.Body>
       </Table>
-      <Paging page={memberPage} getList={getMemberList} />
+      <Paging page={memberPage} getList={getMemberList} pageCntNum={5} />
     </Container>
   );
 };

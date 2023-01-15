@@ -65,7 +65,22 @@ const fundingNum = localStorage.getItem("fundingNum");
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
-  const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+  var diffDay = (Math.floor(diff / (1000 * 60 * 60 * 24)) + 1);
+  var diffDay2 = diffDay;
+  if (diffDay === 0) {
+    diffDay = "오늘 마감";
+    diffDay2 = "오늘 마감";
+    
+    if (diffDay === "오늘 마감") {
+      var x = document.getElementById("diffDayCount");
+      x.style.color = "#e94e58";
+    }
+  
+  } else {
+    diffDay += "일"; 
+    diffDay2 += "일 남음";
+  }
+
 
   //달성률 % (소수점 처리)
   let achieveRate =
@@ -271,7 +286,7 @@ const fundingNum = localStorage.getItem("fundingNum");
             <div className="subTitle" style={{ fontSize: "17px" }}>
               남은 시간
             </div>
-            <Header
+            <Header id="diffDayCount"
               style={{
                 "white-space": "nowrap",
                 overflow: "hidden",
@@ -280,7 +295,7 @@ const fundingNum = localStorage.getItem("fundingNum");
                 fontSize: "27px",
               }}
             >
-              {diffDay}일
+              {diffDay}
             </Header>
           </Segment>
           <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
@@ -365,7 +380,7 @@ const fundingNum = localStorage.getItem("fundingNum");
                       borderRadius: "2px",
                     }}
                   >
-                    {diffDay}일 남음
+                    {diffDay2}
                   </div>
                 </div>
               </div>
