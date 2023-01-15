@@ -31,11 +31,23 @@ const MyPageFunding = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  // 타이틀 클릭 시 해당 펀딩 상세로 이동
+  // const getFunding = useCallback(
+  //   (fundingNum) => {
+  //     // 보여질 펀딩 글의 번호를 localStorage에 저장
+  //     localStorage.setItem("fundingNum", fundingNum);
+  //     // 해당 링크로 이동
+  //     nav("/login/myPage/funding/detail");
+  //   },
+  //   [nav]
+  // );
+
   // 내가 개설한 펀딩 내역
   const FundingTable = () => {
     return Object.values(myFundingItem).map((item) => {
       return (
         <Table.Row key={item.fundingNum}>
+          {/* <Table.Cell onClick={() => getFunding(item.fundingNum)}> */}
           <Table.Cell>{item.title}</Table.Cell>
           <Table.Cell>{dateFormat(item.startDate)}</Table.Cell>
           <Table.Cell>{dateFormat(item.endDate)}</Table.Cell>
