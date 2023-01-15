@@ -8,11 +8,14 @@ import Paging from "../Paging";
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const BoardListTable = () => {
+
+    //자유게시판 게시물 총 갯수
+  let boardListNum = sessionStorage.getItem("boardListNum");
+  
   const nav = useNavigate();
 
   const [boardItem, setBoardItem] = useState([]);
 
-  
 
   //자유게시판 페이징 처리
   let bpNum = sessionStorage.getItem("bpNum");
@@ -25,6 +28,14 @@ const BoardListTable = () => {
   //자유게시판 페이징 처리
   useEffect(() => {
     bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
+
+    axios
+    .get("/board/list")
+    .then((res) => {
+      console.log("게시글 갯수" + res.data.length);
+      sessionStorage.setItem("boardListNum", res.data.length);
+    })
+    .catch((err) => console.log(err));
   }, []);
   
 
@@ -95,6 +106,11 @@ const BoardListTable = () => {
 
   return (
     <Container>
+      <div style={{display:"inline", fontSize:"16px", float:"left"}}>
+        <div style={{ display:"inline", textAlign:"left"}}>총&nbsp;&nbsp;</div>
+        <div style={{display:"inline", color:"#00b2b2", fontWeight:"bold"}}>{boardListNum}개</div>
+        <div style={{display:"inline"}}>의 게시물이 있습니다.</div>
+      </div>
       
       <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
