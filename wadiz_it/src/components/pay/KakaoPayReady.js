@@ -42,6 +42,7 @@ const KakaoPayReady = ({ price }) => {
           // 결제 고유 id를 session 저장
           localStorage.setItem("tid", tid);
           localStorage.setItem("paid", price.params.total_amount);
+          localStorage.setItem("name", price.params.item_name);
 
           // 결제 준비 링크로 이동
           window.location.href = next_redirect_pc_url;
