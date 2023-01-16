@@ -99,9 +99,11 @@ const FundingForm = () => {
                 .then((res) => {
                   Swal.fire({
                     icon: "success",
+                    iconColor: "#00b2b2",
                     title: "펀딩 생성이 완료되었습니다!",
                     text: "생성하신 펀딩은 내부심사를 거쳐 등록됩니다.",
                     showConfirmButton: true,
+                    confirmButtonColor: "#00b2b2",
                     // timer: 3000,
                   });
                   // alert("작성 성공");
@@ -110,9 +112,11 @@ const FundingForm = () => {
             } else {
               Swal.fire({
                 icon: "success",
+                iconColor: "#00b2b2",
                 title: "펀딩 생성이 완료되었습니다!",
                 text: "생성하신 펀딩은 내부심사를 거쳐 등록됩니다.",
                 showConfirmButton: true,
+                confirmButtonColor: "#00b2b2",
               });
               // alert("작성 성공");
               nav("/");
@@ -120,9 +124,11 @@ const FundingForm = () => {
           } else {
             Swal.fire({
               icon: "error",
+              iconColor: "#ff6666",
               title: "펀딩 생성이 실패하였습니다!",
               text: "관리자에게 문의해 주세요.",
               showConfirmButton: true,
+              confirmButtonColor: "#ff6666",
             });
             //alert("게시글 등록 실패");
           }

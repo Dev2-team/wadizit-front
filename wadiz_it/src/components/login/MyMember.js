@@ -1,14 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Form,
-  Divider,
-  Button,
-  Message,
-  Header,
-} from "semantic-ui-react";
-import Swal from "sweetalert2";
+import { Container, Form, Divider, Header } from "semantic-ui-react";
 
 const MyPageMember = () => {
   // 데이터
