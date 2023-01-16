@@ -8,10 +8,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Header = ({ logState, onLogout, onMypage }) => {
+  const grade = sessionStorage.getItem("grade");
   const { logNick, flink } = logState;
-  // const { logNick } = logState;
-  //로고 클릭(로그인 후 main, 로그인 전 home)
   const homeLink = "/";
+  const myPageLink = grade === "1" ? "/adminPage" : "/login/myPage";
 
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
@@ -45,11 +45,11 @@ const Header = ({ logState, onLogout, onMypage }) => {
         </div>
         <div className={click ? "nav-menu active" : "nav-menu"}>
           <div className="nav-item">
-            <div className="nav-div">
+            {/* <div className="nav-div">
               <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                 펀딩
               </Link>
-            </div>
+            </div> */}
             <div className="nav-div">
               <Link to="/pay" className="nav-links" onClick={closeMobileMenu}>
                 포인트
@@ -64,7 +64,20 @@ const Header = ({ logState, onLogout, onMypage }) => {
                 자유게시판
               </Link>
             </div>
-          </div>{" "}
+            <div className="nav-div">
+              <Link
+                to={myPageLink}
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                {logNick === ""
+                  ? ""
+                  : grade === "1"
+                  ? "관리자 페이지"
+                  : "마이페이지"}
+              </Link>
+            </div>
+          </div>
           {/* nav-item end  */}
           <div className="log-item">
             <div className="log-div" onClick={closeMobileMenu}>
@@ -72,12 +85,10 @@ const Header = ({ logState, onLogout, onMypage }) => {
                 {button && logNick !== "" ? (
                   <span onClick={onMypage}>{logNick}님</span>
                 ) : (
+                  // <span>{logNick}님</span>
                   "Login"
                 )}
               </Link>
-              {/* <Link to="/myPage">
-                {button && logNick !== "" ? `${logNick}님` : "Login"}
-              </Link> */}
             </div>
             <div className="log-div" onClick={closeMobileMenu}>
               {button && logNick !== "" ? (
