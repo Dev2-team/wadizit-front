@@ -26,8 +26,9 @@ const MyPageDonate = () => {
     (fundingNum) => {
       // 보여질 펀딩 글의 번호를 localStorage에 저장
       localStorage.setItem("fundingNum", fundingNum);
+      console.log("dona" + fundingNum);
       // 해당 링크로 이동
-      nav("/login/myPage/funding/detail");
+      nav("/funding/detail");
     },
     [nav]
   );
