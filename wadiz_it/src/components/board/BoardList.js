@@ -1,12 +1,16 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
 import BoardListTable from "./BoardListTable";
 
 const BoardList = () => {
+
   const nav = useNavigate();
   const loginPerson = sessionStorage.getItem("memberNum");
   console.log("로그인한 사람 : " + loginPerson);
+
+
 
   const boardWrite = () => {
     //로그인한 상태가 아닐 경우, 로그인 페이지로 이동
@@ -17,6 +21,7 @@ const BoardList = () => {
       nav("/board/write");
     }
   };
+
 
   return (
     <Container>
@@ -30,18 +35,37 @@ const BoardList = () => {
         </Container> */}
       <Header
         as="h1"
-        style={{ marginTop: "50px", textAlign: "left", marginBottom: "30px" }}
+        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
       >
-        자유게시판
+        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
+        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
       </Header>
-      <Button
-        size="tiny"
-        onClick={boardWrite}
-        style={{ float: "right", marginBottom: "25px", backgroundColor:"#00b2b2", color:"#fff" }}
-      >
-        작성
-      </Button>
-      <BoardListTable></BoardListTable>
+
+      <Container>
+      <Button type="button"
+                onClick={boardWrite}
+          style={{
+          display:"inline",
+                  float: "right",
+                  alignItems: "center",
+          margin: "0px",
+                  marginBottom:"10px",
+                  fontSize:"0.9rem",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+          color: "#00b2b2",
+
+                }}
+              >
+                글쓰기
+        </Button>
+      
+
+      
+        {/* </Container> */}
+
+      <BoardListTable style={{display:"inline"}}></BoardListTable>
+      </Container>
     </Container>
   );
 };

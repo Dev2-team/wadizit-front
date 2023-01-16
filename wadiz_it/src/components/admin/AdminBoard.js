@@ -2,6 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Container, Header, Table, Button } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import Paging from "../Paging";
 
 const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
@@ -20,11 +21,12 @@ const AdminBoard = () => {
   useEffect(() => {
     bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
   }, []);
+  
 
   // 서버로부터 게시글 목록 가져오기
   const getBoardList = (bpNum) => {
     axios
-      .get("/board/page", { params: { pageNum: bpNum } })
+      .get("/board/page", { params: { pageNum: bpNum, listCntNum : 5 } })
       .then((res) => {
         const { totalPage, pageNum, bList } = res.data;
         setBoardPage({ totalPage: totalPage, pageNum: pageNum });
@@ -63,7 +65,18 @@ const AdminBoard = () => {
     axios
       .delete("/board?boardNum=" + boardNum)
       .then((res) => {
-        alert(res.data);
+        const newBoardList = boardItem.filter(
+          (bList) => bList.boardNum !== boardNum
+        );
+        setBoardItem(newBoardList);
+
+        if (res.data === "삭제 성공") {
+          Swal.fire({
+            icon: "success",
+            title: "게시글 삭제가 완료되었습니다.",
+            showConfirmButton: true,
+          });
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -91,7 +104,7 @@ const AdminBoard = () => {
         </Table.Header>
         <Table.Body>{boardList}</Table.Body>
       </Table>
-      <Paging page={boardPage} getList={getBoardList} />
+      <Paging page={boardPage} getList={getBoardList} pageCntNum={10} />
     </Container>
   );
 };

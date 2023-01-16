@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Form, Divider, Button, Message } from "semantic-ui-react";
+import Swal from "sweetalert2";
 
 const MyPageMember = () => {
   // 데이터
@@ -114,10 +115,16 @@ const MyPageMember = () => {
       .put("/member/update", editData, { params: { memberNum: memberNum } })
       .then((res) => {
         if (res.data === true) {
-          alert("수정 되었습니다.");
-          window.location.reload();
+          Swal.fire({
+            icon: "success",
+            title: "수정되었습니다.",
+          });
+          // window.location.reload();
         } else {
-          alert("수정 실패");
+          Swal.fire({
+            icon: "error",
+            title: "수정에 실패했습니다",
+          });
         }
       })
       .catch((err) => console.log(err));

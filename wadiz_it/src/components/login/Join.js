@@ -5,6 +5,7 @@ import Button from "../common/Button";
 import "./Join.scss";
 import "../common/Input.scss";
 import "../common/Button.scss";
+import Swal from "sweetalert2";
 
 const Join = () => {
   const nav = useNavigate();
@@ -83,7 +84,10 @@ const Join = () => {
       .post("/member/join", form)
       .then((result) => {
         if (result.data === true) {
-          alert("가입 성공");
+          Swal.fire({
+            icon: "success",
+            title: "회원가입에 성공했습니다.",
+          });
           nav("/login");
         }
       })

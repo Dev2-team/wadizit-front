@@ -16,7 +16,8 @@ const FundingComment = () => {
   const memberNum = sessionStorage.getItem("memberNum");
   const [fundComData, setFundComData] = useState([]);
 
-  let isDonator = localStorage.getItem("isDonator");
+  // console.log("세션정보 : " + sessionStorage.getItem("isDonator"));
+  let isDonator = sessionStorage.getItem("isDonator");
 
   // 펀딩 댓글 리스트 얻기
   useEffect(() => {
@@ -56,7 +57,7 @@ const FundingComment = () => {
         .catch((error) => console.log(error));
       setFundCom({ ...fundCom, content: "" });
     }
-  }, [fundCom, fundComData, isDonator]);
+  }, [fundCom, fundComData]);
 
   // 댓글 삭제 함수
   const deleteComment = useCallback(

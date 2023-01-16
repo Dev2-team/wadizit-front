@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Header, Table, Button } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import Paging from "../Paging";
 
 const AdminMember = () => {
@@ -61,11 +62,17 @@ const AdminMember = () => {
     axios
       .delete("/member/delete?MemberNum=" + memberNum)
       .then((res) => {
-        const result = res.data;
-        if (result === true) {
-          alert("회원 삭제 완료");
-        } else {
-          alert("회원 삭제 실패");
+        const newMemberList = memberItem.filter(
+          (mList) => mList.memberNum !== memberNum
+        );
+        setMemberItem(newMemberList);
+
+        if (res.data === true) {
+          Swal.fire({
+            icon: "success",
+            title: "회원 삭제가 완료되었습니다.",
+            showConfirmButton: true,
+          });
         }
       })
       .catch((err) => console.log(err));
@@ -95,7 +102,7 @@ const AdminMember = () => {
         </Table.Header>
         <Table.Body>{memberList}</Table.Body>
       </Table>
-      <Paging page={memberPage} getList={getMemberList} />
+      <Paging page={memberPage} getList={getMemberList} pageCntNum={5} />
     </Container>
   );
 };

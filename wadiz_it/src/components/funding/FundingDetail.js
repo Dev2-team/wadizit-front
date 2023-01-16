@@ -46,12 +46,15 @@ const TabMenu = () => (
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
+
 const FundingDetail = () => {
+
+  
   const nav = useNavigate();
 
   const fundingNum = localStorage.getItem("fundingNum");
 
-  //펀딩 상세정보 데이터
+//펀딩 상세정보 데이터
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,
@@ -64,7 +67,22 @@ const FundingDetail = () => {
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
-  const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+  var diffDay = (Math.floor(diff / (1000 * 60 * 60 * 24)) + 1);
+  var diffDay2 = diffDay;
+  if (diffDay === 0) {
+    diffDay = "오늘 마감";
+    diffDay2 = "오늘 마감";
+    
+    if (diffDay === "오늘 마감") {
+      var x = document.getElementById("diffDayCount");
+      x.style.color = "#e94e58";
+    }
+  
+  } else {
+    diffDay += "일"; 
+    diffDay2 += "일 남음";
+  }
+
 
   //달성률 % (소수점 처리)
   let achieveRate =
@@ -111,6 +129,7 @@ const FundingDetail = () => {
 
   //펀딩 상세정보 출력
   useEffect(() => {
+
     //펀딩 이미지 출력
     axios
       .get("/funding/file/list", { params: { fundingNum: fundingNum } })
@@ -163,7 +182,7 @@ const FundingDetail = () => {
           }
         }
 
-        localStorage.setItem("isDonator", isDonator);
+        sessionStorage.setItem("isDonator", isDonator);
       })
       .catch((err) => console.log(err));
 
@@ -173,7 +192,7 @@ const FundingDetail = () => {
         console.log("보유 토큰 : ", res.data);
         sessionStorage.setItem("currentTokenAmount", res.data);
       });
-  }, [achieveRate, isDonator]);
+  }, [donator.length , achieveRate, isDonator]);
 
   //대표이미지 출력
   let fundingFileImage = null;
@@ -270,7 +289,7 @@ const FundingDetail = () => {
             <div className="subTitle" style={{ fontSize: "17px" }}>
               남은 시간
             </div>
-            <Header
+            <Header id="diffDayCount"
               style={{
                 "white-space": "nowrap",
                 overflow: "hidden",
@@ -279,7 +298,7 @@ const FundingDetail = () => {
                 fontSize: "27px",
               }}
             >
-              {diffDay}일
+              {diffDay}
             </Header>
           </Segment>
           <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
@@ -364,7 +383,7 @@ const FundingDetail = () => {
                       borderRadius: "2px",
                     }}
                   >
-                    {diffDay}일 남음
+                    {diffDay2}
                   </div>
                 </div>
               </div>

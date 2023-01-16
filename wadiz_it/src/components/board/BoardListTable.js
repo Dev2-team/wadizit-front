@@ -1,32 +1,64 @@
-import { hover } from "@testing-library/user-event/dist/hover";
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Table } from "semantic-ui-react";
+import Loading from "../common/Loading";
+import Paging from "../Paging";
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
 const BoardListTable = () => {
+
+  //자유게시판 게시물 총 갯수
+  let boardListNum = sessionStorage.getItem("boardListNum");
+  
   const nav = useNavigate();
 
-  //마우스 위로 올렸을 경우 배경색 변화
-  const mouseUp = () => {
-    document.getElementsByClassName("tableCell").style.backgroundColor = "red";
-  };
-
   const [boardItem, setBoardItem] = useState([]);
+  const [loading, setLoading] = useState(null);
 
-  //리스트 페이지가 화면에 보일 때 서버로부터 게시글 목록을 가져온다.
+
+  //자유게시판 페이징 처리
+  let bpNum = sessionStorage.getItem("bpNum");
+  const [boardPage, setBoardPage] = useState({
+    totalPage: 0,
+    pageNum: 1,
+  });
+  const [boardListCount, setBoardListCount] = useState(0);
+
+
+  //자유게시판 페이징 처리
   useEffect(() => {
+    setLoading(true);
+
+    bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
+
     axios
-      .get("/board/list")
+    .get("/board/list")
+    .then((res) => {
+      // console.log("게시글 갯수" + res.data.length);
+      sessionStorage.setItem("boardListNum", res.data.length);
+      setBoardListCount(res.data.length);
+      setLoading(false);
+    })
+    .catch((err) => console.log(err));
+  }, [boardListCount]);
+  
+
+  //자유게시판 리스트 출력 함수
+  const getBoardList = (bpNum) => {
+    axios
+      .get("/board/page", { params: { pageNum: bpNum, listCntNum: 15 } })
       .then((res) => {
-        console.log(res.data);
-        setBoardItem(res.data);
+        const { totalPage, pageNum, bList } = res.data;
+        setBoardPage({ totalPage: totalPage, pageNum: pageNum });
+        setBoardItem(bList);
+        sessionStorage.setItem("bpNum", pageNum);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
+
 
   const getBoardDetail = useCallback((boardNum) => {
     localStorage.setItem("boardNum", boardNum);
@@ -54,9 +86,9 @@ const BoardListTable = () => {
     );
   } else {
     boardList = Object.values(boardItem).map((bItem) => (
-      <Table.Row key={bItem.boardNum} className="tableCell" onMouseUp={mouseUp}>
+      <Table.Row key={bItem.boardNum} className="tableCell" style={{height:"40px"}}>
         <Table.Cell>
-          <div onClick={() => getBoardDetail(bItem.boardNum)}>
+          <div onClick={() => getBoardDetail(bItem.boardNum)} style={{cursor:"pointer"}}>
             {bItem.boardNum}
           </div>
         </Table.Cell>
@@ -79,6 +111,12 @@ const BoardListTable = () => {
 
   return (
     <Container>
+      <div style={{display:"inline", fontSize:"16px", float:"left"}}>
+        <div style={{ display:"inline", textAlign:"left"}}>총&nbsp;&nbsp;</div>
+        <div style={{display:"inline", color:"#00b2b2", fontWeight:"bold"}}>{boardListNum}개</div>
+        <div style={{display:"inline"}}>의 게시물이 있습니다.</div>
+      </div>
+      
       <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
           <Table.Row style={{ textAlign: "center" }}>
@@ -94,6 +132,8 @@ const BoardListTable = () => {
 
         <Table.Body style={{ textAlign: "center" }}>{boardList}</Table.Body>
       </Table>
+      <Paging page={boardPage} getList={getBoardList} pageCntNum={15} />
+      {loading && <Loading/>}
     </Container>
   );
 };

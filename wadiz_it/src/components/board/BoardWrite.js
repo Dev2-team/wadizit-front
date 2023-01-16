@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
 
-
 import "./BoardWrite.scss";
 
 const BoardWrite = () => {
@@ -91,7 +90,13 @@ const BoardWrite = () => {
 
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>
-      <Header as="h2">자유게시판</Header>
+      <Header
+        as="h1"
+        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+      >
+        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
+        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+      </Header>
       <div className="boardForm">
         <form onSubmit={onWrite}>
           <div className="boardWrArea">
