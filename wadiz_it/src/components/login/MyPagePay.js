@@ -32,14 +32,12 @@ const MyPagePay = () => {
   const FundingTable = () => {
     return Object.values(myPayItem).map((item) => {
       return (
-        <Table.Row key={item.payNum}>
+        <Table.Row key={item.payNum} style={{ textAlign: "center" }}>
           <Table.Cell onClick={() => getPay(item.payNum)}>
-            {item.payNum}
+            {item.orderNum}
           </Table.Cell>
-          {/* <Table.Cell>{item.title}</Table.Cell> */}
-          <Table.Cell>{dateFormat(item.date)}</Table.Cell>
           <Table.Cell>{item.orderName}</Table.Cell>
-          <Table.Cell>{item.orderNum}</Table.Cell>
+          <Table.Cell>{dateFormat(item.date)}</Table.Cell>
         </Table.Row>
       );
     });
@@ -49,11 +47,10 @@ const MyPagePay = () => {
     <Container>
       <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
-          <Table.Row>
-            <Table.HeaderCell>거래번호</Table.HeaderCell>
-            <Table.HeaderCell>결제일</Table.HeaderCell>
-            <Table.HeaderCell>주문명</Table.HeaderCell>
-            <Table.HeaderCell>주문번호</Table.HeaderCell>
+          <Table.Row style={{ textAlign: "center" }}>
+            <Table.HeaderCell>주문 번호</Table.HeaderCell>
+            <Table.HeaderCell>상품명</Table.HeaderCell>
+            <Table.HeaderCell>결제 일자</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

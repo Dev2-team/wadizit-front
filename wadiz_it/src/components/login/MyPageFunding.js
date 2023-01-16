@@ -48,7 +48,7 @@ const MyPageFunding = () => {
   const FundingTable = () => {
     return Object.values(myFundingItem).map((item) => {
       return (
-        <Table.Row key={item.fundingNum}>
+        <Table.Row key={item.fundingNum} style={{ textAlign: "center" }}>
           <Table.Cell
             style={{ cursor: "pointer" }}
             onClick={() => getFunding(item.fundingNum)}
@@ -58,8 +58,8 @@ const MyPageFunding = () => {
           {/* <Table.Cell>{item.title}</Table.Cell> */}
           <Table.Cell>{dateFormat(item.startDate)}</Table.Cell>
           <Table.Cell>{dateFormat(item.endDate)}</Table.Cell>
-          <Table.Cell>{targetAmtFormat(item)}</Table.Cell>
           <Table.Cell>{currentAmtFormat(item)}</Table.Cell>
+          <Table.Cell>{targetAmtFormat(item)}</Table.Cell>
         </Table.Row>
       );
     });
@@ -69,12 +69,12 @@ const MyPageFunding = () => {
     <Container>
       <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
-          <Table.Row>
-            <Table.HeaderCell>제목</Table.HeaderCell>
-            <Table.HeaderCell>시작일</Table.HeaderCell>
-            <Table.HeaderCell>종료일</Table.HeaderCell>
-            <Table.HeaderCell>목표금액</Table.HeaderCell>
-            <Table.HeaderCell>현재금액</Table.HeaderCell>
+          <Table.Row style={{ textAlign: "center" }}>
+            <Table.HeaderCell>펀딩명</Table.HeaderCell>
+            <Table.HeaderCell>펀딩 시작일</Table.HeaderCell>
+            <Table.HeaderCell>펀딩 종료일</Table.HeaderCell>
+            <Table.HeaderCell>현재 금액</Table.HeaderCell>
+            <Table.HeaderCell>목표 금액</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

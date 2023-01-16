@@ -37,7 +37,7 @@ const MyPageDonate = () => {
   const DonateTable = () => {
     return Object.values(myDonateItem).map((item) => {
       return (
-        <Table.Row key={item.donateNum}>
+        <Table.Row key={item.donateNum} style={{ textAlign: "center" }}>
           <Table.Cell
             style={{ cursor: "pointer" }}
             onClick={() => getFunding(item.fundingNum)}
@@ -51,9 +51,9 @@ const MyPageDonate = () => {
   };
   return (
     <Container>
-      <Table basic="very" celled compact definition collapsing={false}>
+      <Table celled compact definition collapsing={false}>
         <Table.Header fullWidth>
-          <Table.Row>
+          <Table.Row style={{ textAlign: "center" }}>
             <Table.HeaderCell>펀딩 제목</Table.HeaderCell>
             <Table.HeaderCell>후원 금액</Table.HeaderCell>
           </Table.Row>
