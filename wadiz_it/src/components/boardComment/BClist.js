@@ -42,20 +42,24 @@ const BClist = () => {
 
   // 댓글 쓰기 처리
   const writeComment = (data, boardNum) => {
-
     if (nickname === null) {
-      alert("로그인 이후 이용 가능합니다.");
+      Swal.fire({
+        icon: "error",
+        iconColor: "#ff6666",
+        title: "로그인이 필요합니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "#ff6666",
+      });
       nav("/login");
     } else {
       axios
-      .post("/board/comment", data, { params: { boardNum: boardNum } })
-      .then((res) => {
-        console.log("write", data);
-        setBcList([...bcList, res.data]);
-        setData({ ...data, content: "" });
-      });
+        .post("/board/comment", data, { params: { boardNum: boardNum } })
+        .then((res) => {
+          console.log("write", data);
+          setBcList([...bcList, res.data]);
+          setData({ ...data, content: "" });
+        });
     }
-    
   };
 
   // 삭제 버튼 처리
