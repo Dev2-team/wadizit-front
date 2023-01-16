@@ -31,6 +31,7 @@ import KakaoPayApprove from "./components/pay/KakaoPayApprove";
 import TokenTransaction from "./components/token/TokenTransaction";
 import Swal from "sweetalert2";
 import MyMember from "./components/login/MyMember";
+import TokenTransactionBot from "./components/token/TokenTransactionBot";
 // import "../common/Swal.scss";
 
 function App() {
@@ -191,6 +192,10 @@ function App() {
         <Route path="/pay/kakaoPayApprove" element={<KakaoPayApprove />} />
         <Route path="/pay" element={<Pay />} />
         <Route path="/token/transaction" element={<TokenTransaction />} />
+        <Route
+          path="/token/transaction/bot"
+          element={<TokenTransactionBot />}
+        />
       </Routes>
       <Footer />
     </div>
