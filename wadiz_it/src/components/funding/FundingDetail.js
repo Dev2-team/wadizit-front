@@ -61,6 +61,7 @@ const FundingDetail = () => {
     title: "",
     startDate: "",
     endDate: "",
+    status:""
   });
 
   //펀딩 디데이 계산
@@ -84,6 +85,7 @@ const FundingDetail = () => {
   } else {
     diffDay = "종료";
     diffDay2 = "종료";
+
   }
 
 
@@ -159,7 +161,7 @@ const FundingDetail = () => {
     axios
       .get("/funding", { params: { fundingNum: fundingNum } })
       .then((res) => {
-        console.log(res.data);
+        console.log("상태" + res.data.status);
         setFundData(res.data);
       })
       .catch((err) => console.log(err));
@@ -462,10 +464,11 @@ const FundingDetail = () => {
               loginPerson={loginPerson}
               fundingNum={fundData.fundingNum}
             ></FundingModal>
-            <Button
+            <Button id="fundingBtn"
               fluid
               style={{ marginLeft: "10px", width: "100%" }}
               onClick={openModal}
+              disabled={(fundData.status === "종료")}
             >
               후원하기
             </Button>
