@@ -70,8 +70,10 @@ const AdminMember = () => {
         if (res.data === true) {
           Swal.fire({
             icon: "success",
+            iconColor: "#00b2b2",
             title: "회원 삭제가 완료되었습니다.",
             showConfirmButton: true,
+            confirmButtonColor: "#00b2b2",
           });
         }
       })
