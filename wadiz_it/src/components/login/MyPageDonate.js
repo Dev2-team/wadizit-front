@@ -37,9 +37,12 @@ const MyPageDonate = () => {
     return Object.values(myDonateItem).map((item) => {
       return (
         <Table.Row key={item.donateNum}>
-          {/* <Table.Cell onClick={() => getFunding(item.fundingNum)}> */}
-          <Table.Cell> {item.title}</Table.Cell>
-          <Table.Cell>{item.fundingTitle}</Table.Cell>
+          <Table.Cell
+            style={{ cursor: "pointer" }}
+            onClick={() => getFunding(item.fundingNum)}
+          >
+            {item.fundingTitle}
+          </Table.Cell>
           <Table.Cell>{item.donateAmount} 포인트</Table.Cell>
         </Table.Row>
       );
