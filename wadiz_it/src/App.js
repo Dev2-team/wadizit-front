@@ -30,6 +30,7 @@ import Pay from "./components/pay/Pay";
 import KakaoPayApprove from "./components/pay/KakaoPayApprove";
 import TokenTransaction from "./components/token/TokenTransaction";
 import Swal from "sweetalert2";
+import MyMember from "./components/login/MyMember";
 // import "../common/Swal.scss";
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
       showCancelButton: true,
       confirmButtonText: "확인",
       cancelButtonText: "취소",
+      confirmButtonColor: "#00b2b2",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("로그아웃 되었습니다.", "", "success");
@@ -132,6 +134,7 @@ function App() {
     [nav]
   );
 
+  // 닉네임 클릭 시 마이페이지 및 관리자 페이지로 연결
   const onMypage = () => {
     const nickName = sessionStorage.getItem("nickName");
     const grade = sessionStorage.getItem("grade");
@@ -146,10 +149,10 @@ function App() {
     } else {
       const newState = {
         logNick: nickName,
-        flink: "/login/myPage",
+        flink: "/login/myMember",
       };
       setLogState(newState);
-      nav("/login/myPage");
+      nav("/login/myMember");
     }
   };
 
@@ -166,6 +169,7 @@ function App() {
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
         <Route path="/login/join" element={<Join />} />
         <Route path="/login/myPage" element={<MyPage />} />
+        <Route path="/login/myMember" element={<MyMember />} />
         <Route
           path="/login/myPage/funding/detail"
           element={<FundingDetail />}

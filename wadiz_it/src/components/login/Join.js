@@ -87,6 +87,7 @@ const Join = () => {
           Swal.fire({
             icon: "success",
             title: "회원가입에 성공했습니다.",
+            confirmButtonColor: "#00b2b2",
           });
           nav("/login");
         }
