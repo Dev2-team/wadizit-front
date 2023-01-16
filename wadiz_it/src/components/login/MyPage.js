@@ -26,7 +26,20 @@ const MyPage = () => {
 
   return (
     <Container textAlign="left">
-      <Header as="h2">마이페이지</Header>
+      <Header
+        style={{
+          backgroundColor: "#00b2b2",
+          color: "#ffffff",
+          marginTop: "7.5px",
+          paddingLeft: "20px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "left",
+        }}
+        as="h3"
+      >
+        마이페이지
+      </Header>
       {TabMenu()}
     </Container>
   );

@@ -29,7 +29,8 @@ import BoardUpdate from "./components/board/BoardUpdate";
 import Pay from "./components/pay/Pay";
 import KakaoPayApprove from "./components/pay/KakaoPayApprove";
 import TokenTransaction from "./components/token/TokenTransaction";
-
+import Swal from "sweetalert2";
+// import "../common/Swal.scss";
 
 function App() {
   const nav = useNavigate();
@@ -71,46 +72,50 @@ function App() {
 
   //로그아웃함수 (일반, 카카오)
   const onLogout = () => {
-    if (window.confirm("로그아웃 하실?")) {
-      alert("로그아웃");
-      const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
-      const LOGOUT_REDIRECT_URI = "http://localhost:3000";
-      const newState = {
-        logNick: "",
-        flink: "/login",
-      };
-      setLogState(newState);
+    Swal.fire({
+      title: "로그아웃 하시겠습니까?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("로그아웃 되었습니다.", "", "success");
+        const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
+        const LOGOUT_REDIRECT_URI = "http://localhost:3000";
+        const newState = {
+          logNick: "",
+          flink: "/login",
+        };
+        setLogState(newState);
+        axios
+          .get(
+            `https://kauth.kakao.com/oauth/logout?client_id=${CLIENT_ID}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`
+          )
+          .then((res) => {
+            sessionStorage.removeItem("nickName");
+            sessionStorage.removeItem("access_token");
+          });
+        // 토큰만 만료시켜 로그아웃하여 다시 로그인할 때 아이디 비밀번호 자동입력
+        // axios.post(`https://kapi.kakao.com/v1/user/logout`,null, {
+        //   headers : {
+        //     'Content-Type': 'application/x-www-form-urlencoded',
+        //     'Authorization' : `Bearer ${sessionStorage.getItem("access_token")}`
+        //   }
+        // }).then((res) => {
+        //   console.log(res);
+        // })
+        //로그아웃 시 로그인 상태 및 페이지번호 삭제
 
-      //카카오계정과 함께 로그아웃하여 다시 로그인할 때 아이디 비밀번호 입력 필요
-      axios
-        .get(
-          `https://kauth.kakao.com/oauth/logout?client_id=${CLIENT_ID}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`
-        )
-        .then((res) => {
-          sessionStorage.removeItem("nickName");
-          sessionStorage.removeItem("access_token");
-        });
-      // 토큰만 만료시켜 로그아웃하여 다시 로그인할 때 아이디 비밀번호 자동입력
-      // axios.post(`https://kapi.kakao.com/v1/user/logout`,null, {
-      //   headers : {
-      //     'Content-Type': 'application/x-www-form-urlencoded',
-      //     'Authorization' : `Bearer ${sessionStorage.getItem("access_token")}`
-      //   }
-      // }).then((res) => {
-      //   console.log(res);
-      // })
-      //로그아웃 시 로그인 상태 및 페이지번호 삭제
+        sessionStorage.removeItem("nickName");
+        sessionStorage.removeItem("memberNum");
 
-      sessionStorage.removeItem("nickName");
-      sessionStorage.removeItem("memberNum");
+        // alert("로그아웃");
 
-      // alert("로그아웃");
-
-      // sessionStorage.removeItem("pageNum");
-      nav("/"); //첫페이지로 돌아감.
-    } else {
-      alert("취소");
-    }
+        // sessionStorage.removeItem("pageNum");
+        nav("/"); //첫페이지로 돌아감.
+      }
+    });
   };
 
   const setKakaoData = useCallback(
@@ -161,6 +166,10 @@ function App() {
         <Route path="/login" element={<Login sucLogin={sucLogin} />} />
         <Route path="/login/join" element={<Join />} />
         <Route path="/login/myPage" element={<MyPage />} />
+        <Route
+          path="/login/myPage/funding/detail"
+          element={<FundingDetail />}
+        />
         <Route path="/adminPage" element={<AdminPage />} />
         <Route
           path="/adminPage/fundingDetail"

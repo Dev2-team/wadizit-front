@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Button from "../common/Button";
 import KakaoButton from "./KakaoButton";
 import "./Login.scss";
@@ -23,7 +24,10 @@ const Login = ({ sucLogin }) => {
           sucLogin(result.data);
           nav("/");
         } else {
-          alert("아이디나 비밀번호가 틀립니다.");
+          Swal.fire({
+            icon: "error",
+            title: "로그인 정보를 확인해주세요",
+          });
         }
         const formObj = {
           id: "",

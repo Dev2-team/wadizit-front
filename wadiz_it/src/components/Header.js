@@ -46,13 +46,8 @@ const Header = ({ logState, onLogout, onMypage }) => {
         <div className={click ? "nav-menu active" : "nav-menu"}>
           <div className="nav-item">
             <div className="nav-div">
-              <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-                글자수테스트
-              </Link>
-            </div>
-            <div className="nav-div">
-              <Link to="/test" className="nav-links" onClick={closeMobileMenu}>
-              글자수테스트
+              <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                펀딩
               </Link>
             </div>
             <div className="nav-div">
