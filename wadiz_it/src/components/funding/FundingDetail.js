@@ -18,6 +18,7 @@ import Button from "../common/Button";
 import FundingModal from "./FundingModal";
 import { useNavigate } from "react-router-dom";
 import Goods from "../goods/Goods";
+import Swal from "sweetalert2";
 
 const panes = [
   {
@@ -245,7 +246,12 @@ const FundingDetail = () => {
     if (loginPerson !== null) {
       setModalOpen(true);
     } else {
-      alert("로그인 이후 이용 가능합니다.");
+      Swal.fire({
+        icon: "error",
+        iconColor: "#ff6666",
+        title: "로그인이 필요합니다.",
+        showConfirmButton: true,
+      })
       nav("/login");
     }
   };
