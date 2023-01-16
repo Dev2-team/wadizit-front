@@ -30,7 +30,7 @@ const FundingComment = () => {
       })
       .catch((error) => console.log(error));
     
-  }, []);
+  }, [fundComData.length]);
 
   
 

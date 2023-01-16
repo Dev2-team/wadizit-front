@@ -3,8 +3,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import BCdetail from "./BCdetail";
 import Button from "../common/Button";
+import { useNavigate } from "react-router-dom";
 
 const BClist = () => {
+  const nav = useNavigate();
   const nickname = sessionStorage.getItem("nickName");
   const boardNum = localStorage.getItem("boardNum");
   const [bcList, setBcList] = useState([]);
@@ -18,7 +20,7 @@ const BClist = () => {
         setBcList(res.data);
         console.log(bcList.length);
       });
-  }, []);
+  }, [bcList.length]);
 
   // 저장할 댓글 내용
   const [data, setData] = useState({
@@ -40,13 +42,20 @@ const BClist = () => {
 
   // 댓글 쓰기 처리
   const writeComment = (data, boardNum) => {
-    axios
+
+    if (nickname === null) {
+      alert("로그인 이후 이용 가능합니다.");
+      nav("/login");
+    } else {
+      axios
       .post("/board/comment", data, { params: { boardNum: boardNum } })
       .then((res) => {
         console.log("write", data);
         setBcList([...bcList, res.data]);
         setData({ ...data, content: "" });
       });
+    }
+    
   };
 
   // 삭제 버튼 처리
