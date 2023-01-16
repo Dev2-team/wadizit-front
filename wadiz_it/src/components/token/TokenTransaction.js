@@ -114,7 +114,7 @@ const TokenTransaction = () => {
     setInitReadyFlag(true);
     const currentDate = dateFormat(new Date());
 
-    if (initData.endDate < currentDate) {
+    if (initData.status === "종료") {
       setTradeReadyFlag(true);
     } else {
       setMsg("아직 개장 전입니다");
