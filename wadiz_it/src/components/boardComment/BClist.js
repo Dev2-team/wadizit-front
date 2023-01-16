@@ -51,14 +51,6 @@ const BClist = () => {
 
   // 삭제 버튼 처리
   const bcDelete = (bcNum, writer) => {
-    if (!(nickname === writer)) {
-      Swal.fire({
-        icon: "error",
-        title: "작성자만 삭제할 수 있습니다.",
-        showConfirmButton: true,
-      });
-      return;
-    }
     axios
       .delete("/board/comment", { params: { boardComNum: bcNum } })
       .then((res) => {
@@ -68,15 +60,19 @@ const BClist = () => {
         setBcList(newCommentList);
         Swal.fire({
           icon: "success",
+          iconColor: "#00b2b2",
           title: "댓글 삭제가 완료되었습니다.",
           showConfirmButton: true,
+          confirmButtonColor: "#00b2b2",
         });
       })
       .catch((error) =>
         Swal.fire({
           icon: "error",
+          iconColor: "#ff6666",
           title: "댓글 삭제가 실패되었습니다.",
           showConfirmButton: true,
+          confirmButtonColor: "#ff6666",
         })
       );
   };
@@ -84,15 +80,6 @@ const BClist = () => {
   // 수정 버튼 처리
   const bcUpdate = (bcNum, writer, content, callbackFunc) => {
     console.log("댓글 수정");
-    console.log(bcNum, writer, content);
-    if (!(nickname === writer)) {
-      Swal.fire({
-        icon: "error",
-        title: "작성자만 수정할 수 있습니다.",
-        showConfirmButton: true,
-      });
-      return;
-    }
     axios
       .put(
         "/board/comment",
@@ -116,15 +103,19 @@ const BClist = () => {
 
         Swal.fire({
           icon: "success",
+          iconColor: "#00b2b2",
           title: "댓글 수정이 완료되었습니다.",
           showConfirmButton: true,
+          confirmButtonColor: "#00b2b2",
         });
       })
       .catch((error) =>
         Swal.fire({
           icon: "error",
+          iconColor: "#ff6666",
           title: "댓글 수정이 실패되었습니다.",
           showConfirmButton: true,
+          confirmButtonColor: "#ff6666",
         })
       );
   };
