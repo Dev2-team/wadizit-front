@@ -87,7 +87,7 @@ const Pay = () => {
   const [readyPay, setReadyPay] = useState(pay1);
 
   // 선택한 결제 금액의 추가 포인트 값
-  const [plusPoint, setPlusPoint] = useState(0);
+  const [plusPoint, setPlusPoint] = useState(500);
 
   const handleChange = useCallback((e) => {
     if (e.target.value === "10000원") {

@@ -52,7 +52,7 @@ const KakaoPayApprove = () => {
       .get("/payment", {
         params: {
           oNum: "wadizit" + orderDate(resApprove.approved_at),
-          oName: localStorage.getItem("itemName"),
+          oName: localStorage.getItem("name"),
           date: df(resApprove.approved_at),
         },
       })
