@@ -4,7 +4,7 @@ import { Image, Card, Divider, Container, Header } from "semantic-ui-react";
 import Swal from "sweetalert2";
 import GoodsAddModal from "./GoodsAddModal";
 
-const GoodsList = () => {
+const GoodsList = (props) => {
   const [tokenAmount, setTokenAmount] = useState(
     sessionStorage.getItem("currentTokenAmount")
   );
@@ -87,7 +87,12 @@ const GoodsList = () => {
   const purchaseGoodsArlet = (item, amount) => {
     Swal.fire({
       title: "굿즈 구매",
-      text: "굿즈를 구매하시겠습니까? [" + amount + " 토큰 보유]",
+      text:
+        "굿즈를 " +
+        item.price +
+        " " +
+        sessionStorage.getItem("tokenName") +
+        "에 구매하시겠습니까?",
       icon: "question",
       iconColor: "#ff6666",
       showCancelButton: true,
@@ -103,6 +108,7 @@ const GoodsList = () => {
             if (res.data === "success") {
               Swal.fire("구매 성공!", "", "success");
               setTokenAmount(tokenAmount - item.price);
+              props.onChange(tokenAmount - item.price);
             } else {
               Swal.fire("구매 실패!", res.data, "fail");
             }
@@ -131,7 +137,12 @@ const GoodsList = () => {
         <Card.Content>
           <Card.Header as={"h4"}>{item.title}</Card.Header>
           <Divider></Divider>
-          <Card.Description as={"b"}>{item.price} 토큰</Card.Description>
+          <Card.Description as={"b"}>
+            {item.price}{" "}
+            <span style={{ fontSize: "5px" }}>
+              {sessionStorage.getItem("tokenName")}
+            </span>
+          </Card.Description>
           <Card.Description>{item.desc1}</Card.Description>
         </Card.Content>
       </Card>
@@ -166,7 +177,7 @@ const GoodsList = () => {
         {makeGoodsElem()}
         {fundingOwner === memberNum ? (
           <Card onClick={toggleAddModal}>
-            <Image wrapped src="/asset/add_goods.png" />
+            <Image wrapped src="/asset/add_goods2.png" />
             <Card.Content>
               <Card.Header as={"h2"}>굿즈 추가</Card.Header>
               <Divider></Divider>

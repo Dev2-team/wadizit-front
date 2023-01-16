@@ -165,6 +165,7 @@ const FundingDetail = () => {
       .then((res) => {
         console.log(res.data);
         setFundToken(res.data);
+        sessionStorage.setItem("tokenName", res.data.name);
       });
     // console.log("fundToken" + fundToken.tokenNum);
 
