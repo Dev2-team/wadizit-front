@@ -7,7 +7,7 @@ import SockJS from "sockjs-client";
 import * as StompJs from "@stomp/stompjs";
 
 const TokenTransaction = () => {
-  const memberNum = Number(sessionStorage.getItem("memberNum"))
+  const memberNum = Number(sessionStorage.getItem("memberNum"));
   const tokenNum = localStorage.getItem("fundingNum");
   const [data, setData] = useState({
     currentPrice: 0,
@@ -35,9 +35,7 @@ const TokenTransaction = () => {
   const connect = () => {
     client.current = new StompJs.Client({
       webSocketFactory: () => new SockJS("http://localhost:9999/webSocket"),
-      debug: function (str) {
-        console.log(str);
-      },
+      debug: function (str) {},
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
@@ -116,8 +114,6 @@ const TokenTransaction = () => {
     setInitReadyFlag(true);
     const currentDate = dateFormat(new Date());
 
-    console.log(initData.endDate, "vs", currentDate);
-
     if (initData.endDate < currentDate) {
       setTradeReadyFlag(true);
     } else {
@@ -127,12 +123,10 @@ const TokenTransaction = () => {
   };
 
   const orderCallBack = (body) => {
-    console.log("order callback", body);
     const res = JSON.parse(body);
     if (res.retCode !== 200) {
       return;
     }
-    console.log("order res", res.txList);
     for (let i = 0; i < res.txList.length; i++) {
       const tx = res.txList[i];
       // 저장할 데이터 처리
@@ -141,7 +135,6 @@ const TokenTransaction = () => {
         let newOrderList = [];
         // 주문 타입에 따른 주문 얻기
         const newOrder = tx.sellOrder === null ? tx.buyOrder : tx.sellOrder;
-
 
         // 체결된 경우
         if (tx.buyOrder !== null && tx.sellOrder !== null) {
@@ -186,7 +179,6 @@ const TokenTransaction = () => {
           }
           // 체결된 경우: 내 주문 리스트에 존재하는 내 주문 찾기
           else {
-            newOrderList.forEach((order) => console.log(order));
             const newMyOrderList = newOrderList.filter(
               (order) => memberNum === order.memberNum
             );
@@ -277,7 +269,6 @@ const TokenTransaction = () => {
 
   // 매수 주문 버튼 클릭
   const btnBuyOrder = (price, amount) => {
-    console.log(data.availableToken);
     const newOrder = {
       type: 1,
       price: price,
@@ -291,7 +282,6 @@ const TokenTransaction = () => {
 
   // 매도 주문 버튼 클릭
   const btnSellOrder = (price, amount) => {
-    console.log(data.availableToken);
     const newOrder = {
       type: 2,
       price: price,

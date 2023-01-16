@@ -8,11 +8,6 @@ const GoodsList = () => {
   const [tokenAmount, setTokenAmount] = useState(
     sessionStorage.getItem("currentTokenAmount")
   );
-  console.log(
-    "보유 토큰",
-    tokenAmount,
-    sessionStorage.getItem("currentTokenAmount")
-  );
   const memberNum = sessionStorage.getItem("memberNum");
   const fundingOwner = localStorage.getItem("fundingOwner");
   const fundingNum = localStorage.getItem("fundingNum");
