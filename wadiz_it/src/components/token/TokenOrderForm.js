@@ -119,7 +119,7 @@ const TokenSellOrder = (props) => {
             }}
           >
             <Header style={{ margin: 0 }} size="small">
-              매도 가능 토큰
+              매도 가능 보유 토큰
             </Header>
             <Header color="red" style={{ margin: 0 }} size="small">
               {props.availableToken} 토큰
