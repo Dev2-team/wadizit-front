@@ -3,6 +3,7 @@ import { Container, Tab, Header } from "semantic-ui-react";
 import MyPageDonate from "./MyPageDonate";
 import MyPageFunding from "./MyPageFunding";
 import MyPageMember from "./MyPageMember";
+import MyPagePay from "./MyPagePay";
 
 const MyPage = () => {
   const panes = [
@@ -15,8 +16,12 @@ const MyPage = () => {
       render: () => <Tab.Pane attached={false}>{<MyPageFunding />}</Tab.Pane>,
     },
     {
-      menuItem: "결제 내역",
+      menuItem: "후원 내역",
       render: () => <Tab.Pane attached={false}>{<MyPageDonate />}</Tab.Pane>,
+    },
+    {
+      menuItem: "결제 내역",
+      render: () => <Tab.Pane attached={false}>{<MyPagePay />}</Tab.Pane>,
     },
   ];
 
