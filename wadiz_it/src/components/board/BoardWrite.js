@@ -91,78 +91,91 @@ const BoardWrite = () => {
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>
       <Header
-        as="h1"
-        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+        style={{
+          backgroundColor: "#00b2b2",
+          color: "#ffffff",
+          marginTop: "7.5px",
+          paddingLeft: "20px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "left",
+        }}
+        as="h3"
       >
-        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
-        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+        자유게시판
       </Header>
-      <div className="boardForm">
-        <form onSubmit={onWrite}>
-          <div className="boardWrArea">
-            <input
-              className="title"
-              type="text"
-              name="title"
-              value={title}
-              onChange={onChange}
-              placeholder="제목을 입력해주세요"
-              required
-            ></input>
-            <br />
-            <textarea
-              className="boardWrContent"
-              name="content"
-              value={content}
-              onChange={onChange}
-              placeholder="내용을 입력해주세요"
-              required
-            ></textarea>
-            <br />
-            <div className="fileUpload">
+      <Container style={{ paddingTop: "2vw" }}>
+        <div className="boardForm">
+          <form onSubmit={onWrite}>
+            <div className="boardWrArea">
               <input
-                className="fileBtn"
-                type="file"
-                name="files"
-                onChange={onFileChange}
-                multiple
-              />
+                className="title"
+                type="text"
+                name="title"
+                value={title}
+                onChange={onChange}
+                placeholder="제목을 입력해주세요"
+                required
+              ></input>
+              <br />
+              <textarea
+                className="boardWrContent"
+                name="content"
+                value={content}
+                onChange={onChange}
+                placeholder="내용을 입력해주세요"
+                required
+              ></textarea>
+              <br />
+              <div className="fileUpload">
+                <input
+                  className="fileBtn"
+                  type="file"
+                  name="files"
+                  onChange={onFileChange}
+                  multiple
+                />
+              </div>
             </div>
-          </div>
-          <div className="btn">
-            <div className="btnArea">
 
-              <Button type="button" className="backBtn"
-                onClick={boardList}
-                style={{
-                  alignItems: "center",
-                  margin: "0px",
-                  fontSize:"0.9rem",
-                  border: "1px solid #00b2b2",
-                  backgroundColor: "#ffffff",
-                  color: "#00b2b2",
-                }}
-              >
-                돌아가기
-              </Button>
+            <div className="btn">
+              <div className="btnArea">
+                <Button
+                  type="button"
+                  className="backBtn"
+                  onClick={boardList}
+                  style={{
+                    alignItems: "center",
+                    margin: "0px",
+                    fontSize: "0.9rem",
+                    border: "1px solid #00b2b2",
+                    backgroundColor: "#ffffff",
+                    color: "#00b2b2",
+                  }}
+                >
+                  돌아가기
+                </Button>
 
-              <Button type="button" className="writeBtn"
-                onClick={onWrite}
-                style={{
-                  alignItems: "center",
-                  margin: "0px",
-                  fontSize:"0.9rem",
-                  border: "1px solid #00b2b2",
-                  backgroundColor: "#ffffff",
-                  color: "#00b2b2",
-                }}
-              >
-                글쓰기
-              </Button>
+                <Button
+                  type="button"
+                  className="writeBtn"
+                  onClick={onWrite}
+                  style={{
+                    alignItems: "center",
+                    margin: "0px",
+                    fontSize: "0.9rem",
+                    border: "1px solid #00b2b2",
+                    backgroundColor: "#ffffff",
+                    color: "#00b2b2",
+                  }}
+                >
+                  글쓰기
+                </Button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </Container>
     </Container>
   );
 };

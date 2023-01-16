@@ -5,12 +5,9 @@ import { Button, Container, Header } from "semantic-ui-react";
 import BoardListTable from "./BoardListTable";
 
 const BoardList = () => {
-
   const nav = useNavigate();
   const loginPerson = sessionStorage.getItem("memberNum");
   console.log("로그인한 사람 : " + loginPerson);
-
-
 
   const boardWrite = () => {
     //로그인한 상태가 아닐 경우, 로그인 페이지로 이동
@@ -21,7 +18,6 @@ const BoardList = () => {
       nav("/board/write");
     }
   };
-
 
   return (
     <Container>
@@ -34,37 +30,41 @@ const BoardList = () => {
       >
         </Container> */}
       <Header
-        as="h1"
-        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+        style={{
+          backgroundColor: "#00b2b2",
+          color: "#ffffff",
+          marginTop: "7.5px",
+          paddingLeft: "20px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "left",
+        }}
+        as="h3"
       >
-        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
-        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+        자유게시판
       </Header>
-
-      <Container>
-      <Button type="button"
-                onClick={boardWrite}
+      <Container style={{ padding: "2vw 1vw 2vw 1vw" }}>
+        <Button
+          type="button"
+          onClick={boardWrite}
           style={{
-          display:"inline",
-                  float: "right",
-                  alignItems: "center",
-          margin: "0px",
-                  marginBottom:"10px",
-                  fontSize:"0.9rem",
-                  border: "1px solid #00b2b2",
-                  backgroundColor: "#ffffff",
-          color: "#00b2b2",
-
-                }}
-              >
-                글쓰기
+            display: "inline",
+            float: "right",
+            alignItems: "center",
+            margin: "0px",
+            marginBottom: "10px",
+            fontSize: "0.9rem",
+            border: "1px solid #00b2b2",
+            backgroundColor: "#ffffff",
+            color: "#00b2b2",
+          }}
+        >
+          글쓰기
         </Button>
-      
 
-      
         {/* </Container> */}
 
-      <BoardListTable style={{display:"inline"}}></BoardListTable>
+        <BoardListTable style={{ display: "inline" }}></BoardListTable>
       </Container>
     </Container>
   );
