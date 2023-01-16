@@ -21,12 +21,11 @@ const AdminBoard = () => {
   useEffect(() => {
     bpNum !== null ? getBoardList(bpNum) : getBoardList(1);
   }, []);
-  
 
   // 서버로부터 게시글 목록 가져오기
   const getBoardList = (bpNum) => {
     axios
-      .get("/board/page", { params: { pageNum: bpNum, listCntNum : 5 } })
+      .get("/board/page", { params: { pageNum: bpNum, listCntNum: 5 } })
       .then((res) => {
         const { totalPage, pageNum, bList } = res.data;
         setBoardPage({ totalPage: totalPage, pageNum: pageNum });
@@ -73,8 +72,10 @@ const AdminBoard = () => {
         if (res.data === "삭제 성공") {
           Swal.fire({
             icon: "success",
+            iconColor: "#00b2b2",
             title: "게시글 삭제가 완료되었습니다.",
             showConfirmButton: true,
+            confirmButtonColor: "#00b2b2",
           });
         }
       })
