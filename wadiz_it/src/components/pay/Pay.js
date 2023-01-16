@@ -33,9 +33,9 @@ const Pay = () => {
       cid: "TC0ONETIME",
       partner_order_id: "partner_order_id",
       partner_user_id: "partner_user_id",
-      item_name: "5000 포인트",
+      item_name: "10,000 포인트",
       quantity: 1,
-      total_amount: 5000,
+      total_amount: 10000,
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/kakaoPayApprove",
@@ -53,9 +53,9 @@ const Pay = () => {
       cid: "TC0ONETIME",
       partner_order_id: "partner_order_id",
       partner_user_id: "partner_user_id",
-      item_name: "10000 포인트",
+      item_name: "50,000 포인트",
       quantity: 1,
-      total_amount: 10000,
+      total_amount: 50000,
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/kakaoPayApprove",
@@ -72,9 +72,9 @@ const Pay = () => {
       cid: "TC0ONETIME",
       partner_order_id: "partner_order_id",
       partner_user_id: "partner_user_id",
-      item_name: "20000 포인트",
+      item_name: "100,000 포인트",
       quantity: 1,
-      total_amount: 20000,
+      total_amount: 100000,
       vat_amount: 0,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay/kakaoPayApprove",
@@ -90,31 +90,17 @@ const Pay = () => {
   const [plusPoint, setPlusPoint] = useState(0);
 
   const handleChange = useCallback((e) => {
-    if (e.target.value === "5000원") {
+    if (e.target.value === "10000원") {
       setReadyPay(pay1);
-      setPlusPoint(0);
-    } else if (e.target.value === "10000원") {
+      setPlusPoint(500);
+    } else if (e.target.value === "50000원") {
       setReadyPay(pay2);
-      setPlusPoint(1000);
-    } else if (e.target.value === "20000원") {
+      setPlusPoint(3000);
+    } else if (e.target.value === "100000원") {
       setReadyPay(pay3);
-      setPlusPoint(2000);
+      setPlusPoint(7000);
     }
   }, []);
-
-  useEffect(() => {
-    console.log(typeof logMem.point);
-    console.log(typeof readyPay.params.total_amount);
-    console.log(typeof plusPoint);
-    console.log(
-      typeof (logMem.point + readyPay.params.total_amount + plusPoint)
-    );
-  }, []);
-
-  // //금액 쉼표 표시
-  // const currentAmtFormat = (item) => {
-  //   return item.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // };
 
   return (
     <Container>
@@ -160,32 +146,13 @@ const Pay = () => {
                   type="radio"
                   name="price"
                   defaultChecked
-                  value="5000원"
-                  onChange={handleChange}
-                />
-                5,000 포인트
-              </div>
-            </Table.Cell>
-            <Table.Cell textAlign="center">없음</Table.Cell>
-            <Table.Cell textAlign="center">5,000원</Table.Cell>
-          </Table.Row>
-          <Table.Row style={{ height: "60px" }}>
-            <Table.Cell>
-              <div
-                style={{
-                  paddingLeft: "36%",
-                }}
-              >
-                <input
-                  type="radio"
-                  name="price"
                   value="10000원"
                   onChange={handleChange}
                 />
                 10,000 포인트
               </div>
             </Table.Cell>
-            <Table.Cell textAlign="center">+ 1,000</Table.Cell>
+            <Table.Cell textAlign="center">+ 500</Table.Cell>
             <Table.Cell textAlign="center">10,000원</Table.Cell>
           </Table.Row>
           <Table.Row style={{ height: "60px" }}>
@@ -198,14 +165,33 @@ const Pay = () => {
                 <input
                   type="radio"
                   name="price"
-                  value="20000원"
+                  value="50000원"
                   onChange={handleChange}
                 />
-                20,000 포인트
+                50,000 포인트
               </div>
             </Table.Cell>
-            <Table.Cell textAlign="center">+ 2,000</Table.Cell>
-            <Table.Cell textAlign="center">20,000원</Table.Cell>
+            <Table.Cell textAlign="center">+ 3,000</Table.Cell>
+            <Table.Cell textAlign="center">50,000원</Table.Cell>
+          </Table.Row>
+          <Table.Row style={{ height: "60px" }}>
+            <Table.Cell>
+              <div
+                style={{
+                  paddingLeft: "36%",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="price"
+                  value="100000원"
+                  onChange={handleChange}
+                />
+                100,000 포인트
+              </div>
+            </Table.Cell>
+            <Table.Cell textAlign="center">+ 7,000</Table.Cell>
+            <Table.Cell textAlign="center">100,000원</Table.Cell>
           </Table.Row>
         </Table.Body>
       </Table>

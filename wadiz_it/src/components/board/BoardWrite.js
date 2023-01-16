@@ -54,6 +54,7 @@ const BoardWrite = () => {
                     iconColor: "#00b2b2",
                     title: "게시물 등록이 완료되었습니다.",
                     showConfirmButton: true,
+                    confirmButtonColor: "#00b2b2",
                   });
                   nav("/board/list");
                 });
@@ -63,6 +64,7 @@ const BoardWrite = () => {
                 iconColor: "#00b2b2",
                 title: "게시물 등록이 완료되었습니다.",
                 showConfirmButton: true,
+                confirmButtonColor: "#00b2b2",
               });
               nav("/board/list");
             }
@@ -72,8 +74,8 @@ const BoardWrite = () => {
               iconColor: "#ff6666",
               title: "게시물 등록이 실패되었습니다.",
               showConfirmButton: true,
-            })
-  
+              confirmButtonColor: "#ff6666",
+            });
           }
         })
         .catch((error) => console.log(error));

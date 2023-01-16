@@ -15,6 +15,7 @@ import axios from "axios";
 import SimpleSlider from "../common/SimpleSlider";
 import Loading from "../common/Loading";
 import FundingProgressBar from "./FundingProgressBar";
+import Swal from "sweetalert2";
 
 const FundingList = () => {
   const nav = useNavigate();
@@ -175,7 +176,13 @@ const FundingList = () => {
   //로그인을 해야만 펀딩 생성이 가능
   const fundingWrite = () => {
     if (loginKakaoPerson === null) {
-      alert("로그인을 하셔야 프로젝트 생성이 가능합니다.");
+      Swal.fire({
+        icon: "error",
+        iconColor: "#ff6666",
+        title: "로그인이 필요합니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "#ff6666",
+      });
       nav("/login");
     } else {
       nav("/funding/terms");

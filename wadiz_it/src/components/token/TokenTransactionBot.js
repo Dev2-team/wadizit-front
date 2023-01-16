@@ -89,10 +89,16 @@ const TokenTransactionBot = () => {
   }
 
   const initCallback = (body) => {
+    console.log(body);
+    console.log(memberNum);
     const initData = JSON.parse(body);
     if (initData.retCode !== 200) {
+      console.log(initData.retCode);
       return;
     }
+
+    console.log("init", initData.availableToken);
+
     const dataObj = {
       ...data,
       tokenNum: initData.token.tokenNum,
@@ -104,14 +110,7 @@ const TokenTransactionBot = () => {
       myOrderList: initData.myOrderList,
       endDate: initData.endDate,
     };
-    setInitReadyFlag(true);
-    const currentDate = dateFormat(new Date());
-
-    if (initData.endDate < currentDate) {
-      setTradeReadyFlag(true);
-    } else {
-      setMsg("아직 개장 전입니다");
-    }
+    console.log(dataObj);
     setData(dataObj);
   };
 
@@ -302,22 +301,18 @@ const TokenTransactionBot = () => {
   const [btnToggle, setBtnToggle] = useState(true);
   const onClick = useCallback(
     (e) => {
-      if (btnToggle === false) {
-        setBtnVal("시작");
-        setBtnToggle(true);
-      } else {
-        setBtnVal("취소");
-        setBtnToggle(false);
-      }
+      if (btnToggle === false) return;
+      startBot();
+      setBtnToggle(false);
     },
-    [btnToggle]
+    [btnToggle, data]
   );
 
   const startBot = () => {
     const orderBot = () => {
       let randAct = Math.floor(Math.random() * 3) + 1; // 1~3
       let randAmount = Math.floor(Math.random() * 3) + 1; // 1~3
-      let randRange = Math.floor(Math.random() * 8); // 0~7
+      let randRange = Math.floor(Math.random() * 8) + 2; // 2~9
 
       console.log("보유 토큰: " + data.availableToken);
       console.log("보유 포인트: " + data.availablePoint);
@@ -362,11 +357,11 @@ const TokenTransactionBot = () => {
       console.log(btnToggle);
 
       if (btnToggle === true) {
-        setTimeout(orderBot, 2500);
+        setTimeout(orderBot, 1000);
       }
     };
 
-    setTimeout(orderBot, 2500);
+    setTimeout(orderBot, 1000);
   };
 
   const cancelBot = () => {};

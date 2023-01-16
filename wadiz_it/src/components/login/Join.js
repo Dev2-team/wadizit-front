@@ -86,6 +86,7 @@ const Join = () => {
         if (result.data === true) {
           Swal.fire({
             icon: "success",
+            iconColor: "#00b6b6",
             title: "회원가입에 성공했습니다.",
             confirmButtonColor: "#00b2b2",
           });
