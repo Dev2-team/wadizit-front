@@ -29,6 +29,7 @@ const FundingList = () => {
   const loginKakaoPerson = sessionStorage.getItem("nickName");
   const [select, setSelect] = useState(0);
   const [resultSort, setResultSort] = useState(0);
+  const style = { color: "red" };
 
   // 게시글 목록을 서버로부터 가져오는 함수
   // sort 와 select 값 비교 추가
@@ -157,14 +158,13 @@ const FundingList = () => {
     const dDay = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 
     if (dDay > 0) {
-      // dDay.css("color", "#90949c");
+      // var x = document.getElementById("dDayCard");
+      // x.style.color = "#495057";
       return dDay + "일 남음";
     } else if (dDay === 0) {
-      // dDay.css("color", "#00b2b2");
       return "마감 임박";
     } else {
-      // dDay.css("color", "#e94e58");
-      return "종료";
+      return "토큰 거래 진행 중";
     }
   };
 
@@ -205,6 +205,11 @@ const FundingList = () => {
       key: "2",
       text: "목표금액 달성순",
       value: "2",
+    },
+    {
+      key: "3",
+      text: "토큰 거래 진행 중",
+      value: "3",
     },
   ];
 
@@ -255,7 +260,7 @@ const FundingList = () => {
                 </div>
                 <div>
                   {/* 잔여 기한 */}
-                  <Card.Meta style={{ color: "#495057" }}>
+                  <Card.Meta id="dDayCard" style={{ color: "#495057" }}>
                     <b>{getDiffDate(item)}</b>
                   </Card.Meta>
                 </div>
