@@ -51,10 +51,9 @@ const FundingDetail = () => {
 
   
   const nav = useNavigate();
-
   const fundingNum = localStorage.getItem("fundingNum");
 
-//펀딩 상세정보 데이터
+  //펀딩 상세정보 데이터
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,
@@ -63,7 +62,7 @@ const FundingDetail = () => {
     endDate: "",
   });
 
-  //디데이 계산
+  //펀딩 디데이 계산
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
@@ -78,13 +77,16 @@ const FundingDetail = () => {
       x.style.color = "#e94e58";
     }
   
-  } else {
+  } else if(diffDay > 0){
     diffDay += "일"; 
     diffDay2 += "일 남음";
+  } else {
+    diffDay = "종료";
+    diffDay2 = "종료";
   }
 
 
-  //달성률 % (소수점 처리)
+  //펀딩 달성률 %(소수점 처리)
   let achieveRate =
     (parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) *
     100;
@@ -108,7 +110,8 @@ const FundingDetail = () => {
 
   //progress bar 애니메이션
   const [completeRate, setCompleteRate] = useState(0);
-
+  
+  //펀딩 대표이미지
   const [thumbNail, setThumbNail] = useState([
     {
       imageRoute: "",
@@ -117,20 +120,17 @@ const FundingDetail = () => {
 
   //로그인한 사람의 정보
   const loginPerson = sessionStorage.getItem("memberNum");
-
   //펀딩 후원자 정보 데이터
   const [donator, setDonator] = useState([]);
-
   //펀딩 후원자 판단
   const [isDonator, setIsDonator] = useState(false);
-
   //펀딩 모달창 띄위기
   const [modalOpen, setModalOpen] = useState(false);
 
   //펀딩 상세정보 출력
   useEffect(() => {
 
-    //펀딩 이미지 출력
+    //펀딩 대표 이미지 출력
     axios
       .get("/funding/file/list", { params: { fundingNum: fundingNum } })
       .then(
@@ -223,6 +223,7 @@ const FundingDetail = () => {
     ));
   }
 
+  
   //펀딩 후원자 수 출력
   const donatorAmount = donator.length;
 
