@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
+import Swal from "sweetalert2";
 
 import "./BoardWrite.scss";
 
@@ -48,15 +49,31 @@ const BoardWrite = () => {
                   }
                 )
                 .then((res) => {
-                  alert("게시물 등록 성공");
+                  Swal.fire({
+                    icon: "success",
+                    iconColor: "#00b2b2",
+                    title: "게시물 등록이 완료되었습니다.",
+                    showConfirmButton: true,
+                  });
                   nav("/board/list");
                 });
             } else {
-              alert("게시물 등록 성공");
+              Swal.fire({
+                icon: "success",
+                iconColor: "#00b2b2",
+                title: "게시물 등록이 완료되었습니다.",
+                showConfirmButton: true,
+              });
               nav("/board/list");
             }
           } else {
-            alert("게시물 등록 실패");
+            Swal.fire({
+              icon: "error",
+              iconColor: "#ff6666",
+              title: "게시물 등록이 실패되었습니다.",
+              showConfirmButton: true,
+            })
+  
           }
         })
         .catch((error) => console.log(error));

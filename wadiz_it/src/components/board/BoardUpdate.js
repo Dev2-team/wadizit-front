@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import "./BoardUpdate.scss";
 
 const BoardUpdate = () => {
@@ -33,7 +34,7 @@ const BoardUpdate = () => {
     axios
       .get("/board/file/list", { params: { boardNum: bNum } })
       .then((res) => {
-        console.log("파일 : " + res.data.length);
+        // console.log("파일 : " + res.data.length);
         if (res.data.length > 0) {
           let newFileList = [];
           for (let i = 0; i < res.data.length; i++) {
@@ -43,7 +44,6 @@ const BoardUpdate = () => {
             newFileList.push(newFile);
           }
           setBfList(newFileList);
-          // console.log("bfList.originName: " + bfList.originName);
         }
       })
       .catch((err) => console.log(err));
@@ -111,57 +111,6 @@ const BoardUpdate = () => {
 
   const { title, content } = data;
 
-  const onUpdate = useCallback(
-    (e) => {
-      e.preventDefault();
-      axios
-        .put("/board", data, { params: { boardNum: bNum } })
-        .then((res) => {
-          if (res.data === "수정 성공") {
-          // 파일 삭제
-          console.log(fileDeleteList);
-          for (const v of fileDeleteList) {
-            axios
-              .delete("/board/file", { params: { boardFileNum: v } })
-              .then((res) => {
-                console.log(res.data);
-                if (res.data === "파일 삭제 완료") {
-                  const div = document.getElementById(v.boardFileNum);
-                  div.remove();
-                }
-              })
-              .catch((err) => console.log(err));
-              }
-            console.log(res.data);
-            
-            //파일 추가 기능
-            let keys = formData.keys();
-            let i = 0;
-            for (const key of keys) {
-              i++;
-              console.log(key);
-            }
-
-            if (i !== 0) {
-              axios
-                .post("/board/file", formData, { params: { boardNum: bNum } },
-                  {headers: { "Content-Type": "multipart/form-data" },
-                  })
-                .then((res) => {
-                  alert("글이 수정되었습니다.");
-                  nav("/board/detail");
-                })
-              .catch((err) => console.log(err));
-              }
-          } else {
-            alert("글 수정 실패");
-          }
-        })
-        .catch((error) => console.log(error));
-    },
-    [data, fileDeleteList, formData]
-  );
-
   const onChange = useCallback(
     (e) => {
       const dataObj = {
@@ -172,6 +121,89 @@ const BoardUpdate = () => {
     },
     [data]
   );
+
+
+
+  //게시판 수정 
+  const onUpdate = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      //게시판 글 수정
+      axios
+        .put("/board", data, { params: { boardNum: bNum } })
+        .then((res) => {
+          if (res.data === "수정 성공") {
+          
+            //*****게시글 파일 삭제******//
+            // console.log("fileDeleteList : " + fileDeleteList.length);
+            //삭제할 파일 존재할 때 실행
+            if (fileDeleteList.length !== 0) {
+              for (const v of fileDeleteList) {
+                axios
+                  .delete("/board/file", { params: { boardFileNum: v } })
+                  .then((res) => {
+                    console.log(res.data);
+                    if (res.data === "파일 삭제 완료") {
+                      const div = document.getElementById(v.boardFileNum);
+                      div.remove();
+                    }
+                  })
+                  .catch((err) => console.log(err));
+                }
+            }
+            
+            //*****게시글 파일 추가******//
+            let keys = formData.keys();
+            let i = 0;
+            for (const key of keys) {
+              i++;
+              // console.log("key : " + key);
+            }
+            
+
+            //추가할 파일이 존재할 경우
+            if (i !== 0) {
+              axios
+                .post("/board/file", formData, { params: { boardNum: bNum } },
+                  {headers: { "Content-Type": "multipart/form-data" },
+                  })
+                .then((res) => {
+                  Swal.fire({
+                    icon: "success",
+                    iconColor: "#00b2b2",
+                    title: "게시글 수정이 완료되었습니다.",
+                    showConfirmButton: true,
+                  })
+                  nav("/board/detail");
+                })
+                .catch((err) => console.log(err));
+            }
+            //추가할 파일이 없을 경우
+            else {
+                Swal.fire({
+                  icon: "success",
+                  iconColor: "#00b2b2",
+                  title: "게시글 수정이 완료되었습니다.",
+                  showConfirmButton: true,
+                })
+                nav("/board/detail"); 
+            }
+
+          } else {
+            Swal.fire({
+              icon: "error",
+              iconColor: "#ff6666",
+              title: "게시글 수정이 실패되었습니다.",
+              showConfirmButton: true,
+            })
+          }
+        })
+        .catch((error) => console.log(error));
+    },
+    [data, fileDeleteList, formData]
+  );
+
 
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>

@@ -1,12 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Container, Grid, Header, Segment } from "semantic-ui-react";
-import TokenOrderForm from "./TokenOrderForm";
-import TokenOrderBook from "./TokenOrderBook";
-import TokenOpenOrderList from "./TokenOpenOrderList";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Button } from "semantic-ui-react";
 import SockJS from "sockjs-client";
 import * as StompJs from "@stomp/stompjs";
 
-const TokenTransaction = () => {
+const TokenTransactionBot = () => {
   const memberNum = Number(sessionStorage.getItem("memberNum"));
   const tokenNum = localStorage.getItem("fundingNum");
   const [data, setData] = useState({
@@ -20,10 +17,6 @@ const TokenTransaction = () => {
     myOrderList: [],
     endDate: "",
   });
-
-  const [msg, setMsg] = useState("...");
-  const [initReadyFlag, setInitReadyFlag] = useState(false);
-  const [tradeReadyFlag, setTradeReadyFlag] = useState(false);
 
   const client = useRef({});
   useEffect(() => {
@@ -268,7 +261,7 @@ const TokenTransaction = () => {
   };
 
   // 매수 주문 버튼 클릭
-  const btnBuyOrder = (price, amount) => {
+  const buyOrder = (price, amount) => {
     const newOrder = {
       type: 1,
       price: price,
@@ -281,7 +274,7 @@ const TokenTransaction = () => {
   };
 
   // 매도 주문 버튼 클릭
-  const btnSellOrder = (price, amount) => {
+  const sellOrder = (price, amount) => {
     const newOrder = {
       type: 2,
       price: price,
@@ -294,7 +287,7 @@ const TokenTransaction = () => {
   };
 
   // 주문 취소 버튼 클릭
-  const btnCancelOrder = (orderNum) => {
+  const cancelOrder = (orderNum) => {
     const newOrder = {
       tokenOrderNum: orderNum,
       type: 3,
@@ -305,98 +298,84 @@ const TokenTransaction = () => {
     });
   };
 
-  return initReadyFlag && tradeReadyFlag ? (
-    <Container textAlign="left">
-      <Grid stackable centered style={{ margin: 0, padding: 0 }}>
-        <Grid.Row style={{ margin: 0, padding: 0 }}>
-          <Grid.Column
-            textAlign="left"
-            verticalAlign={"middle"}
-            stretched
-            style={{ margin: 0, padding: 0 }}
-            width={16}
-          >
-            <Segment
-              style={{ margin: 0, padding: 0, paddingBottom: 0 }}
-              basic={true}
-            >
-              {/* <Header
-                style={{ margin: 0, padding: 0, paddingLeft: 10 }}
-                as={"h5"}
-              >
-                시작가:{data.listingPrice} 현재가:{data.currentPrice}원 최저가:
-                {data.minPrice}원 최고가:{data.maxPrice}원
-              </Header> */}
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
+  const [btnVal, setBtnVal] = useState("시작");
+  const [btnToggle, setBtnToggle] = useState(true);
+  const onClick = useCallback(
+    (e) => {
+      if (btnToggle === false) {
+        setBtnVal("시작");
+        setBtnToggle(true);
+      } else {
+        setBtnVal("취소");
+        setBtnToggle(false);
+      }
+    },
+    [btnToggle]
+  );
 
-        <Grid.Row style={{ margin: 0, padding: 0, maxHeight: 440 }}>
-          <Grid.Column
-            verticalAlign={"middle"}
-            stretched
-            style={{
-              margin: 0,
-              padding: 0,
-              maxHeight: 440,
-            }}
-            width={5}
-          >
-            <TokenOrderBook orderList={data.orderList}></TokenOrderBook>
-          </Grid.Column>
-          <Grid.Column
-            textAlign="left"
-            verticalAlign={"middle"}
-            stretched
-            style={{
-              margin: 0,
-              padding: 0,
-              maxHeight: 440,
-            }}
-            width={6}
-          >
-            <Container>
-              <TokenOrderForm
-                availablePoint={data.availablePoint}
-                availableToken={data.availableToken}
-                sendBuyOrder={btnBuyOrder}
-                sendSellOrder={btnSellOrder}
-              ></TokenOrderForm>
-            </Container>
-          </Grid.Column>
-          <Grid.Column
-            verticalAlign={"top"}
-            stretched
-            style={{
-              margin: 0,
-              padding: 0,
-              paddingLeft: 10,
-              maxHeight: 440,
-              overflow: "auto",
-            }}
-            width={5}
-          >
-            <TokenOpenOrderList
-              myOrderList={data.myOrderList}
-              cancel={btnCancelOrder}
-            ></TokenOpenOrderList>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+  const startBot = () => {
+    const orderBot = () => {
+      let randAct = Math.floor(Math.random() * 3) + 1; // 1~3
+      let randAmount = Math.floor(Math.random() * 3) + 1; // 1~3
+      let randRange = Math.floor(Math.random() * 8); // 0~7
 
-      <Container
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      ></Container>
-    </Container>
-  ) : (
-    <Container textAlign="center" style={{ marginTop: 30, marginBottom: 30 }}>
-      <Header>{msg}</Header>
-    </Container>
+      console.log("보유 토큰: " + data.availableToken);
+      console.log("보유 포인트: " + data.availablePoint);
+      switch (randAct) {
+        case 1:
+          // 매수 시도
+          let bOrder = null;
+          for (let i = 0; i < data.orderList.length; i++) {
+            if (data.orderList[i].type === 1) {
+              bOrder = data.orderList[i];
+              break;
+            }
+          }
+          if (bOrder !== null) {
+            const price = bOrder.price - (randRange - 4) * 100;
+            console.log("매수 주문: " + price + ", " + randAmount);
+            buyOrder(price, randAmount);
+          }
+          break;
+        case 2:
+          // 매도 시도
+          let sOrder = null;
+          for (let i = 0; i < data.orderList.length; i++) {
+            if (data.orderList[i].type === 2) {
+              sOrder = data.orderList[i];
+              break;
+            }
+          }
+          if (sOrder !== null) {
+            const price = sOrder.price - (randRange - 4) * 100;
+            console.log("매도 주문: " + price + ", " + randAmount);
+            sellOrder(price, randAmount);
+          }
+          break;
+        case 3:
+          // 주문 취소 시도
+          break;
+        default:
+          break;
+      }
+
+      console.log(btnToggle);
+
+      if (btnToggle === true) {
+        setTimeout(orderBot, 2500);
+      }
+    };
+
+    setTimeout(orderBot, 2500);
+  };
+
+  const cancelBot = () => {};
+
+  return (
+    <div>
+      <Button onClick={onClick}>{btnVal}</Button>
+    </div>
   );
 };
 
-export default TokenTransaction;
+export default TokenTransactionBot;

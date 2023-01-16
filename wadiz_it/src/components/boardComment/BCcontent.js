@@ -9,15 +9,6 @@ const BCcontent = ({ bcNum, writer, content, bcDelete, updateCallback }) => {
 
   // 수정 버튼 처리
   const bcUpdate = useCallback(() => {
-    // if (!(nickname === writer)) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "작성자만 수정할 수 있습니다.",
-    //     showConfirmButton: true,
-    //   });
-    // } else {
-    //   setViewUpdate(true);
-    // }
     setViewUpdate(true);
   }, [nickname]);
 
@@ -47,49 +38,49 @@ const BCcontent = ({ bcNum, writer, content, bcDelete, updateCallback }) => {
             }}
           >
             {content}
-            </div>
-            
-            {nickname === writer ?
-              <div
+          </div>
+
+          {nickname === writer ? (
+            <div
+              style={{
+                textAlign: "right",
+                marginRight: "22px",
+              }}
+            >
+              <button
+                className="ct-update-btn"
                 style={{
-                  textAlign: "right",
-                  marginRight: "22px",
+                  padding: "0",
+                  width: "31px",
+                  border: "none",
+                  fontSize: "12px",
+                  color: "rgba(111, 111, 111, 0.69)",
+                  backgroundColor: "white",
+                  cursor: "pointer",
                 }}
+                onClick={() => bcUpdate()}
               >
-              
-                <button
-                  className="ct-update-btn"
-                  style={{
-                    padding: "0",
-                    width: "31px",
-                    border: "none",
-                    fontSize: "12px",
-                    color: "rgba(111, 111, 111, 0.69)",
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => bcUpdate()}
-                >
-                  수정
-                </button>
-                <button
-                  className="ct-delete-btn"
-                  style={{
-                    padding: "0",
-                    width: "31px",
-                    border: "none",
-                    fontSize: "12px",
-                    color: "rgba(111, 111, 111, 0.69)",
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => bcDelete(bcNum, writer)}
-                >
-                  삭제
-                </button>
-              </div>
-              :
-              <div></div>}
+                수정
+              </button>
+              <button
+                className="ct-delete-btn"
+                style={{
+                  padding: "0",
+                  width: "31px",
+                  border: "none",
+                  fontSize: "12px",
+                  color: "rgba(111, 111, 111, 0.69)",
+                  backgroundColor: "white",
+                  cursor: "pointer",
+                }}
+                onClick={() => bcDelete(bcNum, writer)}
+              >
+                삭제
+              </button>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       )}
     </div>

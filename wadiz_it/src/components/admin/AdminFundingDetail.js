@@ -66,8 +66,10 @@ const AdminFundingDetail = () => {
         if (res.data === "수정 성공") {
           Swal.fire({
             icon: "success",
+            iconColor: "#00b2b2",
             title: "해당 펀딩이 승인되었습니다.",
             showConfirmButton: true,
+            confirmButtonColor: "#00b2b2",
           });
         }
       })
@@ -86,8 +88,10 @@ const AdminFundingDetail = () => {
         if (res.data === "수정 성공") {
           Swal.fire({
             icon: "success",
+            iconColor: "#00b2b2",
             title: "해당 펀딩이 반려되었습니다.",
             showConfirmButton: true,
+            confirmButtonColor: "#00b2b2",
           });
         }
       })

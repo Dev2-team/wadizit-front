@@ -6,6 +6,7 @@ import "./BoardDetail.scss";
 import { Button, Container, Header } from "semantic-ui-react";
 import BClist from "../boardComment/BClist";
 import Loading from "../common/Loading";
+import Swal from "sweetalert2";
 
 const dateFormat = (date) => moment(date).format("YYYY월 MM월 DD일");
 
@@ -27,13 +28,19 @@ const BoardDetail = () => {
 
   const boardUpdate = () => {
     if (loginPerson === boardWriter) {
-      let result = window.confirm("글을 수정하시겠습니까?");
-      if (result === true) {
-        nav("/board/update");
-      } else {
-      }
-    } else {
-      alert("글 작성자만 수정 가능합니다.");
+      // let result = window.confirm("글을 수정하시겠습니까?");
+      
+      Swal.fire({
+        title: "글을 수정하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/board/update");
+        }
+      })
     }
   };
 
@@ -228,10 +235,20 @@ const BoardDetail = () => {
       .delete("/board", { params: { boardNum: bNum } })
       .then((res) => {
         if (res.data === "삭제 성공") {
-          alert("게시물이 삭제되었습니다.");
+          Swal.fire({
+            icon: "success",
+            iconColor: "#00b2b2",
+            title: "게시글 삭제가 완료되었습니다.",
+            showConfirmButton: true,
+          });
           nav("/board/list");
         } else {
-          alert("board 삭제 실패");
+          Swal.fire({
+            icon: "error",
+            iconColor: "#ff6666",
+            title: "게시글 삭제가 실패되었습니다.",
+            showConfirmButton: true,
+          })
         }
       })
       .catch((err) => console.log(err));
@@ -240,47 +257,64 @@ const BoardDetail = () => {
   //게시글 전체 삭제 (boardComment + boardFile + board)
   const boardDeleteAll = () => {
     if (loginPerson === boardWriter) {
-      let result = window.confirm("정말로 삭제하시겠습니까?");
-      if (result === true) {
-        if (bfList[0].originName !== "파일없음") {
-          //게시글 파일 삭제
-          axios
-            .delete("/board/file/deleteAll", { params: { boardNum: bNum } })
-            .then((res) => {
-              if (res.data === "파일 삭제 완료") {
-                //게시글 댓글 삭제
-                axios
-                  .delete("/board/comment/deleteAll", {
-                    params: { boardNum: bNum },
+
+      Swal.fire({
+        title: "정말로 삭제하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+          if (bfList[0].originName !== "파일없음") {
+
+            //게시글 파일 삭제
+            axios
+              .delete("/board/file/deleteAll", { params: { boardNum: bNum } })
+              .then((res) => {
+                if (res.data === "파일 삭제 완료") {
+  
+                  //게시글 댓글 삭제
+                  axios
+                    .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+                    .then((res) => {
+                      if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
+                        boardDelete();
+                      }
+                      else {
+                        Swal.fire({
+                            icon: "error",
+                            iconColor: "#ff6666",
+                            title: "게시글 삭제가 실패되었습니다.",
+                            showConfirmButton: true,
+                          })
+                      }
+                    })
+                    .catch((err) => console.log(err));
+                }
+              })
+              .catch((err) => console.log(err));
+  
+          } else {
+            axios
+              .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+              .then((res) => {
+                if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
+                  boardDelete();
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    iconColor: "#ff6666",
+                    title: "게시글 삭제가 실패되었습니다.",
+                    showConfirmButton: true,
                   })
-                  .then((res) => {
-                    if (
-                      res.data === "댓글 전체 삭제" ||
-                      res.data === "댓글없음"
-                    ) {
-                      boardDelete();
-                    } else {
-                      alert("댓글 삭제 실패하였습니다.");
-                    }
-                  })
-                  .catch((err) => console.log(err));
-              }
-            })
-            .catch((err) => console.log(err));
-        } else {
-          axios
-            .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
-            .then((res) => {
-              if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
-                boardDelete();
-              } else {
-                alert("댓글 삭제 실패하였습니다.");
-              }
-            })
-            .catch((err) => console.log(err));
+                }
+              })
+              .catch((err) => console.log(err));
+          }
         }
-      } else {
-        alert("글 작성자만 삭제 가능합니다.");
+      });
       }
     }
   };

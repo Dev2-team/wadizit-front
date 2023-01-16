@@ -6,6 +6,9 @@ const Goods = () => {
   return (
     <Container textAlign="left">
       <Container textAlign="center">
+        <Header as={"h5"} textAlign="right">
+          보유 토큰: {sessionStorage.getItem("currentTokenAmount")}
+        </Header>
         <GoodsList></GoodsList>
       </Container>
     </Container>

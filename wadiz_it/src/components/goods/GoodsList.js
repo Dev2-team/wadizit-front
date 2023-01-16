@@ -8,11 +8,6 @@ const GoodsList = () => {
   const [tokenAmount, setTokenAmount] = useState(
     sessionStorage.getItem("currentTokenAmount")
   );
-  console.log(
-    "보유 토큰",
-    tokenAmount,
-    sessionStorage.getItem("currentTokenAmount")
-  );
   const memberNum = sessionStorage.getItem("memberNum");
   const fundingOwner = localStorage.getItem("fundingOwner");
   const fundingNum = localStorage.getItem("fundingNum");
@@ -70,8 +65,9 @@ const GoodsList = () => {
       title: "굿즈 삭제",
       text: "굿즈를 삭제하시겠습니까?",
       icon: "question",
+      iconColor: "#ff6666",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00b2b2",
       cancelButtonColor: "#d33",
       confirmButtonText: "삭제",
       cancelButtonText: "취소",
@@ -93,8 +89,9 @@ const GoodsList = () => {
       title: "굿즈 구매",
       text: "굿즈를 구매하시겠습니까? [" + amount + " 토큰 보유]",
       icon: "question",
+      iconColor: "#ff6666",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00b2b2",
       cancelButtonColor: "#d33",
       confirmButtonText: "구매",
       cancelButtonText: "취소",

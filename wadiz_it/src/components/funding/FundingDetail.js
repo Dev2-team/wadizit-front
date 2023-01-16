@@ -51,10 +51,9 @@ const FundingDetail = () => {
 
   
   const nav = useNavigate();
-
   const fundingNum = localStorage.getItem("fundingNum");
 
-//펀딩 상세정보 데이터
+  //펀딩 상세정보 데이터
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,
@@ -63,7 +62,7 @@ const FundingDetail = () => {
     endDate: "",
   });
 
-  //디데이 계산
+  //펀딩 디데이 계산
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
@@ -78,13 +77,16 @@ const FundingDetail = () => {
       x.style.color = "#e94e58";
     }
   
-  } else {
+  } else if(diffDay > 0){
     diffDay += "일"; 
     diffDay2 += "일 남음";
+  } else {
+    diffDay = "종료";
+    diffDay2 = "종료";
   }
 
 
-  //달성률 % (소수점 처리)
+  //펀딩 달성률 %(소수점 처리)
   let achieveRate =
     (parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) *
     100;
@@ -108,7 +110,8 @@ const FundingDetail = () => {
 
   //progress bar 애니메이션
   const [completeRate, setCompleteRate] = useState(0);
-
+  
+  //펀딩 대표이미지
   const [thumbNail, setThumbNail] = useState([
     {
       imageRoute: "",
@@ -117,20 +120,22 @@ const FundingDetail = () => {
 
   //로그인한 사람의 정보
   const loginPerson = sessionStorage.getItem("memberNum");
-
   //펀딩 후원자 정보 데이터
   const [donator, setDonator] = useState([]);
-
   //펀딩 후원자 판단
   const [isDonator, setIsDonator] = useState(false);
-
   //펀딩 모달창 띄위기
   const [modalOpen, setModalOpen] = useState(false);
+  //펀딩 토큰 정보 데이터
+  const [fundToken, setFundToken] = useState({
+    listingPrice: 0,
+    name: "",
+  });
 
   //펀딩 상세정보 출력
   useEffect(() => {
 
-    //펀딩 이미지 출력
+    //펀딩 대표 이미지 출력
     axios
       .get("/funding/file/list", { params: { fundingNum: fundingNum } })
       .then(
@@ -159,6 +164,15 @@ const FundingDetail = () => {
       .catch((err) => console.log(err));
 
     setTimeout(() => setCompleteRate(achieveRate), 1000);
+
+    //펀딩 토큰 상세정보 출력
+    axios
+      .get("/token/fundToken", { params: { fundingNum: fundingNum } })
+    .then((res) => {
+      console.log(res.data);
+      setFundToken(res.data);
+    })
+    // console.log("fundToken" + fundToken.tokenNum);
 
     //펀딩 후원자 정보 출력
     axios
@@ -213,7 +227,7 @@ const FundingDetail = () => {
       <Image
         style={{
           width: "100%",
-          height: 420,
+          height: 435,
           "object-fit": "cover",
           marginTop: "30px",
         }}
@@ -223,6 +237,7 @@ const FundingDetail = () => {
     ));
   }
 
+  
   //펀딩 후원자 수 출력
   const donatorAmount = donator.length;
 
@@ -324,7 +339,7 @@ const FundingDetail = () => {
               style={{
                 border: "1px solid rgb(245, 245, 245)",
                 fontSize: "14px",
-                padding: "30px",
+                padding: "25px",
                 paddingLeft: "40px",
                 backgroundColor: "rgb(245, 245, 245)",
               }}
@@ -339,7 +354,7 @@ const FundingDetail = () => {
                     style={{
                       display: "inline",
                       fontWeight: "700",
-                      marginRight: "18px",
+                      marginRight: "22px",
                     }}
                   >
                     목표 금액
@@ -360,7 +375,7 @@ const FundingDetail = () => {
                     style={{
                       display: "inline",
                       fontWeight: "700",
-                      marginRight: "18px",
+                      marginRight: "22px",
                     }}
                   >
                     펀딩 기간
@@ -387,6 +402,29 @@ const FundingDetail = () => {
                   </div>
                 </div>
               </div>
+
+              <div
+                className="tokenInfo"
+                style={{ display: "inline-block",marginBottom: "5px" }}
+              >
+                <div
+                  className="tokenInfoData"
+                  style={{
+                    display: "inline",
+                    fontWeight: "700",
+                    marginRight: "22px",
+                  }}
+                >
+                  토큰 가격
+                </div>
+                <div className="tokenData" style={{ display: "inline", fontWeight:"bold", color:"#00b2b2" }}>
+                  {fundToken.listingPrice}P
+                </div>
+                <div style={{ display: "inline" }}>당 1개의 </div>
+                <div style={{ display: "inline", fontWeight:"bold", color:"#00b2b2" }}>{fundToken.name} 토큰 </div>
+                <div style={{ display: "inline" }}>발행</div>
+              </div>
+
               <div
                 className="payAccountArea"
                 style={{ display: "inline-block" }}
@@ -396,7 +434,7 @@ const FundingDetail = () => {
                   style={{
                     display: "inline",
                     fontWeight: "700",
-                    marginRight: "18px",
+                    marginRight: "22px",
                   }}
                 >
                   토큰 거래
@@ -405,6 +443,7 @@ const FundingDetail = () => {
                   목표금액 달성 시 토큰 거래가 진행됩니다.
                 </div>
               </div>
+              
             </div>
           </Segment>
 

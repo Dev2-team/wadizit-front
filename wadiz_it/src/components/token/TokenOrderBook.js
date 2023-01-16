@@ -8,8 +8,6 @@ const makeOrderBook = (orderList) => {
   let buyPriceList = [];
   let buyVolumeList = [];
 
-  console.log("orderList", orderList);
-
   if (orderList !== undefined) {
     const sellOrderList = orderList.filter((order) => order.type === 2);
     let sellOrderMap = sellOrderList.reduce((accu, order) => {
