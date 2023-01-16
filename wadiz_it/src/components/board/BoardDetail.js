@@ -60,7 +60,6 @@ const BoardDetail = () => {
   ]);
 
   useEffect(() => {
-
     setLoading(true);
     axios
       .get("/board", { params: { boardNum: bNum } })
@@ -72,7 +71,6 @@ const BoardDetail = () => {
         sessionStorage.setItem("boardWriter", res.data.memberNum.memberNum);
       })
       .catch((err) => console.log(err));
-    
 
     axios
       .get("/board/file/list", { params: { boardNum: bNum } })
@@ -92,7 +90,6 @@ const BoardDetail = () => {
             newFileList.push(newFile);
           }
           setBfList(newFileList);
-          
         }
         setLoading(false);
       })
@@ -185,8 +182,6 @@ const BoardDetail = () => {
     }
   });
 
-  
-
   // //게시글 전체 삭제 함수 (게시글 + 파일 + 댓글)
   // const boardDeleteAll = () => {
 
@@ -203,19 +198,19 @@ const BoardDetail = () => {
   //             for (var i = 0; i < 1; i++){
   //               boardDelete(bNum);
   //             }
-              
+
   //           } else {
   //             alert("댓글 삭제 실패하였습니다.");
   //           }
   //         })
   //         .catch((err) => console.log(err));
-        
-  //     } 
+
+  //     }
   //   } else {
   //     alert("글 작성자만 삭제 가능합니다.");
   //     }
   // }
-  
+
   // //게시글 파일 삭제 함수
   // const boardFileDelete = (bNum) => {
 
@@ -231,12 +226,11 @@ const BoardDetail = () => {
   //       }
   //     })
   //     .catch((err) => console.log(err));
-  //   } 
+  //   }
   // }
 
   //게시글 삭제 함수
   const boardDelete = () => {
-
     axios
       .delete("/board", { params: { boardNum: bNum } })
       .then((res) => {
@@ -260,11 +254,10 @@ const BoardDetail = () => {
       .catch((err) => console.log(err));
   };
 
-
   //게시글 전체 삭제 (boardComment + boardFile + board)
   const boardDeleteAll = () => {
-
     if (loginPerson === boardWriter) {
+
       Swal.fire({
         title: "정말로 삭제하시겠습니까?",
         icon: "question",
@@ -324,7 +317,7 @@ const BoardDetail = () => {
       });
       }
     }
-
+  };
 
   //상세페이지 내용 localStorage에 저장
   localStorage.setItem("title", bitem.title);
@@ -334,55 +327,50 @@ const BoardDetail = () => {
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>
       <Header
-        as="h1"
-        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+        style={{
+          backgroundColor: "#00b2b2",
+          color: "#ffffff",
+          marginTop: "7.5px",
+          paddingLeft: "20px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "left",
+        }}
+        as="h3"
       >
-        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
-        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+        자유게시판
       </Header>
-      <div className="bdBoardForm">
-        <div className="bdTitle">{bitem.title}</div>
-        <div className="bdInfo">
-          <div className="bdInfoArea">
-            <div className="bdWriter">
-              작성자 : {bitem.memberNum.nickname}&nbsp;&nbsp;&nbsp;|
+      <Container style={{ paddingTop: "2vw" }}>
+        <div className="bdBoardForm">
+          <div className="bdTitle">{bitem.title}</div>
+          <div className="bdInfo">
+            <div className="bdInfoArea">
+              <div className="bdWriter">
+                작성자 : {bitem.memberNum.nickname}&nbsp;&nbsp;&nbsp;|
+              </div>
+              <div className="bdDate">
+                작성일 : {dateFormat(bitem.date)}&nbsp;&nbsp;&nbsp;|
+              </div>
+              <div className="bdView">조회수&nbsp;{bitem.view}</div>
             </div>
-            <div className="bdDate">
-              작성일 : {dateFormat(bitem.date)}&nbsp;&nbsp;&nbsp;|
-            </div>
-            <div className="bdView">조회수&nbsp;{bitem.view}</div>
+          </div>
+
+          <div className="bdContent">
+            {imageFlist}
+            {bitem.content}
+          </div>
+          <div className="bdFileInfo">
+            <div className="bdFileTitle">첨부파일</div>
+            <div className="bdFileList">{viewFlist}</div>
           </div>
         </div>
+        {loading && <Loading />}
 
-        <div className="bdContent">
-          {imageFlist}
-          {bitem.content}
-        </div>
-        <div className="bdFileInfo">
-          <div className="bdFileTitle">첨부파일</div>
-          <div className="bdFileList">{viewFlist}</div>
-        </div>
-      </div>
-      {loading && <Loading/>}
-
-      <div className="bdBtn">
-        <Button
-          type="button" className="bdBackBtn"
-          onClick={boardList}
-          style={{
-            alignItems: "center",
-            margin: "0px",
-            border: "1px solid #00b2b2",
-            backgroundColor: "#ffffff",
-            color: "#00b2b2",
-          }}
-        >
-          돌아가기
-        </Button>
-        {!(loginPerson === boardWriter) ? null : (
-          <div className="bdBtnArea">
-
-            <Button type="button" className="bdUpdateBtn" onClick={boardUpdate}
+        <div className="bdBtn">
+          <Button
+            type="button"
+            className="bdBackBtn"
+            onClick={boardList}
             style={{
               alignItems: "center",
               margin: "0px",
@@ -391,27 +379,47 @@ const BoardDetail = () => {
               color: "#00b2b2",
             }}
           >
-            수정
+            돌아가기
+          </Button>
+          {!(loginPerson === boardWriter) ? null : (
+            <div className="bdBtnArea">
+              <Button
+                type="button"
+                className="bdUpdateBtn"
+                onClick={boardUpdate}
+                style={{
+                  alignItems: "center",
+                  margin: "0px",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+                  color: "#00b2b2",
+                }}
+              >
+                수정
               </Button>
 
-              <Button type="button" className="bdDeleteBtn" onClick={boardDeleteAll}
-            style={{
-              alignItems: "center",
-              margin: "0px",
-              marginLeft:"10px",
-              border: "1px solid #00b2b2",
-              backgroundColor: "#ffffff",
-              color: "#00b2b2",
-            }}
-          >
-            삭제
-            </Button>
-          </div>
-        )}
-      </div>
-      <div>
-        <BClist></BClist>
-      </div>
+              <Button
+                type="button"
+                className="bdDeleteBtn"
+                onClick={boardDeleteAll}
+                style={{
+                  alignItems: "center",
+                  margin: "0px",
+                  marginLeft: "10px",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+                  color: "#00b2b2",
+                }}
+              >
+                삭제
+              </Button>
+            </div>
+          )}
+        </div>
+        <div>
+          <BClist></BClist>
+        </div>
+      </Container>
     </Container>
   );
 };

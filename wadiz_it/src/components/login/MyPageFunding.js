@@ -1,9 +1,11 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { Container, Table } from "semantic-ui-react";
 
 const MyPageFunding = () => {
+  const nav = useNavigate();
   // 데이터
   const [myFundingItem, setMyFundingItem] = useState([]);
 
@@ -31,24 +33,29 @@ const MyPageFunding = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // 타이틀 클릭 시 해당 펀딩 상세로 이동
-  // const getFunding = useCallback(
-  //   (fundingNum) => {
-  //     // 보여질 펀딩 글의 번호를 localStorage에 저장
-  //     localStorage.setItem("fundingNum", fundingNum);
-  //     // 해당 링크로 이동
-  //     nav("/login/myPage/funding/detail");
-  //   },
-  //   [nav]
-  // );
+  //타이틀 클릭 시 해당 펀딩 상세로 이동
+  const getFunding = useCallback(
+    (fundingNum) => {
+      // 보여질 펀딩 글의 번호를 localStorage에 저장
+      localStorage.setItem("fundingNum", fundingNum);
+      // 해당 링크로 이동
+      nav("funding/detail");
+    },
+    [nav]
+  );
 
   // 내가 개설한 펀딩 내역
   const FundingTable = () => {
     return Object.values(myFundingItem).map((item) => {
       return (
         <Table.Row key={item.fundingNum}>
-          {/* <Table.Cell onClick={() => getFunding(item.fundingNum)}> */}
-          <Table.Cell>{item.title}</Table.Cell>
+          <Table.Cell
+            style={{ cursor: "pointer" }}
+            onClick={() => getFunding(item.fundingNum)}
+          >
+            {item.title}
+          </Table.Cell>
+          {/* <Table.Cell>{item.title}</Table.Cell> */}
           <Table.Cell>{dateFormat(item.startDate)}</Table.Cell>
           <Table.Cell>{dateFormat(item.endDate)}</Table.Cell>
           <Table.Cell>{targetAmtFormat(item)}</Table.Cell>

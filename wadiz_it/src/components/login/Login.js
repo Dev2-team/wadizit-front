@@ -27,6 +27,8 @@ const Login = ({ sucLogin }) => {
           Swal.fire({
             icon: "error",
             title: "로그인 정보를 확인해주세요",
+            iconColor: "#ff6666",
+            confirmButtonColor: "#00b2b2",
           });
         }
         const formObj = {

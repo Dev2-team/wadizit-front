@@ -190,153 +190,166 @@ const FundingForm = () => {
 
   return (
     <Container textAlign="left" onSubmit={onWrite}>
-      <Header as="h2">펀딩 생성</Header>
-      <Divider></Divider>
-      <Form>
-        <Form.Input
-          name="title"
-          required={true}
-          fluid
-          label="제목"
-          placeholder="제목을 입력하세요"
-          value={title}
-          onChange={onChange}
-        />
-      </Form>
-      <Divider></Divider>
-      <Form>
-        <Form.Input
-          name="tokenName"
-          required={true}
-          fluid
-          label="토큰 이름"
-          placeholder="토큰 이름"
-          value={data.tokenName}
-          onChange={onChange}
-        />
-      </Form>
-      <Divider></Divider>
-      <Form>
-        <Form.Input
-          name="tokenPrice"
-          required={true}
-          fluid
-          type="number"
-          label="토큰 발행 가격"
-          placeholder="토큰 발행 가격 (숫자, 단위=￦)"
-          value={tokenPrice}
-          onChange={onChange}
-        />
-      </Form>
-      <Divider></Divider>
-      <Form>
-        <Form.Input
-          name="tokenAmount"
-          required={true}
-          fluid
-          type="number"
-          label="토큰 발행 개수"
-          placeholder="토큰 발행 개수 (숫자, 단위=개)"
-          value={tokenAmount}
-          onChange={onChange}
-        />
-      </Form>
-      <Divider></Divider>
-      <Form>
-        <Form.Input
-          name="targetAmount"
-          required={true}
-          fluid
-          type="number"
-          label="목표 금액"
-          placeholder="목표 금액 (숫자, 단위=￦)"
-          value={targetAmount}
-          onChange={onChange}
-        />
-      </Form>
-      <Divider></Divider>
-      <Form>
-        <Form.Group>
-          <React.Fragment>
-            <Modal
-              open={modalOpen1}
-              close={closeModal1}
-              header="펀딩 기간 설정"
-            >
-              <Container textAlign="center">
-                <div className="calendar-container">
-                  <Calendar
-                    onChange={onChangeDate}
-                    selectRange={true}
-                    formatDay={(locale, date) => moment(date).format("DD")}
-                  />
-                </div>
-              </Container>
-            </Modal>
-          </React.Fragment>
-          <Form.Field
-            onClick={openModal1}
+      <Header
+        style={{
+          backgroundColor: "#00b2b2",
+          color: "#ffffff",
+          marginTop: "7.5px",
+          paddingLeft: "20px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "left",
+        }}
+        as="h3"
+      >
+        펀딩 생성
+      </Header>
+      <Container style={{ padding: "1vw 1vw 2vw 1vw" }}>
+        <Form>
+          <Form.Input
+            name="title"
             required={true}
-            label="펀딩 시작 날짜"
-            control={Input}
-            name="startDate"
-            value={startDate || ""}
-            type="text"
-            // maxLength="4"
-            width={3}
-            placeholder="시작 날짜"
-            onChange={onChangeDate}
+            fluid
+            label="제목"
+            placeholder="제목을 입력하세요"
+            value={title}
+            onChange={onChange}
           />
-        </Form.Group>
+        </Form>
         <Divider></Divider>
-        <Form.Group>
-          <Form.Field
-            onClick={openModal1}
+        <Form>
+          <Form.Input
+            name="tokenName"
             required={true}
-            label="펀딩 종료 날짜"
-            control={Input}
-            name="endDate"
-            value={endDate || ""}
-            type="text"
-            // maxLength="4"
-            width={3}
-            placeholder="종료 날짜"
-            onChange={onChangeDate}
+            fluid
+            label="토큰 이름"
+            placeholder="토큰 이름"
+            value={data.tokenName}
+            onChange={onChange}
           />
-        </Form.Group>
-      </Form>
-      <Divider></Divider>
-      <Form>
-        <Form.Input
-          type="file"
-          required={true}
-          fluid
-          label="사업자 등록증 추가"
-          name="files"
-          onChange={onFileChange}
-          //multiple
-        />
-        <Form.Input
-          type="file"
-          required={true}
-          fluid
-          label="펀딩 대표이미지 추가"
-          name="files"
-          accept="image/*"
-          onChange={onFileChange}
-          //multiple
-        />
-        <Form.Input
-          type="file"
-          required={true}
-          fluid
-          label="펀딩 상세정보 이미지 추가"
-          name="files"
-          accept="image/*"
-          onChange={onFileChange}
-          multiple
-        />
-        {/* <Form.Button
+        </Form>
+        <Divider></Divider>
+        <Form>
+          <Form.Input
+            name="tokenPrice"
+            required={true}
+            fluid
+            type="number"
+            label="토큰 발행 가격"
+            placeholder="토큰 발행 가격 (숫자, 단위=￦)"
+            value={tokenPrice}
+            onChange={onChange}
+          />
+        </Form>
+        <Divider></Divider>
+        <Form>
+          <Form.Input
+            name="tokenAmount"
+            required={true}
+            fluid
+            type="number"
+            label="토큰 발행 개수"
+            placeholder="토큰 발행 개수 (숫자, 단위=개)"
+            value={tokenAmount}
+            onChange={onChange}
+          />
+        </Form>
+        <Divider></Divider>
+        <Form>
+          <Form.Input
+            name="targetAmount"
+            required={true}
+            fluid
+            type="number"
+            label="목표 금액"
+            placeholder="목표 금액 (숫자, 단위=￦)"
+            value={targetAmount}
+            onChange={onChange}
+          />
+        </Form>
+        <Divider></Divider>
+        <Form>
+          <Form.Group>
+            <React.Fragment>
+              <Modal
+                open={modalOpen1}
+                close={closeModal1}
+                header="펀딩 기간 설정"
+              >
+                <Container textAlign="center">
+                  <div className="calendar-container">
+                    <Calendar
+                      onChange={onChangeDate}
+                      selectRange={true}
+                      formatDay={(locale, date) => moment(date).format("DD")}
+                    />
+                  </div>
+                </Container>
+              </Modal>
+            </React.Fragment>
+            <Form.Field
+              onClick={openModal1}
+              required={true}
+              label="펀딩 시작 날짜"
+              control={Input}
+              name="startDate"
+              value={startDate || ""}
+              type="text"
+              // maxLength="4"
+              width={3}
+              placeholder="시작 날짜"
+              onChange={onChangeDate}
+            />
+          </Form.Group>
+          <Divider></Divider>
+          <Form.Group>
+            <Form.Field
+              onClick={openModal1}
+              required={true}
+              label="펀딩 종료 날짜"
+              control={Input}
+              name="endDate"
+              value={endDate || ""}
+              type="text"
+              // maxLength="4"
+              width={3}
+              placeholder="종료 날짜"
+              onChange={onChangeDate}
+            />
+          </Form.Group>
+        </Form>
+        <Divider></Divider>
+        <Form>
+          <Form.Input
+            type="file"
+            required={true}
+            fluid
+            label="사업자 등록증 추가"
+            name="files"
+            onChange={onFileChange}
+            //multiple
+          />
+          <Form.Input
+            type="file"
+            required={true}
+            fluid
+            label="펀딩 대표이미지 추가"
+            name="files"
+            accept="image/*"
+            onChange={onFileChange}
+            //multiple
+          />
+          <Form.Input
+            type="file"
+            required={true}
+            fluid
+            label="펀딩 상세정보 이미지 추가"
+            name="files"
+            accept="image/*"
+            onChange={onFileChange}
+            multiple
+          />
+          {/* <Form.Button
           style={{
             backgroundColor: "gray",
             color: "white",
@@ -346,18 +359,19 @@ const FundingForm = () => {
         >
           등록 취소
         </Form.Button> */}
-        <Form.Button
-          type="submit"
-          style={{
-            backgroundColor: "#00b2b2",
-            color: "white",
-            display: "inline-block",
-            float: "right",
-          }}
-        >
-          펀딩 등록
-        </Form.Button>
-      </Form>
+          <Form.Button
+            type="submit"
+            style={{
+              backgroundColor: "#00b2b2",
+              color: "white",
+              display: "inline-block",
+              float: "right",
+            }}
+          >
+            펀딩 등록
+          </Form.Button>
+        </Form>
+      </Container>
     </Container>
   );
 };
