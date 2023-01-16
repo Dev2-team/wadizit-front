@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Form, Header } from "semantic-ui-react";
-import ButtonScss from "../common/Button.scss";
+import { Button, Container, Header } from "semantic-ui-react";
 
 import "./BoardWrite.scss";
 
@@ -91,7 +90,13 @@ const BoardWrite = () => {
 
   return (
     <Container style={{ marginTop: "30px", width: "60vw" }}>
-      <Header as="h2">자유게시판</Header>
+      <Header
+        as="h1"
+        style={{ marginTop: "50px", textAlign: "left", marginBottom: "50px"}}
+      >
+        <p style={{ color: "#00b2b2", display: "inline", fontSize: "32px", marginRight:"5px" }} >와디즈IT</p>
+        <p style={{ display: "inline", fontSize:"22px" }}>의 자유게시판</p>
+      </Header>
       <div className="boardForm">
         <form onSubmit={onWrite}>
           <div className="boardWrArea">
@@ -126,18 +131,31 @@ const BoardWrite = () => {
           </div>
           <div className="btn">
             <div className="btnArea">
-              <Button
-                type="button"
-                className="backBtn"
-                style={{ fontSize: "0.8rem" }}
+
+              <Button type="button" className="backBtn"
                 onClick={boardList}
+                style={{
+                  alignItems: "center",
+                  margin: "0px",
+                  fontSize:"0.9rem",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+                  color: "#00b2b2",
+                }}
               >
                 돌아가기
               </Button>
-              <Button
-                type="submit"
-                className="writeBtn"
-                style={{ marginRight: "0px", fontSize: "0.8rem" }}
+
+              <Button type="button" className="writeBtn"
+                onClick={onWrite}
+                style={{
+                  alignItems: "center",
+                  margin: "0px",
+                  fontSize:"0.9rem",
+                  border: "1px solid #00b2b2",
+                  backgroundColor: "#ffffff",
+                  color: "#00b2b2",
+                }}
               >
                 글쓰기
               </Button>

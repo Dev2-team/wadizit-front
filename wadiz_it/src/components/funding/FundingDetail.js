@@ -1,8 +1,7 @@
 
-import { right } from "@popperjs/core";
-import axios, { formToJSON } from "axios";
+import axios from "axios";
 import moment from "moment/moment";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Image,
@@ -20,7 +19,6 @@ import FundingModal from "./FundingModal";
 import { useNavigate } from "react-router-dom";
 import Goods from "../goods/Goods";
 
-
 const panes = [
   {
     menuItem: "프로젝트 소개",
@@ -30,7 +28,7 @@ const panes = [
   },
   {
     menuItem: "커뮤니티",
-    render: () => <Tab.Pane attached={false} >{<FundingComment />}</Tab.Pane>,
+    render: () => <Tab.Pane attached={false}>{<FundingComment />}</Tab.Pane>,
   },
   {
     menuItem: "토큰 거래",
@@ -43,18 +41,20 @@ const panes = [
 ];
 
 const TabMenu = () => (
-  <Tab menu={{ secondary: true, pointing: true }} panes={panes}/>
+  <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
 );
 
 const dateFormat = (date) => moment(date).format("YYYY.MM.DD");
 
+
 const FundingDetail = () => {
+
   
   const nav = useNavigate();
 
   const fundingNum = localStorage.getItem("fundingNum");
 
-  //펀딩 상세정보 데이터
+//펀딩 상세정보 데이터
   const [fundData, setFundData] = useState({
     currentAmount: 0,
     targetAmount: 0,
@@ -67,24 +67,36 @@ const FundingDetail = () => {
   var today = new Date();
   var endDateFormat = new Date(fundData.endDate);
   var diff = endDateFormat - today;
-  const diffDay = (Math.floor(diff / (1000 * 60 * 60 * 24))) + 1;
+  var diffDay = (Math.floor(diff / (1000 * 60 * 60 * 24)) + 1);
+  var diffDay2 = diffDay;
+  if (diffDay === 0) {
+    diffDay = "오늘 마감";
+    diffDay2 = "오늘 마감";
+    
+    if (diffDay === "오늘 마감") {
+      var x = document.getElementById("diffDayCount");
+      x.style.color = "#e94e58";
+    }
+  
+  } else {
+    diffDay += "일"; 
+    diffDay2 += "일 남음";
+  }
 
 
   //달성률 % (소수점 처리)
   let achieveRate =
-    ((parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) *
-      100);
-  // console.log("달성률" + achieveRate);  
+    (parseFloat(fundData.currentAmount) / parseFloat(fundData.targetAmount)) *
+    100;
+  // console.log("달성률" + achieveRate);
 
-    if (achieveRate === 0) {
-      achieveRate = 0;
-    } else if (achieveRate < 1) {
-      achieveRate = achieveRate.toFixed(1);
-    } else if (achieveRate >= 1) {
-      achieveRate = achieveRate.toFixed(0);
-    }
-
-
+  if (achieveRate === 0) {
+    achieveRate = 0;
+  } else if (achieveRate < 1) {
+    achieveRate = achieveRate.toFixed(1);
+  } else if (achieveRate >= 1) {
+    achieveRate = achieveRate.toFixed(0);
+  }
 
   //금액 쉼표 표시
   let currentAmtFormat = fundData.currentAmount
@@ -94,7 +106,6 @@ const FundingDetail = () => {
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-  
   //progress bar 애니메이션
   const [completeRate, setCompleteRate] = useState(0);
 
@@ -109,12 +120,12 @@ const FundingDetail = () => {
 
   //펀딩 후원자 정보 데이터
   const [donator, setDonator] = useState([]);
-  
+
   //펀딩 후원자 판단
   const [isDonator, setIsDonator] = useState(false);
 
-    //펀딩 모달창 띄위기
-    const [modalOpen, setModalOpen] = useState(false);
+  //펀딩 모달창 띄위기
+  const [modalOpen, setModalOpen] = useState(false);
 
   //펀딩 상세정보 출력
   useEffect(() => {
@@ -138,7 +149,6 @@ const FundingDetail = () => {
         [thumbNail]
       );
 
-    
     //펀딩 상세정보 출력
     axios
       .get("/funding", { params: { fundingNum: fundingNum } })
@@ -150,40 +160,39 @@ const FundingDetail = () => {
 
     setTimeout(() => setCompleteRate(achieveRate), 1000);
 
-
     //펀딩 후원자 정보 출력
     axios
       .get("/donate/getFundingPerson", { params: { fundingNum: fundingNum } })
       .then((res) => {
-
         let donatorList = [];
         for (let i = 0; i < res.data.length; i++) {
-
           donatorList.push(res.data[i]);
           setDonator(donatorList);
         }
 
         if (donator.length > 0) {
           console.log(donator);
-          console.log(loginPerson)
-          for (let i = 0; i < donator.length; i++){
-            if (parseInt(loginPerson) === parseInt(donator[i])) {
+          console.log(loginPerson);
+          for (let i = 0; i < donator.length; i++) {
+            if (parseInt(loginPerson) == parseInt(donator[i])) {
               // console.log("맞다");
-              setIsDonator(true); 
+              setIsDonator(true);
               break;
             }
-            
           }
         }
 
-        localStorage.setItem("isDonator", isDonator);
-
+        sessionStorage.setItem("isDonator", isDonator);
       })
       .catch((err) => console.log(err));
 
-  }, [achieveRate, isDonator]);
-
-
+    axios
+      .get("/token/amount", { params: { tokenNum: fundingNum } })
+      .then((res) => {
+        console.log("보유 토큰 : ", res.data);
+        sessionStorage.setItem("currentTokenAmount", res.data);
+      });
+  }, [donator.length , achieveRate, isDonator]);
 
   //대표이미지 출력
   let fundingFileImage = null;
@@ -217,7 +226,6 @@ const FundingDetail = () => {
   //펀딩 후원자 수 출력
   const donatorAmount = donator.length;
 
-
   const openModal = () => {
     if (loginPerson !== null) {
       setModalOpen(true);
@@ -225,7 +233,6 @@ const FundingDetail = () => {
       alert("로그인 이후 이용 가능합니다.");
       nav("/login");
     }
-    
   };
 
   const closeModal = () => {
@@ -245,12 +252,13 @@ const FundingDetail = () => {
             display: "flex",
             "flex-direction": "column",
             justifyContent: "space-between",
-            marginTop: "30px",
+            marginTop: "10px",
+            
           }}
         >
           <Container style={{ height: 10 }}></Container>
 
-          <Segment vertical style={{ border: "none", marginLeft: "15px" }}>
+          <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
             <div className="subTitle" style={{ fontSize: "17px" }}>
               모인 금액
             </div>
@@ -266,23 +274,22 @@ const FundingDetail = () => {
               <div className="aimAmount" style={{ display: "inline-block" }}>
                 <div
                   className="currentAmt"
-                  style={{ display: "inline", marginRight: "20px" }}
+                  style={{ display: "inline", marginRight: "38px" }}
                 >
                   {currentAmtFormat}원
                 </div>
-                <ProgressBar completed={completeRate} />
-                {/* <Pyrogress.Bar progress={achieveRate} width={200}/> */}
-                {/* <progress className="achieveRate" style={{ display: "inline" }} value={achieveRate} max="100"></progress> */}
-                {/* <div className="achieveRate" style={{display:"inline", fontSize:"15px" }}>{achieveRate}%</div> */}
+                <div style={{width:"13vw", display:"inline-block"}}>
+                  <ProgressBar completed={completeRate}/>
+                </div>
               </div>
             </Header>
           </Segment>
 
-          <Segment vertical style={{ border: "none", marginLeft: "15px" }}>
+          <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
             <div className="subTitle" style={{ fontSize: "17px" }}>
               남은 시간
             </div>
-            <Header
+            <Header id="diffDayCount"
               style={{
                 "white-space": "nowrap",
                 overflow: "hidden",
@@ -291,10 +298,10 @@ const FundingDetail = () => {
                 fontSize: "27px",
               }}
             >
-              {diffDay}일
+              {diffDay}
             </Header>
           </Segment>
-          <Segment vertical style={{ border: "none", marginLeft: "15px" }}>
+          <Segment vertical style={{ border: "none", marginLeft: "25px" }}>
             <div className="subTitle" style={{ fontSize: "17px" }}>
               후원자
             </div>
@@ -319,13 +326,13 @@ const FundingDetail = () => {
                 fontSize: "14px",
                 padding: "30px",
                 paddingLeft: "40px",
-                backgroundColor: "rgb(245, 245, 245)"
+                backgroundColor: "rgb(245, 245, 245)",
               }}
             >
               <div>
                 <div
                   className="targetAmtArea"
-                  style={{ display: "inline-block", marginBottom: "5px" }}
+                  style={{ display: "inline-block", height: "26px" }}
                 >
                   <div
                     className="targetAmt"
@@ -360,7 +367,7 @@ const FundingDetail = () => {
                   </div>
                   <div
                     className="fundPeriodData"
-                    style={{ display: "inline", marginRight: "10px" }}
+                    style={{ display: "inline", marginRight: "12px" }}
                   >
                     {dateFormat(fundData.startDate)} ~{" "}
                     {dateFormat(fundData.endDate)}
@@ -376,7 +383,7 @@ const FundingDetail = () => {
                       borderRadius: "2px",
                     }}
                   >
-                    {diffDay}일 남음
+                    {diffDay2}
                   </div>
                 </div>
               </div>
@@ -389,13 +396,13 @@ const FundingDetail = () => {
                   style={{
                     display: "inline",
                     fontWeight: "700",
-                    marginRight: "48px",
+                    marginRight: "18px",
                   }}
                 >
-                  결제
+                  토큰 거래
                 </div>
                 <div className="payAccountData" style={{ display: "inline" }}>
-                  목표금액 달성시 결제가 진행됩니다.
+                  목표금액 달성 시 토큰 거래가 진행됩니다.
                 </div>
               </div>
             </div>
@@ -413,7 +420,7 @@ const FundingDetail = () => {
             <Button
               fluid
               style={{ marginLeft: "10px", width: "100%" }}
-              onClick={openModal} 
+              onClick={openModal}
             >
               후원하기
             </Button>

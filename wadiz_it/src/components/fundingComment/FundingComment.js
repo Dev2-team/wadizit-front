@@ -16,7 +16,8 @@ const FundingComment = () => {
   const memberNum = sessionStorage.getItem("memberNum");
   const [fundComData, setFundComData] = useState([]);
 
-  let isDonator = localStorage.getItem("isDonator");
+  // console.log("세션정보 : " + sessionStorage.getItem("isDonator"));
+  let isDonator = sessionStorage.getItem("isDonator");
 
   // 펀딩 댓글 리스트 얻기
   useEffect(() => {
@@ -140,7 +141,7 @@ const FundingComment = () => {
         >
           <h3>창작자에게 응원의 한마디</h3>
           <h7>응원글은 펀딩 종료 전까지 작성 가능합니다.</h7>
-          {isDonator ==="true" ?
+          {isDonator == "true" ?
             <Form.Group style={{ marginTop: "20px" }}>
             <Form.Input
               id="fundingComText"

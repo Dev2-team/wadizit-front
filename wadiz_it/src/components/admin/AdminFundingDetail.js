@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "semantic-ui-react";
-import FundingDetail from "../funding/FundingDetail";
 import Button from "../common/Button";
 import Afunding from "./Afunding";
+import Swal from "sweetalert2";
 
 const AdminFundingDetail = () => {
   const [fundingDetail, setFundingDetail] = useState([]);
@@ -64,7 +64,11 @@ const AdminFundingDetail = () => {
       .put("/funding", newfd, { params: { fundingNum: fundingNum } })
       .then((res) => {
         if (res.data === "수정 성공") {
-          alert("승인되었습니다.");
+          Swal.fire({
+            icon: "success",
+            title: "해당 펀딩이 승인되었습니다.",
+            showConfirmButton: true,
+          });
         }
       })
       .catch((err) => console.log(err));
@@ -80,7 +84,11 @@ const AdminFundingDetail = () => {
       .put("/funding", newfd, { params: { fundingNum: fundingNum } })
       .then((res) => {
         if (res.data === "수정 성공") {
-          alert("반려되었습니다.");
+          Swal.fire({
+            icon: "success",
+            title: "해당 펀딩이 반려되었습니다.",
+            showConfirmButton: true,
+          });
         }
       })
       .catch((err) => console.log(err));

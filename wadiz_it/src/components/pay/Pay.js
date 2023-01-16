@@ -102,6 +102,20 @@ const Pay = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(typeof logMem.point);
+    console.log(typeof readyPay.params.total_amount);
+    console.log(typeof plusPoint);
+    console.log(
+      typeof (logMem.point + readyPay.params.total_amount + plusPoint)
+    );
+  }, []);
+
+  // //금액 쉼표 표시
+  // const currentAmtFormat = (item) => {
+  //   return item.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // };
+
   return (
     <Container>
       <Header style={{}}>
@@ -209,14 +223,20 @@ const Pay = () => {
         </Table.Header>
         <Table.Body>
           <Table.Row style={{ height: "60px" }} textAlign="center">
-            <Table.Cell>{logMem.point}</Table.Cell>
+            <Table.Cell>{logMem.point.toLocaleString("ko-KR")}</Table.Cell>
             <Table.Cell>+</Table.Cell>
-            <Table.Cell>{readyPay.params.total_amount}</Table.Cell>
+            <Table.Cell>
+              {readyPay.params.total_amount.toLocaleString("ko-KR")}
+            </Table.Cell>
             <Table.Cell>+</Table.Cell>
-            <Table.Cell>{plusPoint}</Table.Cell>
+            <Table.Cell>{plusPoint.toLocaleString("ko-KR")}</Table.Cell>
             <Table.Cell>=</Table.Cell>
             <Table.Cell>
-              {logMem.point + readyPay.params.total_amount + plusPoint}
+              {(
+                logMem.point +
+                readyPay.params.total_amount +
+                plusPoint
+              ).toLocaleString("ko-KR")}
             </Table.Cell>
           </Table.Row>
         </Table.Body>

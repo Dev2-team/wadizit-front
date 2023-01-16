@@ -57,11 +57,12 @@
 
     padding: 40px;
     font-size: 15px;
-    height: 68vh;
+    height: 66vh;
   }
   .modal > .modalSection > .modalFooter {
     text-align: center;
     height: 10vh;
+    padding-top: 2vh;
   }
 
 
@@ -76,6 +77,18 @@
 
 .modalSection{
     height: 80vh;
+}
+
+.fundingProduct{
+    height: 11vh;
+}
+
+.fundingPerson{
+    height: 14vh;
+}
+
+.pointUse{
+    height: 32vh;
 }
 
 .fundingProduct, .fundingPerson, .pointUse{

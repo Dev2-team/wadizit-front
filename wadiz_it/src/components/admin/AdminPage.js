@@ -1,11 +1,9 @@
-import moment from "moment";
 import React from "react";
-import { Container, Tab, Header, Table, Button } from "semantic-ui-react";
+import { Container, Tab, Header } from "semantic-ui-react";
 import AdminBoard from "./AdminBoard";
 import AdminFunding from "./AdminFunding";
 import AdminMember from "./AdminMember";
 
-const df = (date) => moment(date).format("YYYY-MM-DD HH:mm:ss");
 
 const AdminPage = () => {
   const panes = [

@@ -6,7 +6,7 @@ import { Form } from "semantic-ui-react";
 
 const FundingModal = (props) => {
 
-  const { open, close, header, fundingTitle, force } = props;
+  const { open, close, header, fundingTitle } = props;
 
   //로그인한 사람의 정보
   const [memberData, setMemberData] = useState({
@@ -131,9 +131,8 @@ const FundingModal = (props) => {
                 <div>
                   <div style={{display:"inline-block"}}>
                       <Form.Input type="number" id="inputPoint" onChange={setPaymentPoint}
-                      style={{ width: "18vw", marginRight:"12px", marginTop:"5px" }} />
+                      style={{ width: "16vw", marginRight:"12px", marginTop:"5px" }} />
                   </div>
-              {/* <button type="button" onClick={useAllPoint}>전액 사용</button> */}
                   <Button type="button" onClick={useAllPoint}
                 style={{
                   alignItems: "center",
@@ -142,7 +141,7 @@ const FundingModal = (props) => {
                   backgroundColor: "#ffffff",
                   color: "#00b2b2",
                   fontSize: "12px",
-                  width: "4vw",
+                  width: "5vw",
                   display: "inline-block",
                   lineHeight: "19.99px",
                   height:"38px"
