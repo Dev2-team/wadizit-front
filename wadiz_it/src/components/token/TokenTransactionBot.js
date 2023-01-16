@@ -18,10 +18,6 @@ const TokenTransactionBot = () => {
     endDate: "",
   });
 
-  const [msg, setMsg] = useState("...");
-  const [initReadyFlag, setInitReadyFlag] = useState(false);
-  const [tradeReadyFlag, setTradeReadyFlag] = useState(false);
-
   const client = useRef({});
   useEffect(() => {
     connect();

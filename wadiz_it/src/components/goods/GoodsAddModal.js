@@ -1,14 +1,5 @@
-import axios from "axios";
 import React, { useCallback, useState } from "react";
-import {
-  Modal,
-  Button,
-  Form,
-  Container,
-  Divider,
-  Confirm,
-  Segment,
-} from "semantic-ui-react";
+import { Modal, Form, Container, Divider } from "semantic-ui-react";
 
 const GoodsAddModal = (props) => {
   const [open, setOpen] = useState(true);
