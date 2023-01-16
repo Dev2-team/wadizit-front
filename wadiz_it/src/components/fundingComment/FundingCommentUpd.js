@@ -12,7 +12,7 @@ const FundingCommentUpd = (props) => {
 
   //펀딩 댓글 수정 기능
   const getUpdateCom = useCallback(() => {
-    console.log(content);
+    // console.log(content);
 
     props.modify(content, () => {
       setContent("");

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Header } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import BoardListTable from "./BoardListTable";
 
 const BoardList = () => {
@@ -15,7 +16,13 @@ const BoardList = () => {
   const boardWrite = () => {
     //로그인한 상태가 아닐 경우, 로그인 페이지로 이동
     if (loginPerson === null) {
-      alert("로그인을 하셔야 글 작성이 가능합니다.");
+      // alert("로그인을 하셔야 글 작성이 가능합니다.");
+      Swal.fire({
+        icon: "error",
+        iconColor: "#ff6666",
+        title: "로그인 이후 이용 가능합니다.",
+        showConfirmButton: true,
+      })
       nav("/login");
     } else {
       nav("/board/write");

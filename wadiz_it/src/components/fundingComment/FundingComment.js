@@ -2,24 +2,25 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Comment, Form } from "semantic-ui-react";
+import Swal from "sweetalert2";
 import Button from "../common/Button";
 import FundingCommentList from "./FundingCommentList";
 
 const FundingComment = () => {
 
+  const memberNum = sessionStorage.getItem("memberNum");
   const fundingNum = localStorage.getItem("fundingNum");
   const nav = useNavigate();
   const [fundCom, setFundCom] = useState({
     content: "",
     fundingNum: fundingNum,
   });
-  const memberNum = sessionStorage.getItem("memberNum");
   const [fundComData, setFundComData] = useState([]);
 
-  // console.log("세션정보 : " + sessionStorage.getItem("isDonator"));
+  //해당 펀딩에 대한 후원자 판단 여부
   let isDonator = sessionStorage.getItem("isDonator");
 
-  // 펀딩 댓글 리스트 얻기
+  // 펀딩 댓글 리스트 출력
   useEffect(() => {
 
     axios
@@ -30,16 +31,12 @@ const FundingComment = () => {
       })
       .catch((error) => console.log(error));
     
-  }, [fundComData.length]);
+  }, [fundComData]);
 
   
-
-  //댓글 입력 기능
+  //펀딩 댓글 입력 기능
   const fundComWrite = useCallback(() => {
-    if (memberNum === null) {
-      alert("로그인 이후 이용가능합니다.");
-      nav("/login");
-    } else {
+
       axios
         .post(
           "/funding/comment",
@@ -56,30 +53,40 @@ const FundingComment = () => {
         })
         .catch((error) => console.log(error));
       setFundCom({ ...fundCom, content: "" });
-    }
   }, [fundCom, fundComData]);
 
   // 댓글 삭제 함수
   const deleteComment = useCallback(
+  
     (comNum) => {
-      console.log("deleteComment");
-      console.log(fundComData);
-      let result = window.confirm("댓글을 삭제하시겠습니까?");
-      if (result === true) {
-        axios
-          .delete("/funding/comment", { params: { fundingComNum: comNum } })
-          .then((res) => {
-            if (res.data === "댓글 삭제 성공") {
-              alert("댓글이 삭제되었습니다.");
-              const newCommentList = fundComData.filter(
-                (comment) => comment.fundingComNum !== comNum
-              );
-              setFundComData(newCommentList);
-            }
-          });
-      }
-    },
-    [fundComData]
+      // console.log("deleteComment");
+      // console.log(fundComData);
+
+      axios
+        .delete("/funding/comment", { params: { fundingComNum: comNum } })
+        .then((res) => {
+          if (res.data === "댓글 삭제 성공") {
+            Swal.fire({
+              icon: "success",
+              iconColor: "#00b2b2",
+              title: "댓글 삭제가 완료되었습니다.",
+              showConfirmButton: true,
+            });
+            const newCommentList = fundComData.filter(
+              (comment) => comment.fundingComNum !== comNum
+            );
+            setFundComData(newCommentList);
+          }
+        })
+        .catch((err) =>
+          Swal.fire({
+            icon: "error",
+            iconColor: "#ff6666",
+            title: "댓글 삭제가 실패되었습니다.",
+            showConfirmButton: true,
+          })
+        );
+    }, [fundComData]
   );
 
   // 댓글 수정 함수
@@ -109,9 +116,22 @@ const FundingComment = () => {
               }
             }
             setFundComData(newCommentList);
+            Swal.fire({
+              icon: "success",
+              iconColor: "#00b2b2",
+              title: "댓글 수정이 완료되었습니다.",
+              showConfirmButton: true,
+            });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => 
+        Swal.fire({
+          icon: "error",
+          iconColor: "#ff6666",
+          title: "댓글 수정이 실패되었습니다.",
+          showConfirmButton: true,
+        })
+        );
     },
     [fundComData]
   );

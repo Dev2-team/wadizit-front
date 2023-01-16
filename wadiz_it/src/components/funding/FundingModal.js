@@ -3,6 +3,7 @@ import "./FundingModal.scss";
 import Button from "../common/Button";
 import axios from "axios";
 import { Form } from "semantic-ui-react";
+import Swal from "sweetalert2";
 
 const FundingModal = (props) => {
 
@@ -18,7 +19,7 @@ const FundingModal = (props) => {
   });
   let donateData = { ...donatePoint };
 
-  //로그인한 사람의 포인트 출력
+  //로그인한 사람의 포인트 정보 출력
   useEffect(() => {
     axios
       .get("/member/get", { params: { MemberNum: props.loginPerson } })
@@ -85,11 +86,21 @@ const FundingModal = (props) => {
       .then((res) => {
         console.log(res.data);
         if (res.data === "펀딩 후원 성공") {
-          alert("펀딩 성공하였습니다.");
+          Swal.fire({
+            icon: "success",
+            iconColor: "#00b2b2",
+            title: "펀딩 후원이 완료되었습니다.",
+            showConfirmButton: true,
+          });
           close(false);
           window.location.replace("http://localhost:3000/funding/detail");
         } else {
-          alert("결제가 실패되었습니다.");
+          Swal.fire({
+            icon: "error",
+            iconColor: "#ff6666",
+            title: "펀딩 후원이 실패되었습니다.",
+            showConfirmButton: true,
+          })
         }
       }, )
       .catch((err) => console.log(err));
