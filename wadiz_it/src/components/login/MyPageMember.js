@@ -124,7 +124,9 @@ const MyPageMember = () => {
         if (res.data === true) {
           Swal.fire({
             icon: "success",
+            iconColor: "#00b6b6",
             title: "수정되었습니다.",
+            showConfirmButton: true,
             confirmButtonColor: "#00b2b2",
           });
           // window.location.reload();
@@ -133,6 +135,8 @@ const MyPageMember = () => {
             icon: "error",
             title: "수정에 실패했습니다",
             iconColor: "#ff6666",
+            showConfirmButton: true,
+            confirmButtonColor: "#ff6666",
           });
         }
       })

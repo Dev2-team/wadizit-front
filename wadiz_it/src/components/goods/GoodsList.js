@@ -68,7 +68,7 @@ const GoodsList = () => {
       iconColor: "#ff6666",
       showCancelButton: true,
       confirmButtonColor: "#00b2b2",
-      cancelButtonColor: "#d33",
+      cancelButtonColor: "#ff6666",
       confirmButtonText: "삭제",
       cancelButtonText: "취소",
     }).then((result) => {
@@ -92,7 +92,7 @@ const GoodsList = () => {
       iconColor: "#ff6666",
       showCancelButton: true,
       confirmButtonColor: "#00b2b2",
-      cancelButtonColor: "#d33",
+      cancelButtonColor: "#f66",
       confirmButtonText: "구매",
       cancelButtonText: "취소",
     }).then((result) => {

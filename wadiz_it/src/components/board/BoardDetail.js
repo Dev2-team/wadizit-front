@@ -33,8 +33,10 @@ const BoardDetail = () => {
       Swal.fire({
         title: "글을 수정하시겠습니까?",
         icon: "question",
+        iconColor: "#00b2b2",
         showCancelButton: true,
         confirmButtonText: "확인",
+        confirmButtonColor: "#00b2b2",
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
@@ -240,6 +242,7 @@ const BoardDetail = () => {
             iconColor: "#00b2b2",
             title: "게시글 삭제가 완료되었습니다.",
             showConfirmButton: true,
+            confirmButtonColor: "#00b2b2",
           });
           nav("/board/list");
         } else {
@@ -248,6 +251,7 @@ const BoardDetail = () => {
             iconColor: "#ff6666",
             title: "게시글 삭제가 실패되었습니다.",
             showConfirmButton: true,
+            confirmButtonColor: "#ff6666",
           });
         }
       })
@@ -260,9 +264,12 @@ const BoardDetail = () => {
       Swal.fire({
         title: "정말로 삭제하시겠습니까?",
         icon: "question",
+        iconColor: "#00b2b2",
         showCancelButton: true,
         confirmButtonText: "확인",
+        confirmButtonColor: "#00b2b2",
         cancelButtonText: "취소",
+        cancelButtonColor: "#ff6666",
       }).then((result) => {
         if (result.isConfirmed) {
           if (bfList[0].originName !== "파일없음") {
@@ -288,6 +295,7 @@ const BoardDetail = () => {
                           iconColor: "#ff6666",
                           title: "게시글 삭제가 실패되었습니다.",
                           showConfirmButton: true,
+                          confirmButtonColor: "#ff6666",
                         });
                       }
                     })
@@ -309,6 +317,7 @@ const BoardDetail = () => {
                     iconColor: "#ff6666",
                     title: "게시글 삭제가 실패되었습니다.",
                     showConfirmButton: true,
+                    confirmButtonColor: "#ff6666",
                   });
                 }
               })

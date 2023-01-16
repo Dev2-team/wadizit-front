@@ -36,9 +36,12 @@ Wadiz-IT 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감
       title: "모든 약관에 동의하셨습니다.",
       text: "펀딩 작성 페이지로 이동하시겠습니까?",
       icon: "question",
+      iconColor: "#00b2b2",
       showCancelButton: true,
       confirmButtonText: "네 바로 이동할게요",
+      confirmButtonColor: "#00b2b2",
       cancelButtonText: "아니오 한번 더 확인할게요",
+      cancelButtonColor: "#ff6666",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire(

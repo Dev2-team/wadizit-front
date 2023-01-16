@@ -19,7 +19,8 @@ const BoardList = () => {
         iconColor: "#ff6666",
         title: "로그인이 필요합니다.",
         showConfirmButton: true,
-      })
+        confirmButtonColor: "#ff6666",
+      });
       nav("/login");
     } else {
       nav("/board/write");
