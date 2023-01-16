@@ -29,7 +29,7 @@ const BoardDetail = () => {
   const boardUpdate = () => {
     if (loginPerson === boardWriter) {
       // let result = window.confirm("글을 수정하시겠습니까?");
-      
+
       Swal.fire({
         title: "글을 수정하시겠습니까?",
         icon: "question",
@@ -40,7 +40,7 @@ const BoardDetail = () => {
         if (result.isConfirmed) {
           nav("/board/update");
         }
-      })
+      });
     }
   };
 
@@ -248,7 +248,7 @@ const BoardDetail = () => {
             iconColor: "#ff6666",
             title: "게시글 삭제가 실패되었습니다.",
             showConfirmButton: true,
-          })
+          });
         }
       })
       .catch((err) => console.log(err));
@@ -257,7 +257,6 @@ const BoardDetail = () => {
   //게시글 전체 삭제 (boardComment + boardFile + board)
   const boardDeleteAll = () => {
     if (loginPerson === boardWriter) {
-
       Swal.fire({
         title: "정말로 삭제하시겠습니까?",
         icon: "question",
@@ -265,40 +264,42 @@ const BoardDetail = () => {
         confirmButtonText: "확인",
         cancelButtonText: "취소",
       }).then((result) => {
-
         if (result.isConfirmed) {
           if (bfList[0].originName !== "파일없음") {
-
             //게시글 파일 삭제
             axios
               .delete("/board/file/deleteAll", { params: { boardNum: bNum } })
               .then((res) => {
                 if (res.data === "파일 삭제 완료") {
-  
                   //게시글 댓글 삭제
                   axios
-                    .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+                    .delete("/board/comment/deleteAll", {
+                      params: { boardNum: bNum },
+                    })
                     .then((res) => {
-                      if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
+                      if (
+                        res.data === "댓글 전체 삭제" ||
+                        res.data === "댓글없음"
+                      ) {
                         boardDelete();
-                      }
-                      else {
+                      } else {
                         Swal.fire({
-                            icon: "error",
-                            iconColor: "#ff6666",
-                            title: "게시글 삭제가 실패되었습니다.",
-                            showConfirmButton: true,
-                          })
+                          icon: "error",
+                          iconColor: "#ff6666",
+                          title: "게시글 삭제가 실패되었습니다.",
+                          showConfirmButton: true,
+                        });
                       }
                     })
                     .catch((err) => console.log(err));
                 }
               })
               .catch((err) => console.log(err));
-  
           } else {
             axios
-              .delete("/board/comment/deleteAll", { params: { boardNum: bNum } })
+              .delete("/board/comment/deleteAll", {
+                params: { boardNum: bNum },
+              })
               .then((res) => {
                 if (res.data === "댓글 전체 삭제" || res.data === "댓글없음") {
                   boardDelete();
@@ -308,17 +309,15 @@ const BoardDetail = () => {
                     iconColor: "#ff6666",
                     title: "게시글 삭제가 실패되었습니다.",
                     showConfirmButton: true,
-                  })
+                  });
                 }
               })
               .catch((err) => console.log(err));
           }
         }
       });
-      }
     }
   };
-
   //상세페이지 내용 localStorage에 저장
   localStorage.setItem("title", bitem.title);
   localStorage.setItem("writer", bitem.memberNum.nickname);
