@@ -311,8 +311,8 @@ const TokenTransactionBot = () => {
   const startBot = () => {
     const orderBot = () => {
       let randAct = Math.floor(Math.random() * 3) + 1; // 1~3
-      let randAmount = Math.floor(Math.random() * 3) + 1; // 1~3
-      let randRange = Math.floor(Math.random() * 8) + 2; // 2~9
+      let randAmount = Math.floor(Math.random() * 3) + 20; // 1~3
+      let randRange = Math.floor(Math.random() * 6) + 2; // 2~9
 
       console.log("보유 토큰: " + data.availableToken);
       console.log("보유 포인트: " + data.availablePoint);
@@ -357,7 +357,8 @@ const TokenTransactionBot = () => {
       console.log(btnToggle);
 
       if (btnToggle === true) {
-        setTimeout(orderBot, 1000);
+        let randSec = Math.floor(Math.random() * 10) + 2; // 2~9
+        setTimeout(orderBot, 100 * randSec);
       }
     };
 
