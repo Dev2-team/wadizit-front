@@ -37,7 +37,9 @@ const MyPageFunding = () => {
   const getFunding = useCallback(
     (fundingNum) => {
       // 보여질 펀딩 글의 번호를 localStorage에 저장
+      localStorage.setItem("memberNum", memberNum);
       localStorage.setItem("fundingNum", fundingNum);
+      localStorage.setItem("fundingOwner", memberNum);
       // 해당 링크로 이동
       nav("funding/detail");
     },
