@@ -60,6 +60,7 @@ const MyPageFunding = () => {
           <Table.Cell>{dateFormat(item.endDate)}</Table.Cell>
           <Table.Cell>{currentAmtFormat(item)}</Table.Cell>
           <Table.Cell>{targetAmtFormat(item)}</Table.Cell>
+          <Table.Cell>{item.status}</Table.Cell>
         </Table.Row>
       );
     });
@@ -75,6 +76,7 @@ const MyPageFunding = () => {
             <Table.HeaderCell>펀딩 종료일</Table.HeaderCell>
             <Table.HeaderCell>현재 금액</Table.HeaderCell>
             <Table.HeaderCell>목표 금액</Table.HeaderCell>
+            <Table.HeaderCell>승인상태</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
