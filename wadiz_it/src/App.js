@@ -76,6 +76,7 @@ function App() {
   const onLogout = () => {
     Swal.fire({
       title: "로그아웃 하시겠습니까?",
+      iconColor: "#00b2b2",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "확인",
@@ -83,7 +84,8 @@ function App() {
       confirmButtonColor: "#00b2b2",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("로그아웃 되었습니다.", "", "success");
+        Swal.fire(
+          { title: "로그아웃 되었습니다.", showConfirmButton: true, icon : "success", iconColor: "#00b2b2",  confirmButtonColor: "#00b2b2",});
         const CLIENT_ID = "3325b1fa29c94621b861b2793200c360";
         const LOGOUT_REDIRECT_URI = "http://localhost:3000";
         const newState = {
